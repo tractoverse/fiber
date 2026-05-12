@@ -28,7 +28,9 @@ bundle <- S7::new_class(
       logical(1L)
     )
     if (any(bad)) {
-      return("All elements of @streamlines must be <fiber::streamline> objects.")
+      return(
+        "All elements of @streamlines must be <fiber::streamline> objects."
+      )
     }
     NULL
   }

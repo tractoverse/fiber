@@ -10,9 +10,13 @@ NULL
 #' @param x A [streamline] object.
 #' @return A non-negative numeric scalar.
 #' @export
-get_euclidean_length <- S7::new_generic("get_euclidean_length", "x", function(x) {
-  S7::S7_dispatch()
-})
+get_euclidean_length <- S7::new_generic(
+  "get_euclidean_length",
+  "x",
+  function(x) {
+    S7::S7_dispatch()
+  }
+)
 
 S7::method(get_euclidean_length, streamline) <- function(x) {
   pts <- x@points
@@ -28,9 +32,13 @@ S7::method(get_euclidean_length, streamline) <- function(x) {
 #' @param x A [streamline] object.
 #' @return A non-negative numeric scalar.
 #' @export
-get_curvilinear_length <- S7::new_generic("get_curvilinear_length", "x", function(x) {
-  S7::S7_dispatch()
-})
+get_curvilinear_length <- S7::new_generic(
+  "get_curvilinear_length",
+  "x",
+  function(x) {
+    S7::S7_dispatch()
+  }
+)
 
 S7::method(get_curvilinear_length, streamline) <- function(x) {
   s <- .arc_length(x@points)
@@ -66,9 +74,13 @@ S7::method(get_sinuosity, streamline) <- function(x) {
 #' @return Either a `data.frame` (when `scalar = NULL`) or a single numeric
 #'   value.
 #' @export
-get_curvature <- S7::new_generic("get_curvature", "x", function(x, scalar = NULL) {
-  S7::S7_dispatch()
-})
+get_curvature <- S7::new_generic(
+  "get_curvature",
+  "x",
+  function(x, scalar = NULL) {
+    S7::S7_dispatch()
+  }
+)
 
 S7::method(get_curvature, streamline) <- function(x, scalar = NULL) {
   pts <- x@points
@@ -78,16 +90,16 @@ S7::method(get_curvature, streamline) <- function(x, scalar = NULL) {
   ssy <- stats::smooth.spline(s, pts[, "Y"], df = 3L)
   ssz <- stats::smooth.spline(s, pts[, "Z"], df = 3L)
 
-  dx  <- stats::predict(ssx, s, 1L)$y
-  dy  <- stats::predict(ssy, s, 1L)$y
-  dz  <- stats::predict(ssz, s, 1L)$y
+  dx <- stats::predict(ssx, s, 1L)$y
+  dy <- stats::predict(ssy, s, 1L)$y
+  dz <- stats::predict(ssz, s, 1L)$y
   d2x <- stats::predict(ssx, s, 2L)$y
   d2y <- stats::predict(ssy, s, 2L)$y
   d2z <- stats::predict(ssz, s, 2L)$y
 
-  num   <- (d2z * dy - d2y * dz)^2L +
-           (d2x * dz - d2z * dx)^2L +
-           (d2y * dx - d2x * dy)^2L
+  num <- (d2z * dy - d2y * dz)^2L +
+    (d2x * dz - d2z * dx)^2L +
+    (d2y * dx - d2x * dy)^2L
   denom <- (dx^2L + dy^2L + dz^2L)^3L
   k <- sqrt(num / denom)
 
@@ -122,9 +134,9 @@ S7::method(get_torsion, streamline) <- function(x, scalar = NULL) {
   ssy <- stats::smooth.spline(s, pts[, "Y"], df = 4L)
   ssz <- stats::smooth.spline(s, pts[, "Z"], df = 4L)
 
-  dx  <- stats::predict(ssx, s, 1L)$y
-  dy  <- stats::predict(ssy, s, 1L)$y
-  dz  <- stats::predict(ssz, s, 1L)$y
+  dx <- stats::predict(ssx, s, 1L)$y
+  dy <- stats::predict(ssy, s, 1L)$y
+  dz <- stats::predict(ssz, s, 1L)$y
   d2x <- stats::predict(ssx, s, 2L)$y
   d2y <- stats::predict(ssy, s, 2L)$y
   d2z <- stats::predict(ssz, s, 2L)$y
@@ -132,12 +144,13 @@ S7::method(get_torsion, streamline) <- function(x, scalar = NULL) {
   d3y <- stats::predict(ssy, s, 3L)$y
   d3z <- stats::predict(ssz, s, 3L)$y
 
-  num   <- d3x * (dy * d2z - d2y * dz) +
-           d3y * (d2x * dz - dx * d2z) +
-           d3z * (dx * d2y - d2x * dy)
+  num <- d3x *
+    (dy * d2z - d2y * dz) +
+    d3y * (d2x * dz - dx * d2z) +
+    d3z * (dx * d2y - d2x * dy)
   denom <- (dy * d2z - d2y * dz)^2L +
-           (d2x * dz - dx * d2z)^2L +
-           (dx * d2y - d2x * dy)^2L
+    (d2x * dz - dx * d2z)^2L +
+    (dx * d2y - d2x * dy)^2L
   tau <- num / denom
 
   if (is.null(scalar)) {
@@ -158,9 +171,13 @@ S7::method(get_torsion, streamline) <- function(x, scalar = NULL) {
 #' @param y A [streamline] object.
 #' @return A non-negative numeric scalar.
 #' @export
-get_hausdorff_distance <- S7::new_generic("get_hausdorff_distance", "x", function(x, y) {
-  S7::S7_dispatch()
-})
+get_hausdorff_distance <- S7::new_generic(
+  "get_hausdorff_distance",
+  "x",
+  function(x, y) {
+    S7::S7_dispatch()
+  }
+)
 
 S7::method(get_hausdorff_distance, streamline) <- function(x, y) {
   if (!is_streamline(y)) {

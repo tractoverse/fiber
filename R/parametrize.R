@@ -18,16 +18,20 @@ NULL
 #' @return An object of the same class as `x` reparametrized onto the new grid.
 #' @name reparametrize
 #' @export
-reparametrize <- S7::new_generic("reparametrize", "x", function(x, n_points = NULL) {
-   S7::S7_dispatch()
- })
+reparametrize <- S7::new_generic(
+  "reparametrize",
+  "x",
+  function(x, n_points = NULL) {
+    S7::S7_dispatch()
+  }
+)
 
 # ---- method: streamline -----------------------------------------------------
 
 S7::method(reparametrize, streamline) <- function(x, n_points = NULL) {
   pts <- x@points
-  s   <- .arc_length(pts)
-  n   <- if (is.null(n_points)) nrow(pts) else as.integer(n_points)
+  s <- .arc_length(pts)
+  n <- if (is.null(n_points)) nrow(pts) else as.integer(n_points)
 
   if (n < 2L) {
     cli::cli_abort("{.arg n_points} must be at least 2.")
@@ -43,17 +47,21 @@ S7::method(reparametrize, streamline) <- function(x, n_points = NULL) {
   # preserve any extra columns beyond X, Y, Z
   extra_cols <- setdiff(colnames(pts), c("X", "Y", "Z"))
   if (length(extra_cols) > 0L) {
-    extra <- vapply(extra_cols, function(col) {
-      .approx1(s, pts[, col], s_new)
-    }, numeric(n))
+    extra <- vapply(
+      extra_cols,
+      function(col) {
+        .approx1(s, pts[, col], s_new)
+      },
+      numeric(n)
+    )
     new_pts <- cbind(new_pts, extra)
   }
 
   new_pd <- lapply(x@point_data, function(v) .approx1(s, v, s_new))
 
   new_streamline(
-    points          = new_pts,
-    point_data      = new_pd,
+    points = new_pts,
+    point_data = new_pd,
     streamline_data = x@streamline_data
   )
 }
@@ -66,7 +74,11 @@ S7::method(reparametrize, bundle) <- function(x, n_points = NULL) {
   }
 
   n <- if (is.null(n_points)) {
-    round(mean(vapply(x@streamlines, function(sl) nrow(sl@points), integer(1L))))
+    round(mean(vapply(
+      x@streamlines,
+      function(sl) nrow(sl@points),
+      integer(1L)
+    )))
   } else {
     as.integer(n_points)
   }
@@ -107,7 +119,7 @@ bind_bundles <- function(..., bundle_data = NULL) {
     } else if (is_bundle(obj)) {
       sls <- c(sls, obj@streamlines)
       if (!found_bundle) {
-        first_bd    <- obj@bundle_data
+        first_bd <- obj@bundle_data
         found_bundle <- TRUE
       }
     } else {
