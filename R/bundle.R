@@ -16,7 +16,7 @@
 #' @export
 bundle <- S7::new_class(
   name = "bundle",
-  package = "riot",
+  package = "fiber",
   properties = list(
     streamlines = S7::class_list,
     bundle_data = S7::class_list
@@ -28,7 +28,7 @@ bundle <- S7::new_class(
       logical(1L)
     )
     if (any(bad)) {
-      return("All elements of @streamlines must be <riot::streamline> objects.")
+      return("All elements of @streamlines must be <fiber::streamline> objects.")
     }
     NULL
   }

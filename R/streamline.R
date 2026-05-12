@@ -25,7 +25,7 @@
 #' @export
 streamline <- S7::new_class(
   name = "streamline",
-  package = "riot",
+  package = "fiber",
   properties = list(
     points = S7::class_any,
     point_data = S7::class_list,
