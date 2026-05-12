@@ -53,7 +53,7 @@ pak::pak("astamm/fiber")
 library(fiber)
 
 # Build a helix streamline (50 points)
-t  <- seq(0, 2 * pi, length.out = 50)
+t <- seq(0, 2 * pi, length.out = 50)
 sl <- new_streamline(
   points = cbind(X = cos(t), Y = sin(t), Z = t / (2 * pi))
 )
