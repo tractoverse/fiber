@@ -1,0 +1,21 @@
+
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
+
+# fiber
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/astamm/fiber/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/astamm/fiber/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/astamm/fiber/graph/badge.svg)](https://app.codecov.io/gh/astamm/fiber)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/fiber)](https://CRAN.R-project.org/package=fiber)
+<!-- badges: end -->
+
+## Overview
+
+The [**fiber**](https://astamm.github.io/fiber/) package provides simple
+data structures for tractography data in R.
+
+## Installation
