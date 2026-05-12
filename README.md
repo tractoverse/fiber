@@ -70,13 +70,7 @@ sl <- new_streamline(
   points = cbind(X = cos(t), Y = sin(t), Z = t / (2 * pi))
 )
 sl
-#> <fiber::streamline>
-#>  @ points         : num [1:50, 1:3] 1 0.992 0.967 0.927 0.871 ...
-#>  .. - attr(*, "dimnames")=List of 2
-#>  ..  ..$ : NULL
-#>  ..  ..$ : chr [1:3] "X" "Y" "Z"
-#>  @ point_data     : list()
-#>  @ streamline_data: list()
+#> <streamline [50 pts]>
 
 # Shape descriptors
 get_curvilinear_length(sl)
@@ -98,44 +92,12 @@ sl2 <- new_streamline(
 )
 b <- bind_bundles(sl, sl2)
 b
-#> <fiber::bundle>
-#>  @ streamlines:List of 2
-#>  .. $ : <fiber::streamline>
-#>  ..  ..@ points         : num [1:50, 1:3] 1 0.992 0.967 0.927 0.871 ...
-#>  .. .. .. - attr(*, "dimnames")=List of 2
-#>  .. .. ..  ..$ : NULL
-#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
-#>  ..  ..@ point_data     : list()
-#>  ..  ..@ streamline_data: list()
-#>  .. $ : <fiber::streamline>
-#>  ..  ..@ points         : num [1:50, 1:3] 1.1 1.091 1.064 1.02 0.958 ...
-#>  .. .. .. - attr(*, "dimnames")=List of 2
-#>  .. .. ..  ..$ : NULL
-#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
-#>  ..  ..@ point_data     : list()
-#>  ..  ..@ streamline_data: list()
-#>  @ bundle_data: list()
+#> <bundle [2 streamlines | 50–50 pts/streamline]>
 
 # Reparametrize to 20 points each
 b20 <- reparametrize(b, n_points = 20L)
 b20
-#> <fiber::bundle>
-#>  @ streamlines:List of 2
-#>  .. $ : <fiber::streamline>
-#>  ..  ..@ points         : num [1:20, 1:3] 1 0.944 0.788 0.546 0.245 ...
-#>  .. .. .. - attr(*, "dimnames")=List of 2
-#>  .. .. ..  ..$ : NULL
-#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
-#>  ..  ..@ point_data     : list()
-#>  ..  ..@ streamline_data: list()
-#>  .. $ : <fiber::streamline>
-#>  ..  ..@ points         : num [1:20, 1:3] 1.1 1.038 0.867 0.601 0.27 ...
-#>  .. .. .. - attr(*, "dimnames")=List of 2
-#>  .. .. ..  ..$ : NULL
-#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
-#>  ..  ..@ point_data     : list()
-#>  ..  ..@ streamline_data: list()
-#>  @ bundle_data: list()
+#> <bundle [2 streamlines | 20–20 pts/streamline]>
 
 # Hausdorff distance
 get_hausdorff_distance(sl, sl2)
