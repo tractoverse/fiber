@@ -1,0 +1,165 @@
+# fiber
+
+## Overview
+
+The [**fiber**](https://astamm.github.io/fiber/) package provides two
+[S7](https://rconsortium.github.io/S7/) classes — `streamline` and
+`bundle` — for representing diffusion MRI tractography data in R,
+together with a concise set of methods:
+
+| Function | Description |
+|----|----|
+| [`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md) | Construct a single streamline |
+| [`new_bundle()`](https://astamm.github.io/fiber/reference/new_bundle.md) | Construct a bundle of streamlines |
+| [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md) | Combine streamlines and/or bundles |
+| [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md) | Resample onto a uniform arc-length grid |
+| [`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md) | Straight-line distance between endpoints |
+| [`get_curvilinear_length()`](https://astamm.github.io/fiber/reference/get_curvilinear_length.md) | Total arc-length |
+| [`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md) | Curvilinear / Euclidean length ratio |
+| [`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md) | Curvature profile or summary scalar |
+| [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md) | Torsion profile or summary scalar |
+| [`get_hausdorff_distance()`](https://astamm.github.io/fiber/reference/get_hausdorff_distance.md) | Symmetric Hausdorff distance |
+
+### Classes
+
+A `streamline` stores:
+
+- `@points` — an $`n \times 3`$ numeric matrix with columns `"X"`,
+  `"Y"`, `"Z"`.
+- `@point_data` — a named list of per-point numeric vectors (length
+  $`n`$).
+- `@streamline_data` — a named list of per-streamline numeric scalars.
+
+A `bundle` stores:
+
+- `@streamlines` — a list of `streamline` objects.
+- `@bundle_data` — a named list of bundle-level metadata.
+
+## Installation
+
+You can install the development version of **fiber** from
+[GitHub](https://github.com/astamm/fiber) with:
+
+``` r
+
+# install.packages("pak")
+pak::pak("astamm/fiber")
+```
+
+## Quick start
+
+``` r
+
+library(fiber)
+
+# Build a helix streamline (50 points)
+t  <- seq(0, 2 * pi, length.out = 50)
+sl <- new_streamline(
+  points = cbind(X = cos(t), Y = sin(t), Z = t / (2 * pi))
+)
+sl
+#> <fiber::streamline>
+#>  @ points         : num [1:50, 1:3] 1 0.992 0.967 0.927 0.871 ...
+#>  .. - attr(*, "dimnames")=List of 2
+#>  ..  ..$ : NULL
+#>  ..  ..$ : chr [1:3] "X" "Y" "Z"
+#>  @ point_data     : list()
+#>  @ streamline_data: list()
+
+# Shape descriptors
+get_curvilinear_length(sl)
+#> [1] 6.358015
+get_sinuosity(sl)
+#> [1] 6.358015
+head(get_curvature(sl))
+#>           s    curvature
+#> 1 0.0000000 1.537338e-05
+#> 2 0.1297554 1.625127e-02
+#> 3 0.2595108 4.592627e-02
+#> 4 0.3892662 8.636675e-02
+#> 5 0.5190216 1.352354e-01
+#> 6 0.6487770 1.906608e-01
+
+# Bundle two streamlines
+sl2 <- new_streamline(
+  points = cbind(X = cos(t) * 1.1, Y = sin(t) * 1.1, Z = t / (2 * pi))
+)
+b <- bind_bundles(sl, sl2)
+b
+#> <fiber::bundle>
+#>  @ streamlines:List of 2
+#>  .. $ : <fiber::streamline>
+#>  ..  ..@ points         : num [1:50, 1:3] 1 0.992 0.967 0.927 0.871 ...
+#>  .. .. .. - attr(*, "dimnames")=List of 2
+#>  .. .. ..  ..$ : NULL
+#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
+#>  ..  ..@ point_data     : list()
+#>  ..  ..@ streamline_data: list()
+#>  .. $ : <fiber::streamline>
+#>  ..  ..@ points         : num [1:50, 1:3] 1.1 1.091 1.064 1.02 0.958 ...
+#>  .. .. .. - attr(*, "dimnames")=List of 2
+#>  .. .. ..  ..$ : NULL
+#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
+#>  ..  ..@ point_data     : list()
+#>  ..  ..@ streamline_data: list()
+#>  @ bundle_data: list()
+
+# Reparametrize to 20 points each
+b20 <- reparametrize(b, n_points = 20L)
+b20
+#> <fiber::bundle>
+#>  @ streamlines:List of 2
+#>  .. $ : <fiber::streamline>
+#>  ..  ..@ points         : num [1:20, 1:3] 1 0.944 0.788 0.546 0.245 ...
+#>  .. .. .. - attr(*, "dimnames")=List of 2
+#>  .. .. ..  ..$ : NULL
+#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
+#>  ..  ..@ point_data     : list()
+#>  ..  ..@ streamline_data: list()
+#>  .. $ : <fiber::streamline>
+#>  ..  ..@ points         : num [1:20, 1:3] 1.1 1.038 0.867 0.601 0.27 ...
+#>  .. .. .. - attr(*, "dimnames")=List of 2
+#>  .. .. ..  ..$ : NULL
+#>  .. .. ..  ..$ : chr [1:3] "X" "Y" "Z"
+#>  ..  ..@ point_data     : list()
+#>  ..  ..@ streamline_data: list()
+#>  @ bundle_data: list()
+
+# Hausdorff distance
+get_hausdorff_distance(sl, sl2)
+#> [1] 0.1
+```
+
+# Package index
+
+## All functions
+
+- [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md)
+  : Combine streamlines and/or bundles into a single bundle
+- [`bundle()`](https://astamm.github.io/fiber/reference/bundle.md) : The
+  bundle S7 class
+- [`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md)
+  : Curvature of a streamline
+- [`get_curvilinear_length()`](https://astamm.github.io/fiber/reference/get_curvilinear_length.md)
+  : Curvilinear length of a streamline
+- [`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md)
+  : Euclidean length of a streamline
+- [`get_hausdorff_distance()`](https://astamm.github.io/fiber/reference/get_hausdorff_distance.md)
+  : Hausdorff distance between two streamlines
+- [`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md)
+  : Sinuosity of a streamline
+- [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md)
+  : Torsion of a streamline
+- [`is_bundle()`](https://astamm.github.io/fiber/reference/is_bundle.md)
+  : Check whether an object is a bundle
+- [`is_streamline()`](https://astamm.github.io/fiber/reference/is_streamline.md)
+  : Check whether an object is a streamline
+- [`new_bundle()`](https://astamm.github.io/fiber/reference/new_bundle.md)
+  : Create a bundle object
+- [`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md)
+  : Create a streamline object
+- [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+  : Reparametrize a streamline or bundle onto a uniform arc-length grid
+- [`streamline()`](https://astamm.github.io/fiber/reference/streamline.md)
+  : The streamline S7 class
+
