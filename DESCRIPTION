@@ -1,24 +1,36 @@
 Package: fiber
 Type: Package
-Title: Functional Data Analysis for Tractography in R
-Version: 0.0.0.9000
-Author: as.person(c(
-    "Aymeric Stamm <aymeric@stamm.fr> [aut, cre]"
+Title: S7 Data Structures for Diffusion MRI Tractography
+Version: 0.1.0
+Authors@R: c(
+    person(
+        given = "Aymeric",
+        family = "Stamm",
+        role = c("aut", "cre"),
+        email = "aymeric.stamm@cnrs.fr",
+        comment = c(ORCID = "0000-0002-8725-3654")
     ))
-Maintainer: Aymeric Stamm <aymeric@stamm.fr>
-Description: Functional data analysis of tractograms in R. It turns streamlines 
-    reconstructed from diffusion magnetic resonance images into proper 
-    functional data. It includes functional data analysis tools for 
-    statistically comparing groups of streamlines.
-License: GPL-3
+Description: Provides two S7 classes — 'streamline' and 'bundle' — for
+    representing diffusion MRI tractography data in R, together with a concise
+    set of methods for computing shape descriptors (arc-length, curvature,
+    torsion, sinuosity), the Hausdorff distance between streamlines,
+    arc-length reparametrization of streamlines and bundles onto uniform grids,
+    and combination of streamlines or bundles into a single bundle.
+License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+URL: https://github.com/astamm/fiber, https://astamm.github.io/fiber/
+BugReports: https://github.com/astamm/fiber/issues
 Imports:
-    tidyverse,
-    roahd,
-    geometry,
-    rlang,
-    mclust,
-    rgl
-RoxygenNote: 6.1.1
-Suggests: multidplyr
+    cli,
+    S7
+Config/roxygen2/version: 8.0.0
+Config/roxygen2/markdown: TRUE
+Suggests: 
+    tinytest
+Collate: 
+    'bundle.R'
+    'streamline.R'
+    'parametrize.R'
+    'shape.R'
+    'utils.R'
+    'zzz.R'
