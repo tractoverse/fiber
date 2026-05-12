@@ -1,24 +1,26 @@
 Package: fiber
 Type: Package
-Title: Functional Data Analysis for Tractography in R
-Version: 0.0.0.9000
-Author: as.person(c(
-    "Aymeric Stamm <aymeric@stamm.fr> [aut, cre]"
+Title: Simple Data Structures for Tractography Data in R
+Version: 0.1.0
+Authors@R: c(
+    person(
+        given = "Aymeric",
+        family = "Stamm",
+        role = c("aut", "cre"),
+        email = "aymeric.stamm@cnrs.fr",
+        comment = c(ORCID = "0000-0002-8725-3654")
     ))
-Maintainer: Aymeric Stamm <aymeric@stamm.fr>
 Description: Functional data analysis of tractograms in R. It turns streamlines 
     reconstructed from diffusion magnetic resonance images into proper 
     functional data. It includes functional data analysis tools for 
     statistically comparing groups of streamlines.
-License: GPL-3
+License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://github.com/astamm/fiber, https://astamm.github.io/fiber/
+BugReports: https://github.com/astamm/fiber/issues
 LazyData: true
 Imports:
-    tidyverse,
-    roahd,
-    geometry,
     rlang,
-    mclust,
-    rgl
-RoxygenNote: 6.1.1
-Suggests: multidplyr
+    S7
+Config/roxygen2/version: 8.0.0
+Config/roxygen2/markdown: TRUE

@@ -11,7 +11,7 @@ is_tract(object)
 }
 \value{
 A boolean which is \code{TRUE} if the input object is of class
- \code{tract} and \code{FALSE} otherwise.
+\code{tract} and \code{FALSE} otherwise.
 }
 \description{
 \code{is_tract} check whether an input R object is of class \code{tract}.

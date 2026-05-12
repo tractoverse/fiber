@@ -30,8 +30,8 @@ curvature (default: \code{NULL} which computes the 3D curvature)}
 }
 \value{
 A scalar giving the desired shape characteristic of the input
-  streamline, except for \code{get_curvature} which returns a
-  \code{\link[tibble]{tibble}}.
+streamline, except for \code{get_curvature} which returns a
+\code{\link[tibble]{tibble}}.
 }
 \description{
 \code{get_euclidean_length} computes the Euclidean length of a streamline,

@@ -11,11 +11,11 @@ bind_tracts(...)
 }
 \value{
 A \code{\link[tibble]{tibble}} with the following 5 variables:
-  \code{name} with the name of the tract, \code{case} with the identifier of
-  the subject to which the tract belongs, \code{scan} with the identifier of
-  the repeated measure for a given subject, \code{side} with the hemisphere
-  to which the tract belongs and \code{data} with the list of
-  \code{streamline}s composing the tract.
+\code{name} with the name of the tract, \code{case} with the identifier of
+the subject to which the tract belongs, \code{scan} with the identifier of
+the repeated measure for a given subject, \code{side} with the hemisphere
+to which the tract belongs and \code{data} with the list of
+\code{streamline}s composing the tract.
 }
 \description{
 Tract Combination

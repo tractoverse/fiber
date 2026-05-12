@@ -3,15 +3,9 @@
 \name{get-distance}
 \alias{get-distance}
 \alias{get_hausdorff_distance}
-\alias{get_L2_distance}
-\alias{get_L1_distance}
 \title{Distances Between Streamlines}
 \usage{
 get_hausdorff_distance(streamline1, streamline2)
-
-get_L2_distance(streamline1, streamline2)
-
-get_L1_distance(streamline1, streamline2)
 }
 \arguments{
 \item{streamline1}{A \code{\link{streamline}}.}
@@ -20,13 +14,13 @@ get_L1_distance(streamline1, streamline2)
 }
 \value{
 A non-negative scalar representing the chosen distance between the two input
-  streamlines.
+streamlines.
 }
 \description{
 \code{get_hausdorff_distance} computes the Hausdorff distance between the two input
-  streamlines.
+streamlines.
 \code{get_L2_distance} computes the L2 distance between the two input
-  streamlines.
+streamlines.
 }
 \examples{
 file <- system.file("extdata", "CC_SingleTensor.csv", package = "fiber")

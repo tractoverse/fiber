@@ -3,10 +3,8 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{\%>\%}
 \alias{:=}
 \alias{.data}
-\alias{MBD}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -14,10 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr]{\%>\%}}}
-
-  \item{rlang}{\code{\link[rlang]{:=}}, \code{\link[rlang]{.data}}}
-
-  \item{roahd}{\code{\link[roahd]{MBD}}}
+  \item{rlang}{\code{\link[rlang::=]{:=()}}, \code{\link[rlang:.data]{.data}}}
 }}
 
