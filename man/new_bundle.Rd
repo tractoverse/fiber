@@ -9,7 +9,7 @@ new_bundle(streamlines, bundle_data = list())
 \arguments{
 \item{streamlines}{A list of \link{streamline} objects.}
 
-\item{bundle_data}{A named list of bundle-level metadata.  Defaults to an
+\item{bundle_data}{A named list of bundle-level metadata. Defaults to an
 empty list.}
 }
 \value{

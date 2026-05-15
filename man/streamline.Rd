@@ -2,7 +2,9 @@
 % Please edit documentation in R/streamline.R
 \name{streamline}
 \alias{streamline}
-\title{The streamline S7 class}
+\alias{format,fiber::streamline-method}
+\alias{print,fiber::streamline-method}
+\title{Streamline S7 class}
 \usage{
 streamline(points = NULL, point_data = list(), streamline_data = list())
 }
@@ -13,8 +15,11 @@ streamline(points = NULL, point_data = list(), streamline_data = list())
 
 \item{streamline_data}{A named list of per-streamline numeric scalars.}
 }
+\value{
+A \code{streamline} S7 object.
+}
 \description{
-A \link{streamline} represents a single fibre tract. It stores three data
+A \code{streamline} represents a single fibre tract. It stores three data
 compartments that mirror the conceptual levels found in tractography file
 formats:
 \itemize{
@@ -27,9 +32,8 @@ at every point).
 \item \verb{@streamline_data} — a named list of numeric scalars (length-1 vectors)
 holding per-streamline attributes (e.g. a tract-level weight or mean FA).
 }
-}
-\details{
-Use the \code{\link[=new_streamline]{new_streamline()}} constructor to create instances. Slots are
+
+Use the \code{\link[=new_streamline]{new_streamline()}} constructor to create instances. Properties are
 accessed with the \code{@} operator: \code{sl@points}, \code{sl@point_data},
 \code{sl@streamline_data}.
 }

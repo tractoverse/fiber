@@ -14,14 +14,36 @@ reparametrize(x, n_points = NULL)
 \item For a single \link{streamline}, defaults to \code{nrow(x@points)}.
 \item For a \link{bundle}, defaults to the rounded mean number of points across
 all streamlines.
-Pass \code{NULL} to use these defaults explicitly.
-}}
+}
+
+Pass \code{NULL} to use these defaults explicitly.}
 }
 \value{
-An object of the same class as \code{x} reparametrized onto the new grid.
+An object of the same class as \code{x} reparametrized onto the new
+grid.
 }
 \description{
-Resamples the 3-D coordinates (and any \verb{@point_data} attributes) of a
-\link{streamline} or every \link{streamline} inside a \link{bundle} onto a uniform
-arc-length grid using linear interpolation.
+\code{reparametrize()} is an S7 generic that resamples the 3-D coordinates (and
+any \verb{@point_data} attributes) of a tractography object onto a uniform
+arc-length grid using linear interpolation, with methods available for the
+following classes:
+
+\itemize{
+\item \code{\link[=reparametrize-fiber-bundle-method]{fiber::bundle}}
+\item \code{\link[=reparametrize-fiber-streamline-method]{fiber::streamline}}
+}
+}
+\examples{
+#' # reparametrize a single streamline to 10 points
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- new_streamline(points = pts)
+sl_reparam <- reparametrize(sl, n_points = 10)
+# reparametrize a bundle to the mean number of points across its streamlines
+sl1 <- new_streamline(points = pts)
+pts2 <- matrix(runif(60), ncol = 3)
+colnames(pts2) <- c("X", "Y", "Z")
+sl2 <- new_streamline(points = pts2)
+bundle <- new_bundle(streamlines = list(sl1, sl2))
+bundle_reparam <- reparametrize(bundle)
 }

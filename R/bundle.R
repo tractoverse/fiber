@@ -1,9 +1,11 @@
 # ---- S7 class: bundle -------------------------------------------------------
 
-#' The bundle S7 class
+#' Bundle S7 class
 #'
-#' A [bundle] is an ordered collection of [streamline] objects representing a
-#' tractogram or white-matter bundle.  It stores two compartments:
+#' @description
+#' A `bundle` is an ordered collection of [streamline] objects representing a
+#' tractogram or white-matter bundle. It stores two compartments:
+#'
 #' - `@streamlines` — a list of [streamline] objects.
 #' - `@bundle_data` — a named list of bundle-level metadata (arbitrary R
 #'   objects, e.g. the affine transform used during tracking).
@@ -13,6 +15,7 @@
 #' @param streamlines A list of [streamline] objects.
 #' @param bundle_data A named list of bundle-level metadata.
 #'
+#' @returns A `bundle` S7 object.
 #' @export
 bundle <- S7::new_class(
   name = "bundle",
@@ -43,27 +46,29 @@ bundle <- S7::new_class(
 #' A convenience constructor that wraps the [bundle] S7 class.
 #'
 #' @param streamlines A list of [streamline] objects.
-#' @param bundle_data A named list of bundle-level metadata.  Defaults to an
+#' @param bundle_data A named list of bundle-level metadata. Defaults to an
 #'   empty list.
 #'
-#' @return An object of class [bundle].
-#' @export
+#' @returns An object of class [bundle].
 #' @seealso [new_streamline()]
+#' @export
 new_bundle <- function(streamlines, bundle_data = list()) {
   bundle(streamlines = streamlines, bundle_data = bundle_data)
 }
 
 # ---- predicate --------------------------------------------------------------
 
-#' Check whether an object is a bundle
+#' Test whether an object is a bundle
 #'
 #' @param x An object.
-#' @return `TRUE` if `x` is of class [bundle], otherwise `FALSE`.
+#' @returns `TRUE` if `x` is of class [bundle], otherwise `FALSE`.
 #' @export
 is_bundle <- function(x) S7::S7_inherits(x, bundle)
 
 # ---- format / print ---------------------------------------------------------
 
+#' @rdname bundle
+#' @usage NULL
 S7::method(format, bundle) <- function(x, ...) {
   n <- length(x@streamlines)
   if (n == 0L) {
@@ -107,6 +112,8 @@ S7::method(format, bundle) <- function(x, ...) {
   )
 }
 
+#' @rdname bundle
+#' @usage NULL
 S7::method(print, bundle) <- function(x, ...) {
   cat(format(x, ...), "\n")
   invisible(x)
@@ -114,10 +121,16 @@ S7::method(print, bundle) <- function(x, ...) {
 
 # ---- length / indexing for bundle -------------------------------------------
 
+#' @rdname bundle
+#' @usage NULL
 S7::method(length, bundle) <- function(x) length(x@streamlines)
 
+#' @rdname bundle
+#' @usage NULL
 S7::method(`[[`, bundle) <- function(x, i, ...) x@streamlines[[i]]
 
+#' @rdname bundle
+#' @usage NULL
 S7::method(`[`, bundle) <- function(x, i, j, ..., drop = TRUE) {
   new_bundle(x@streamlines[i], bundle_data = x@bundle_data)
 }

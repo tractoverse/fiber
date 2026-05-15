@@ -2,7 +2,7 @@
 % Please edit documentation in R/bundle.R
 \name{is_bundle}
 \alias{is_bundle}
-\title{Check whether an object is a bundle}
+\title{Test whether an object is a bundle}
 \usage{
 is_bundle(x)
 }
@@ -13,5 +13,5 @@ is_bundle(x)
 \code{TRUE} if \code{x} is of class \link{bundle}, otherwise \code{FALSE}.
 }
 \description{
-Check whether an object is a bundle
+Test whether an object is a bundle
 }

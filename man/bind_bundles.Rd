@@ -10,7 +10,7 @@ bind_bundles(..., bundle_data = NULL)
 \item{...}{One or more \link{streamline} or \link{bundle} objects.}
 
 \item{bundle_data}{A named list of bundle-level metadata to attach to the
-resulting \link{bundle}.  Defaults to an empty list (or the \code{bundle_data} of
+resulting \link{bundle}. Defaults to an empty list (or the \code{bundle_data} of
 the first \link{bundle} input if one is present and \code{bundle_data} is not
 supplied).}
 }
@@ -18,8 +18,8 @@ supplied).}
 A \link{bundle} containing all input streamlines.
 }
 \description{
-Accepts any mix of \link{streamline} and \link{bundle} objects.  All streamlines are
-collected into a flat list and wrapped in a new \link{bundle}.  \code{bundle_data}
+Accepts any mix of \link{streamline} and \link{bundle} objects. All streamlines are
+collected into a flat list and wrapped in a new \link{bundle}. \code{bundle_data}
 from the first \link{bundle} argument (if any) is preserved; pass your own via
 the \code{bundle_data} argument to override.
 }

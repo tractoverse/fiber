@@ -11,11 +11,11 @@ new_streamline(points, point_data = list(), streamline_data = list())
 \code{"Y"}, and \code{"Z"}. Rows correspond to ordered points along the tract.}
 
 \item{point_data}{A named list of numeric vectors, each of length
-\code{nrow(points)}, holding per-point scalar attributes.  Defaults to an
+\code{nrow(points)}, holding per-point scalar attributes. Defaults to an
 empty list.}
 
 \item{streamline_data}{A named list of numeric scalars (length-1 vectors)
-holding per-streamline attributes.  Defaults to an empty list.}
+holding per-streamline attributes. Defaults to an empty list.}
 }
 \value{
 An object of class \link{streamline}.

@@ -5,19 +5,38 @@ NULL
 
 #' Reparametrize a streamline or bundle onto a uniform arc-length grid
 #'
-#' Resamples the 3-D coordinates (and any `@point_data` attributes) of a
-#' [streamline] or every [streamline] inside a [bundle] onto a uniform
-#' arc-length grid using linear interpolation.
+#' @description
+#' `reparametrize()` is an S7 generic that resamples the 3-D coordinates (and
+#' any `@point_data` attributes) of a tractography object onto a uniform
+#' arc-length grid using linear interpolation, with methods available for the
+#' following classes:
+#'
+#' `r doclisting::methods_list("reparametrize")`
 #'
 #' @param x A [streamline] or [bundle] object.
 #' @param n_points Number of equally-spaced arc-length points to use.
+#'
 #'   - For a single [streamline], defaults to `nrow(x@points)`.
 #'   - For a [bundle], defaults to the rounded mean number of points across
 #'     all streamlines.
+#'
 #'   Pass `NULL` to use these defaults explicitly.
-#' @return An object of the same class as `x` reparametrized onto the new grid.
-#' @name reparametrize
+#' @returns An object of the same class as `x` reparametrized onto the new
+#'   grid.
 #' @export
+#' @examples
+#' #' # reparametrize a single streamline to 10 points
+#' pts <- matrix(runif(30), ncol = 3)
+#' colnames(pts) <- c("X", "Y", "Z")
+#' sl <- new_streamline(points = pts)
+#' sl_reparam <- reparametrize(sl, n_points = 10)
+#' # reparametrize a bundle to the mean number of points across its streamlines
+#' sl1 <- new_streamline(points = pts)
+#' pts2 <- matrix(runif(60), ncol = 3)
+#' colnames(pts2) <- c("X", "Y", "Z")
+#' sl2 <- new_streamline(points = pts2)
+#' bundle <- new_bundle(streamlines = list(sl1, sl2))
+#' bundle_reparam <- reparametrize(bundle)
 reparametrize <- S7::new_generic(
   "reparametrize",
   "x",
@@ -28,6 +47,18 @@ reparametrize <- S7::new_generic(
 
 # ---- method: streamline -----------------------------------------------------
 
+#' [reparametrize()] method for `streamline` objects
+#'
+#' Resamples a single [streamline] onto a uniform arc-length grid. See
+#' [reparametrize()] for the full parameter documentation.
+#'
+#' @param x A [streamline] object.
+#' @inheritParams reparametrize
+#' @returns A [streamline] reparametrized onto the new grid.
+#' @seealso [reparametrize()]
+#' @name reparametrize-fiber-streamline-method
+#' @aliases reparametrize,fiber::streamline-method
+#' @usage NULL
 S7::method(reparametrize, streamline) <- function(x, n_points = NULL) {
   pts <- x@points
   s <- .arc_length(pts)
@@ -68,6 +99,18 @@ S7::method(reparametrize, streamline) <- function(x, n_points = NULL) {
 
 # ---- method: bundle ---------------------------------------------------------
 
+#' [reparametrize()] method for `bundle` objects
+#'
+#' Resamples every [streamline] inside a [bundle] onto a common uniform
+#' arc-length grid. See [reparametrize()] for the full parameter documentation.
+#'
+#' @param x A [bundle] object.
+#' @inheritParams reparametrize
+#' @returns A [bundle] reparametrized onto the new grid.
+#' @seealso [reparametrize()]
+#' @name reparametrize-fiber-bundle-method
+#' @aliases reparametrize,fiber::bundle-method
+#' @usage NULL
 S7::method(reparametrize, bundle) <- function(x, n_points = NULL) {
   if (length(x@streamlines) == 0L) {
     return(x)
@@ -91,17 +134,17 @@ S7::method(reparametrize, bundle) <- function(x, n_points = NULL) {
 
 #' Combine streamlines and/or bundles into a single bundle
 #'
-#' Accepts any mix of [streamline] and [bundle] objects.  All streamlines are
-#' collected into a flat list and wrapped in a new [bundle].  `bundle_data`
+#' Accepts any mix of [streamline] and [bundle] objects. All streamlines are
+#' collected into a flat list and wrapped in a new [bundle]. `bundle_data`
 #' from the first [bundle] argument (if any) is preserved; pass your own via
 #' the `bundle_data` argument to override.
 #'
 #' @param ... One or more [streamline] or [bundle] objects.
 #' @param bundle_data A named list of bundle-level metadata to attach to the
-#'   resulting [bundle].  Defaults to an empty list (or the `bundle_data` of
+#'   resulting [bundle]. Defaults to an empty list (or the `bundle_data` of
 #'   the first [bundle] input if one is present and `bundle_data` is not
 #'   supplied).
-#' @return A [bundle] containing all input streamlines.
+#' @returns A [bundle] containing all input streamlines.
 #' @export
 bind_bundles <- function(..., bundle_data = NULL) {
   inputs <- list(...)

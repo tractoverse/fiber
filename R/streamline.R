@@ -1,10 +1,12 @@
 # ---- S7 class: streamline ---------------------------------------------------
 
-#' The streamline S7 class
+#' Streamline S7 class
 #'
-#' A [streamline] represents a single fibre tract. It stores three data
+#' @description
+#' A `streamline` represents a single fibre tract. It stores three data
 #' compartments that mirror the conceptual levels found in tractography file
 #' formats:
+#'
 #' - `@points` — an \eqn{n \times 3} numeric matrix whose columns are named
 #'   `"X"`, `"Y"`, and `"Z"`, holding the ordered 3-D coordinates of the
 #'   \eqn{n} points along the tract.
@@ -14,7 +16,7 @@
 #' - `@streamline_data` — a named list of numeric scalars (length-1 vectors)
 #'   holding per-streamline attributes (e.g. a tract-level weight or mean FA).
 #'
-#' Use the [new_streamline()] constructor to create instances. Slots are
+#' Use the [new_streamline()] constructor to create instances. Properties are
 #' accessed with the `@` operator: `sl@points`, `sl@point_data`,
 #' `sl@streamline_data`.
 #'
@@ -22,6 +24,7 @@
 #' @param point_data A named list of per-point numeric vectors.
 #' @param streamline_data A named list of per-streamline numeric scalars.
 #'
+#' @returns A `streamline` S7 object.
 #' @export
 streamline <- S7::new_class(
   name = "streamline",
@@ -72,14 +75,14 @@ streamline <- S7::new_class(
 #' @param points A numeric matrix with at least three columns named `"X"`,
 #'   `"Y"`, and `"Z"`. Rows correspond to ordered points along the tract.
 #' @param point_data A named list of numeric vectors, each of length
-#'   `nrow(points)`, holding per-point scalar attributes.  Defaults to an
+#'   `nrow(points)`, holding per-point scalar attributes. Defaults to an
 #'   empty list.
 #' @param streamline_data A named list of numeric scalars (length-1 vectors)
-#'   holding per-streamline attributes.  Defaults to an empty list.
+#'   holding per-streamline attributes. Defaults to an empty list.
 #'
-#' @return An object of class [streamline].
-#' @export
+#' @returns An object of class [streamline].
 #' @seealso [new_bundle()]
+#' @export
 new_streamline <- function(
   points,
   point_data = list(),
@@ -94,10 +97,10 @@ new_streamline <- function(
 
 # ---- predicate --------------------------------------------------------------
 
-#' Check whether an object is a streamline
+#' Test whether an object is a streamline
 #'
 #' @param x An object.
-#' @return `TRUE` if `x` is of class [streamline], otherwise `FALSE`.
+#' @returns `TRUE` if `x` is of class [streamline], otherwise `FALSE`.
 #' @export
 is_streamline <- function(x) S7::S7_inherits(x, streamline)
 
@@ -106,12 +109,14 @@ is_streamline <- function(x) S7::S7_inherits(x, streamline)
 #' Number of points in a streamline
 #'
 #' @param x A [streamline] object.
-#' @return Integer scalar giving the number of points.
+#' @returns An integer scalar giving the number of points.
 #' @keywords internal
 n_points <- function(x) nrow(x@points)
 
 # ---- format / print ---------------------------------------------------------
 
+#' @rdname streamline
+#' @usage NULL
 S7::method(format, streamline) <- function(x, ...) {
   pd <- names(x@point_data)
   sld <- names(x@streamline_data)
@@ -128,6 +133,8 @@ S7::method(format, streamline) <- function(x, ...) {
   paste0("<streamline [", n_points(x), " pts]", pd_str, sld_str, ">")
 }
 
+#' @rdname streamline
+#' @usage NULL
 S7::method(print, streamline) <- function(x, ...) {
   cat(format(x, ...), "\n")
   invisible(x)

@@ -2,7 +2,12 @@
 % Please edit documentation in R/bundle.R
 \name{bundle}
 \alias{bundle}
-\title{The bundle S7 class}
+\alias{format,fiber::bundle-method}
+\alias{print,fiber::bundle-method}
+\alias{length,fiber::bundle-method}
+\alias{[[,fiber::bundle-method}
+\alias{[,fiber::bundle-method}
+\title{Bundle S7 class}
 \usage{
 bundle(streamlines = list(), bundle_data = list())
 }
@@ -11,15 +16,17 @@ bundle(streamlines = list(), bundle_data = list())
 
 \item{bundle_data}{A named list of bundle-level metadata.}
 }
+\value{
+A \code{bundle} S7 object.
+}
 \description{
-A \link{bundle} is an ordered collection of \link{streamline} objects representing a
-tractogram or white-matter bundle.  It stores two compartments:
+A \code{bundle} is an ordered collection of \link{streamline} objects representing a
+tractogram or white-matter bundle. It stores two compartments:
 \itemize{
 \item \verb{@streamlines} — a list of \link{streamline} objects.
 \item \verb{@bundle_data} — a named list of bundle-level metadata (arbitrary R
 objects, e.g. the affine transform used during tracking).
 }
-}
-\details{
+
 Use the \code{\link[=new_bundle]{new_bundle()}} constructor to create instances.
 }

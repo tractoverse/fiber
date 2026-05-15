@@ -10,7 +10,7 @@ n_points(x)
 \item{x}{A \link{streamline} object.}
 }
 \value{
-Integer scalar giving the number of points.
+An integer scalar giving the number of points.
 }
 \description{
 Number of points in a streamline
