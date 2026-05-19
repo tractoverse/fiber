@@ -17,4 +17,4 @@ n_points(x)
 
 ## Value
 
-Integer scalar giving the number of points.
+An integer scalar giving the number of points.

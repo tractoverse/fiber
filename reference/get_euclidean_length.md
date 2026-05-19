@@ -1,6 +1,9 @@
 # Euclidean length of a streamline
 
-The Euclidean (straight-line) distance between the two endpoints.
+`get_euclidean_length()` is a function that computes the Euclidean
+(straight-line) distance of a
+[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+object.
 
 ## Usage
 
@@ -18,3 +21,13 @@ get_euclidean_length(x)
 ## Value
 
 A non-negative numeric scalar.
+
+## Examples
+
+``` r
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts)
+get_euclidean_length(sl)
+#> [1] 0.3549163
+```

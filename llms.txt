@@ -9,8 +9,8 @@ together with a concise set of methods:
 
 | Function | Description |
 |----|----|
-| [`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md) | Construct a single streamline |
-| [`new_bundle()`](https://astamm.github.io/fiber/reference/new_bundle.md) | Construct a bundle of streamlines |
+| `new_streamline()` | Construct a single streamline |
+| `new_bundle()` | Construct a bundle of streamlines |
 | [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md) | Combine streamlines and/or bundles |
 | [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md) | Resample onto a uniform arc-length grid |
 | [`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md) | Straight-line distance between endpoints |
@@ -18,7 +18,7 @@ together with a concise set of methods:
 | [`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md) | Curvilinear / Euclidean length ratio |
 | [`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md) | Curvature profile or summary scalar |
 | [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md) | Torsion profile or summary scalar |
-| [`get_hausdorff_distance()`](https://astamm.github.io/fiber/reference/get_hausdorff_distance.md) | Symmetric Hausdorff distance |
+| `get_hausdorff_distance()` | Symmetric Hausdorff distance |
 
 ### Classes
 
@@ -96,32 +96,143 @@ get_hausdorff_distance(sl, sl2)
 
 ## All functions
 
+- [`add_shape_descriptors-fiber-bundle-method`](https://astamm.github.io/fiber/reference/add_shape_descriptors-fiber-bundle-method.md)
+  [`add_shape_descriptors,fiber::bundle-method`](https://astamm.github.io/fiber/reference/add_shape_descriptors-fiber-bundle-method.md)
+  :
+
+  [`add_shape_descriptors()`](https://astamm.github.io/fiber/reference/add_shape_descriptors.md)
+  method for `bundle` objects
+
+- [`add_shape_descriptors-fiber-streamline-method`](https://astamm.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
+  [`add_shape_descriptors,fiber::streamline-method`](https://astamm.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
+  :
+
+  [`add_shape_descriptors()`](https://astamm.github.io/fiber/reference/add_shape_descriptors.md)
+  method for `streamline` objects
+
+- [`add_shape_descriptors()`](https://astamm.github.io/fiber/reference/add_shape_descriptors.md)
+  : Adds shape descriptors to a streamline or bundle
+
+- [`as_bundle-fiber-bundle-method`](https://astamm.github.io/fiber/reference/as_bundle-fiber-bundle-method.md)
+  [`as_bundle,fiber::bundle-method`](https://astamm.github.io/fiber/reference/as_bundle-fiber-bundle-method.md)
+  :
+
+  [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+  method for `bundle` objects
+
+- [`as_bundle-fiber-streamline-method`](https://astamm.github.io/fiber/reference/as_bundle-fiber-streamline-method.md)
+  [`as_bundle,fiber::streamline-method`](https://astamm.github.io/fiber/reference/as_bundle-fiber-streamline-method.md)
+  :
+
+  [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+  method for `streamline` objects
+
+- [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+  : Coerce an object to a bundle
+
+- [`as_dwifiber-fiber-bundle-method`](https://astamm.github.io/fiber/reference/as_dwifiber-fiber-bundle-method.md)
+  [`as_dwifiber,fiber::bundle-method`](https://astamm.github.io/fiber/reference/as_dwifiber-fiber-bundle-method.md)
+  :
+
+  [`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+  method for `bundle` objects
+
+- [`as_dwifiber-fiber-streamline-method`](https://astamm.github.io/fiber/reference/as_dwifiber-fiber-streamline-method.md)
+  [`as_dwifiber,fiber::streamline-method`](https://astamm.github.io/fiber/reference/as_dwifiber-fiber-streamline-method.md)
+  :
+
+  [`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+  method for `streamline` objects
+
+- [`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+  :
+
+  Coerce a streamline or bundle to a `dwiFiber` object
+
+- [`as_streamline-fiber-bundle-method`](https://astamm.github.io/fiber/reference/as_streamline-fiber-bundle-method.md)
+  [`as_streamline,fiber::bundle-method`](https://astamm.github.io/fiber/reference/as_streamline-fiber-bundle-method.md)
+  :
+
+  [`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+  method for `bundle` objects
+
+- [`as_streamline-fiber-streamline-method`](https://astamm.github.io/fiber/reference/as_streamline-fiber-streamline-method.md)
+  [`as_streamline,fiber::streamline-method`](https://astamm.github.io/fiber/reference/as_streamline-fiber-streamline-method.md)
+  :
+
+  [`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+  method for `streamline` objects
+
+- [`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+  : Coerce an object to a streamline
+
 - [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md)
   : Combine streamlines and/or bundles into a single bundle
-- [`bundle()`](https://astamm.github.io/fiber/reference/bundle.md) : The
-  bundle S7 class
+
+- [`bundle()`](https://astamm.github.io/fiber/reference/bundle.md) :
+  Bundle S7 class
+
+- [`compute_hausdorff_distance,any-method`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-any-method.md)
+  :
+
+  [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+  catch-all method
+
+- [`compute_hausdorff_distance-fiber-bundle-method`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-fiber-bundle-method.md)
+  [`compute_hausdorff_distance,fiber::bundle-method`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-fiber-bundle-method.md)
+  :
+
+  [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+  method for `bundle` objects
+
+- [`compute_hausdorff_distance-fiber-streamline-method`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-fiber-streamline-method.md)
+  [`compute_hausdorff_distance,fiber::streamline-method`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-fiber-streamline-method.md)
+  :
+
+  [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+  method for two `streamline` objects
+
+- [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+  : Computes the Hausdorff distance between streamlines
+
 - [`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md)
   : Curvature of a streamline
+
 - [`get_curvilinear_length()`](https://astamm.github.io/fiber/reference/get_curvilinear_length.md)
   : Curvilinear length of a streamline
+
 - [`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md)
   : Euclidean length of a streamline
-- [`get_hausdorff_distance()`](https://astamm.github.io/fiber/reference/get_hausdorff_distance.md)
-  : Hausdorff distance between two streamlines
+
 - [`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md)
   : Sinuosity of a streamline
+
 - [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md)
   : Torsion of a streamline
+
 - [`is_bundle()`](https://astamm.github.io/fiber/reference/is_bundle.md)
-  : Check whether an object is a bundle
+  : Test whether an object is a bundle
+
 - [`is_streamline()`](https://astamm.github.io/fiber/reference/is_streamline.md)
-  : Check whether an object is a streamline
-- [`new_bundle()`](https://astamm.github.io/fiber/reference/new_bundle.md)
-  : Create a bundle object
-- [`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md)
-  : Create a streamline object
+  : Test whether an object is a streamline
+
+- [`reparametrize-fiber-bundle-method`](https://astamm.github.io/fiber/reference/reparametrize-fiber-bundle-method.md)
+  [`reparametrize,fiber::bundle-method`](https://astamm.github.io/fiber/reference/reparametrize-fiber-bundle-method.md)
+  :
+
+  [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+  method for `bundle` objects
+
+- [`reparametrize-fiber-streamline-method`](https://astamm.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)
+  [`reparametrize,fiber::streamline-method`](https://astamm.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)
+  :
+
+  [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+  method for `streamline` objects
+
 - [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
   : Reparametrize a streamline or bundle onto a uniform arc-length grid
+
 - [`streamline()`](https://astamm.github.io/fiber/reference/streamline.md)
-  : The streamline S7 class
+  : Streamline S7 class
 

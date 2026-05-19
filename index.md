@@ -9,8 +9,8 @@ together with a concise set of methods:
 
 | Function | Description |
 |----|----|
-| [`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md) | Construct a single streamline |
-| [`new_bundle()`](https://astamm.github.io/fiber/reference/new_bundle.md) | Construct a bundle of streamlines |
+| `new_streamline()` | Construct a single streamline |
+| `new_bundle()` | Construct a bundle of streamlines |
 | [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md) | Combine streamlines and/or bundles |
 | [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md) | Resample onto a uniform arc-length grid |
 | [`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md) | Straight-line distance between endpoints |
@@ -18,7 +18,7 @@ together with a concise set of methods:
 | [`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md) | Curvilinear / Euclidean length ratio |
 | [`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md) | Curvature profile or summary scalar |
 | [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md) | Torsion profile or summary scalar |
-| [`get_hausdorff_distance()`](https://astamm.github.io/fiber/reference/get_hausdorff_distance.md) | Symmetric Hausdorff distance |
+| `get_hausdorff_distance()` | Symmetric Hausdorff distance |
 
 ### Classes
 

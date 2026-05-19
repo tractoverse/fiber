@@ -1,6 +1,6 @@
-# The streamline S7 class
+# Streamline S7 class
 
-A streamline represents a single fibre tract. It stores three data
+A `streamline` represents a single fibre tract. It stores three data
 compartments that mirror the conceptual levels found in tractography
 file formats:
 
@@ -36,9 +36,65 @@ streamline(points = NULL, point_data = list(), streamline_data = list())
 
   A named list of per-streamline numeric scalars.
 
-## Details
+## Value
 
-Use the
-[`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md)
-constructor to create instances. Slots are accessed with the `@`
-operator: `sl@points`, `sl@point_data`, `sl@streamline_data`.
+A `streamline` S7 object.
+
+## Methods for standard generics
+
+The following methods are defined for `streamline` objects:
+
+- `format(x, ...)`: Returns a compact character string such as
+  `<streamline [10 pts] | point: FA>`.
+
+- `print(x, ...)`: Prints the formatted string to the console and
+  invisibly returns `x`.
+
+## Additional properties
+
+- `@n_points`:
+
+  An integer scalar giving the number of points in the streamline
+  (read-only).
+
+- `@point_attributes`:
+
+  A character vector of the names of the per-point attributes
+  (read-only).
+
+- `@streamline_attributes`:
+
+  A character vector of the names of the per-streamline attributes
+  (read-only).
+
+## Examples
+
+``` r
+# Create a streamline with 5 points and some attributes
+sl <- streamline(
+  points = matrix(
+    c(0, 0, 0,
+      1, 0, 0,
+      1, 1, 0,
+      1, 1, 1,
+      0, 1, 1),
+    ncol = 3,
+    byrow = TRUE,
+    dimnames = list(NULL, c("X", "Y", "Z"))
+  ),
+  point_data = list(FA = c(0.5, 0.6, 0.7, 0.8, 0.9)),
+  streamline_data = list(mean_FA = 0.7)
+)
+sl@n_points  # 5
+#> [1] 5
+sl@point_attributes  # "FA"
+#> [1] "FA"
+sl@streamline_attributes  # "mean_FA"
+#> [1] "mean_FA"
+
+# format() and print() methods
+format(sl)  # "<streamline [5 pts] | point: FA | streamline: mean_FA>"
+#> [1] "<streamline [5 pts] | point: FA | streamline: mean_FA>"
+print(sl)
+#> <streamline [5 pts] | point: FA | streamline: mean_FA> 
+```

@@ -1,8 +1,10 @@
 # Sinuosity of a streamline
 
-The ratio of curvilinear length to Euclidean length. A value of 1
-indicates a perfectly straight streamline; larger values indicate
-greater curviness.
+`get_sinuosity()` is a function that computes the ratio of curvilinear
+length to Euclidean length for a
+[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+object, with a value of 1 indicating a perfectly straight streamline and
+larger values indicating greater curviness.
 
 ## Usage
 
@@ -20,3 +22,13 @@ get_sinuosity(x)
 ## Value
 
 A numeric scalar \\\ge 1\\.
+
+## Examples
+
+``` r
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts)
+get_sinuosity(sl)
+#> [1] 10.17893
+```

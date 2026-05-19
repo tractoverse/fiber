@@ -1,0 +1,51 @@
+# Coerce an object to a streamline
+
+`as_streamline()` converts a supported object into a
+[streamline](https://astamm.github.io/fiber/reference/streamline.md).
+
+## Usage
+
+``` r
+as_streamline(x, ...)
+```
+
+## Arguments
+
+- x:
+
+  An object to coerce.
+
+- ...:
+
+  Additional arguments (currently unused).
+
+## Value
+
+A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+object.
+
+## Details
+
+Currently supported input classes:
+
+- [streamline](https://astamm.github.io/fiber/reference/streamline.md):
+  returned unchanged.
+
+- `dwiFiber` (from dti): the object must contain **exactly one** fiber.
+  For multi-fiber objects use
+  [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+  instead.
+
+## See also
+
+[`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md),
+[`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+
+## Examples
+
+``` r
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl <- streamline(points = pts)
+identical(as_streamline(sl), sl)  # TRUE — identity coercion
+#> [1] TRUE
+```

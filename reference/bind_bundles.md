@@ -37,3 +37,23 @@ bind_bundles(..., bundle_data = NULL)
 
 A [bundle](https://astamm.github.io/fiber/reference/bundle.md)
 containing all input streamlines.
+
+## Examples
+
+``` r
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl1 <- streamline(points = pts)
+sl2 <- streamline(points = pts)
+b1 <- bundle(streamlines = list(sl1))
+b2 <- bundle(streamlines = list(sl2))
+
+# combine two bundles
+b_all <- bind_bundles(b1, b2)
+b_all@n_streamlines  # 2
+#> [1] 2
+
+# mix a bundle and a loose streamline
+b_mixed <- bind_bundles(b1, sl2)
+b_mixed@n_streamlines  # 2
+#> [1] 2
+```

@@ -11,10 +11,7 @@
 
 ### New features
 
-- [`new_streamline()`](https://astamm.github.io/fiber/reference/new_streamline.md)
-  /
-  [`new_bundle()`](https://astamm.github.io/fiber/reference/new_bundle.md)
-  constructors for the S7 classes.
+- `new_streamline()` / `new_bundle()` constructors for the S7 classes.
 - [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md)
   combines any mix of `streamline`s and `bundle`s into a single
   `bundle`.
@@ -29,8 +26,8 @@
   [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md)
   — full curvature/torsion profiles or summary scalars (`"mean"`,
   `"sd"`, `"max"`).
-- [`get_hausdorff_distance()`](https://astamm.github.io/fiber/reference/get_hausdorff_distance.md)
-  — symmetric Hausdorff distance between two `streamline`s.
+- `get_hausdorff_distance()` — symmetric Hausdorff distance between two
+  `streamline`s.
 
 ### Dependencies
 
