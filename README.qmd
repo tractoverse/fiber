@@ -35,14 +35,20 @@ concise set of methods:
 |---|---|
 | `streamline()` | Construct a single streamline |
 | `bundle()` | Construct a bundle of streamlines |
+| `is_streamline()` | Test if an object is a `streamline` |
+| `is_bundle()` | Test if an object is a `bundle` |
 | `bind_bundles()` | Combine streamlines and/or bundles |
 | `reparametrize()` | Resample onto a uniform arc-length grid |
+| `as_dwifiber()` | Coerce to `dwiFiber` class from [\pkg{dti}](https://cran.r-project.org/package=dti) |
+| `as_streamline()` | Coerce to `streamline` class |
+| `as_bundle()` | Coerce to `bundle` class |
 | `get_euclidean_length()` | Straight-line distance between endpoints |
 | `get_curvilinear_length()` | Total arc-length |
 | `get_sinuosity()` | Curvilinear / Euclidean length ratio |
 | `get_curvature()` | Curvature profile or summary scalar |
 | `get_torsion()` | Torsion profile or summary scalar |
-| `get_hausdorff_distance()` | Symmetric Hausdorff distance |
+| `add_shape_descriptors()` | Add curvature, torsion, and/or sinuosity to `@point_data` and/or `@streamline_data` |
+| `compute_hausdorff_distance()` | Symmetric Hausdorff distance |
 
 ### Classes
 
@@ -75,7 +81,7 @@ library(fiber)
 
 # Build a helix streamline (50 points)
 t <- seq(0, 2 * pi, length.out = 50)
-sl <- new_streamline(
+sl <- streamline(
   points = cbind(X = cos(t), Y = sin(t), Z = t / (2 * pi))
 )
 sl
@@ -86,7 +92,7 @@ get_sinuosity(sl)
 head(get_curvature(sl))
 
 # Bundle two streamlines
-sl2 <- new_streamline(
+sl2 <- streamline(
   points = cbind(X = cos(t) * 1.1, Y = sin(t) * 1.1, Z = t / (2 * pi))
 )
 b <- bind_bundles(sl, sl2)
@@ -97,5 +103,5 @@ b20 <- reparametrize(b, n_points = 20L)
 b20
 
 # Hausdorff distance
-get_hausdorff_distance(sl, sl2)
+compute_hausdorff_distance(sl, sl2)
 ```
