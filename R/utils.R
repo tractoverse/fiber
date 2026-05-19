@@ -1,5 +1,8 @@
 # ---- internal helpers -------------------------------------------------------
 
+# Null-coalescing operator
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
 # Euclidean distance between two length-3 numeric vectors
 .dist3 <- function(p, q) sqrt(sum((p - q)^2L))
 

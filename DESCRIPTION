@@ -22,16 +22,19 @@ URL: https://github.com/astamm/fiber, https://astamm.github.io/fiber/
 BugReports: https://github.com/astamm/fiber/issues
 Imports:
     cli,
+    methods,
     S7
 Config/roxygen2/version: 8.0.0
 Config/roxygen2/markdown: TRUE
 Suggests: 
+    dti,
     tinytest
 Collate: 
     'bundle.R'
+    'streamline.R'
+    'coerce.R'
     'cpp11.R'
     'fiber-package.R'
-    'streamline.R'
     'parametrize.R'
     'shape.R'
     'utils.R'
