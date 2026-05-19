@@ -19,17 +19,18 @@ An S4 object of class \code{dwiFiber} (from \pkg{dti}).
 \code{dwiFiber} from the \pkg{dti} package.
 }
 \details{
-Per-point direction vectors are taken from \verb{@point_data$direction} when
+Per-point direction vectors are taken from \verb{@point_data$direction_x},
+\verb{@point_data$direction_y}, and \verb{@point_data$direction_z} when
 present; otherwise they are estimated via finite differences of the
 coordinates (forward difference at the first point, backward difference at
 the last, central differences in between), then unit-normalised.
 
 Bundle-level metadata stored in \verb{@bundle_data} under the keys \code{method},
-\code{minfa}, \code{maxangle}, \code{roix}, \code{roiy}, \code{roiz}, \code{ddim}, \code{ddim0}, \code{voxelext},
-\code{orientation}, \code{rotation}, \code{level}, and \code{source} are transferred to the
-corresponding \code{dwiFiber} / \code{dwi} slots when present. MRI-acquisition
-metadata that cannot be recovered from a \code{fiber} object (gradient
-directions, b-values, etc.) are filled with neutral placeholders.
+\code{minfa}, \code{maxangle}, \code{ddim}, \code{ddim0}, \code{voxelext}, \code{orientation}, \code{rotation},
+\code{level}, and \code{source} are transferred to the corresponding \code{dwiFiber} / \code{dwi}
+slots when present. MRI-acquisition metadata that cannot be recovered from a
+\code{fiber} object (gradient directions, b-values, etc.) are filled with neutral
+placeholders.
 }
 \examples{
 \dontrun{

@@ -3,7 +3,7 @@ library(fiber)
 # ---- helpers ----------------------------------------------------------------
 
 make_sl <- function(n = 5L) {
-  pts <- matrix(seq_len(n * 3L), nrow = n, ncol = 3L)
+  pts <- matrix(as.numeric(seq_len(n * 3L)), nrow = n, ncol = 3L)
   colnames(pts) <- c("X", "Y", "Z")
   streamline(points = pts)
 }

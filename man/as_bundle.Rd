@@ -24,8 +24,9 @@ Currently supported input classes:
 \item \link{bundle}: returned unchanged.
 \item \code{dwiFiber} (from \pkg{dti}): each fiber becomes a \link{streamline}. The
 per-point direction vectors (columns 4–6 of \verb{@fibers}) are stored as
-\verb{@point_data$direction}. Tracking metadata (\code{method}, \code{minfa},
-\code{maxangle}, \code{roix}, \code{roiy}, \code{roiz}) are stored in \verb{@bundle_data}.
+\verb{@point_data$direction_x}, \verb{@point_data$direction_y}, and
+\verb{@point_data$direction_z}. Tracking metadata (\code{method}, \code{minfa},
+\code{maxangle}) are stored in \verb{@bundle_data}.
 }
 }
 \examples{

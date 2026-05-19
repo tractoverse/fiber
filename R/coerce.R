@@ -89,8 +89,9 @@ S7::method(as_streamline, S7::class_any) <- function(x, ...) {
 #' - [bundle]: returned unchanged.
 #' - `dwiFiber` (from \pkg{dti}): each fiber becomes a [streamline]. The
 #'   per-point direction vectors (columns 4–6 of `@fibers`) are stored as
-#'   `@point_data$direction`. Tracking metadata (`method`, `minfa`,
-#'   `maxangle`, `roix`, `roiy`, `roiz`) are stored in `@bundle_data`.
+#'   `@point_data$direction_x`, `@point_data$direction_y`, and
+#'   `@point_data$direction_z`. Tracking metadata (`method`, `minfa`,
+#'   `maxangle`) are stored in `@bundle_data`.
 #'
 #' @param x An object to coerce.
 #' @param ... Additional arguments (currently unused).
@@ -151,17 +152,18 @@ S7::method(as_bundle, S7::class_any) <- function(x, ...) {
 #' `as_dwifiber()` converts a [streamline] or [bundle] to the S4 class
 #' `dwiFiber` from the \pkg{dti} package.
 #'
-#' Per-point direction vectors are taken from `@point_data$direction` when
+#' Per-point direction vectors are taken from `@point_data$direction_x`,
+#' `@point_data$direction_y`, and `@point_data$direction_z` when
 #' present; otherwise they are estimated via finite differences of the
 #' coordinates (forward difference at the first point, backward difference at
 #' the last, central differences in between), then unit-normalised.
 #'
 #' Bundle-level metadata stored in `@bundle_data` under the keys `method`,
-#' `minfa`, `maxangle`, `roix`, `roiy`, `roiz`, `ddim`, `ddim0`, `voxelext`,
-#' `orientation`, `rotation`, `level`, and `source` are transferred to the
-#' corresponding `dwiFiber` / `dwi` slots when present. MRI-acquisition
-#' metadata that cannot be recovered from a `fiber` object (gradient
-#' directions, b-values, etc.) are filled with neutral placeholders.
+#' `minfa`, `maxangle`, `ddim`, `ddim0`, `voxelext`, `orientation`, `rotation`,
+#' `level`, and `source` are transferred to the corresponding `dwiFiber` / `dwi`
+#' slots when present. MRI-acquisition metadata that cannot be recovered from a
+#' `fiber` object (gradient directions, b-values, etc.) are filled with neutral
+#' placeholders.
 #'
 #' @param x A [streamline] or [bundle] object.
 #' @param ... Additional arguments (currently unused).
@@ -234,7 +236,11 @@ S7::method(as_dwifiber, bundle) <- function(x, ...) {
     colnames(dirs) <- NULL
     streamlines[[i]] <- streamline(
       points = pts,
-      point_data = list(direction = dirs)
+      point_data = list(
+        direction_x = dirs[, 1],
+        direction_y = dirs[, 2],
+        direction_z = dirs[, 3]
+      )
     )
   }
 
@@ -244,9 +250,6 @@ S7::method(as_dwifiber, bundle) <- function(x, ...) {
       method = x@method,
       minfa = x@minfa,
       maxangle = x@maxangle,
-      roix = x@roix,
-      roiy = x@roiy,
-      roiz = x@roiz,
       ddim = x@ddim,
       ddim0 = x@ddim0,
       voxelext = x@voxelext,
@@ -288,8 +291,16 @@ S7::method(as_dwifiber, bundle) <- function(x, ...) {
     sl <- x@streamlines[[i]]
     pts <- sl@points[, c("X", "Y", "Z"), drop = FALSE]
     n_pts <- nrow(pts)
-    dirs <- if ("direction" %in% names(sl@point_data)) {
-      sl@point_data[["direction"]]
+    dirs <- if (
+      all(
+        c("direction_x", "direction_y", "direction_z") %in% sl@point_attributes
+      )
+    ) {
+      cbind(
+        sl@point_data[["direction_x"]],
+        sl@point_data[["direction_y"]],
+        sl@point_data[["direction_z"]]
+      )
     } else {
       .compute_directions(pts)
     }
@@ -305,16 +316,16 @@ S7::method(as_dwifiber, bundle) <- function(x, ...) {
     "dwiFiber",
     fibers = fibers_mat,
     startind = as.integer(startind),
-    roix = as.integer(bd[["roix"]] %||% integer(0L)),
-    roiy = as.integer(bd[["roiy"]] %||% integer(0L)),
-    roiz = as.integer(bd[["roiz"]] %||% integer(0L)),
+    roimask = as.raw(0), # placeholder; dwiFiber requires a roimask slot but we have no equivalent data to fill it with
     method = as.character(bd[["method"]] %||% "unknown"),
     minfa = as.numeric(bd[["minfa"]] %||% 0),
     maxangle = as.numeric(bd[["maxangle"]] %||% 0),
     # dwi superclass slots — filled with neutral placeholders when absent
+    call = as.list(call("as_dwifiber")),
     gradient = bd[["gradient"]] %||% matrix(0, nrow = 3L, ncol = 0L),
-    btb = bd[["btb"]] %||% matrix(0, nrow = 6L, ncol = 0L),
     bvalue = bd[["bvalue"]] %||% numeric(0L),
+    btb = bd[["btb"]] %||% matrix(0, nrow = 6L, ncol = 0L),
+    mask = bd[["mask"]] %||% array(FALSE, dim = c(0L, 0L, 0L)),
     ngrad = bd[["ngrad"]] %||% 0L,
     s0ind = bd[["s0ind"]] %||% integer(0L),
     replind = bd[["replind"]] %||% integer(0L),
@@ -324,10 +335,9 @@ S7::method(as_dwifiber, bundle) <- function(x, ...) {
     yind = as.integer(bd[["yind"]] %||% integer(0L)),
     zind = as.integer(bd[["zind"]] %||% integer(0L)),
     voxelext = as.numeric(bd[["voxelext"]] %||% c(1, 1, 1)),
+    level = as.numeric(bd[["level"]] %||% 0),
     orientation = as.integer(bd[["orientation"]] %||% c(0L, 2L, 5L)),
     rotation = bd[["rotation"]] %||% diag(3),
-    level = as.numeric(bd[["level"]] %||% 0),
-    source = as.character(bd[["source"]] %||% ""),
-    call = call("as_dwifiber")
+    source = as.character(bd[["source"]] %||% "")
   )
 }
