@@ -13,5 +13,12 @@ get_euclidean_length(x)
 A non-negative numeric scalar.
 }
 \description{
-The Euclidean (straight-line) distance between the two endpoints.
+\code{get_euclidean_length()} is a function that computes the Euclidean
+(straight-line) distance of a \link{streamline} object.
+}
+\examples{
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts)
+get_euclidean_length(sl)
 }

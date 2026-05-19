@@ -2,7 +2,7 @@
 % Please edit documentation in R/streamline.R
 \name{is_streamline}
 \alias{is_streamline}
-\title{Check whether an object is a streamline}
+\title{Test whether an object is a streamline}
 \usage{
 is_streamline(x)
 }
@@ -13,5 +13,11 @@ is_streamline(x)
 \code{TRUE} if \code{x} is of class \link{streamline}, otherwise \code{FALSE}.
 }
 \description{
-Check whether an object is a streamline
+Test whether an object is a streamline
+}
+\examples{
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl <- streamline(points = pts)
+is_streamline(sl)     # TRUE
+is_streamline(42)     # FALSE
 }

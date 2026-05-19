@@ -13,7 +13,14 @@ get_sinuosity(x)
 A numeric scalar \eqn{\ge 1}.
 }
 \description{
-The ratio of curvilinear length to Euclidean length.  A value of 1
-indicates a perfectly straight streamline; larger values indicate
+\code{get_sinuosity()} is a function that computes the ratio of curvilinear
+length to Euclidean length for a \link{streamline} object, with a value of
+1 indicating a perfectly straight streamline and larger values indicating
 greater curviness.
+}
+\examples{
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts)
+get_sinuosity(sl)
 }

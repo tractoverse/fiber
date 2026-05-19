@@ -13,6 +13,13 @@ get_curvilinear_length(x)
 A non-negative numeric scalar.
 }
 \description{
-The total arc-length of the streamline computed as the sum of
-Euclidean segment lengths between consecutive points.
+\code{get_curvilinear_length()} is a function that computes the total arc-length of a
+\link{streamline} object as the sum of Euclidean segment lengths between
+consecutive points.
+}
+\examples{
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts)
+get_curvilinear_length(sl)
 }

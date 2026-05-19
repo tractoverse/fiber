@@ -4,20 +4,26 @@
 \alias{get_torsion}
 \title{Torsion of a streamline}
 \usage{
-get_torsion(x, scalar = NULL)
+get_torsion(x)
 }
 \arguments{
 \item{x}{A \link{streamline} object.}
-
-\item{scalar}{One of \code{"mean"}, \code{"sd"}, \code{"max"}, or \code{NULL} (default).
-When \code{NULL} the full profile is returned as a data frame with columns
-\code{s} and \code{torsion}.}
 }
 \value{
-Either a \code{data.frame} (when \code{scalar = NULL}) or a single numeric
-value.
+A numeric vector of length \code{x@n_points} giving the torsion
+\eqn{\tau(s)} at each sampled point along the streamline. Positive values
+indicate right-handed twisting; negative values indicate left-handed
+twisting; zero indicates a planar curve at that location.
 }
 \description{
-Computes the torsion \eqn{\tau(s)} at each point along the arc-length
-abscissa using cubic smoothing splines (4 degrees of freedom per component).
+\code{get_torsion()} is function that computes the torsion of a
+\link{streamline} object. The torsion \eqn{\tau(s)} at each point
+along the arc-length abscissa is computed using cubic smoothing
+splines (4 degrees of freedom per component).
+}
+\examples{
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts)
+get_torsion(sl)
 }

@@ -1,25 +1,72 @@
 # ---- S7 class: bundle -------------------------------------------------------
 
-#' The bundle S7 class
+#' Bundle S7 class
 #'
-#' A [bundle] is an ordered collection of [streamline] objects representing a
-#' tractogram or white-matter bundle.  It stores two compartments:
+#' @description
+#' A `bundle` is an ordered collection of [streamline] objects representing a
+#' tractogram or white-matter bundle. It stores two compartments:
+#'
 #' - `@streamlines` — a list of [streamline] objects.
 #' - `@bundle_data` — a named list of bundle-level metadata (arbitrary R
 #'   objects, e.g. the affine transform used during tracking).
 #'
-#' Use the [new_bundle()] constructor to create instances.
-#'
 #' @param streamlines A list of [streamline] objects.
 #' @param bundle_data A named list of bundle-level metadata.
+#' @prop n_streamlines An integer scalar giving the number of streamlines in the bundle (read-only).
+#' @prop bundle_attributes A character vector of the names of the bundle-level attributes (read-only).
 #'
+#' @returns A `bundle` S7 object.
+#' @section Methods for standard generics:
+#' The following methods are defined for `bundle` objects:
+#' - `format(x, ...)`: Returns a compact character string such as
+#'   `<bundle [2 streamlines | 10–20 pts/streamline]>`.
+#' - `print(x, ...)`: Prints the formatted string to the console and
+#'   invisibly returns `x`.
+#' - `length(x)`: Returns the number of streamlines (equivalent to
+#'   `x@n_streamlines`).
+#' - `x[[i]]`: Extracts the `i`-th [streamline] from the bundle.
+#' - `x[i]`: Returns a new [bundle] containing only the selected
+#'   streamlines, preserving `@bundle_data`.
 #' @export
+#' @examples
+#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' sl <- streamline(points = pts)
+#' b <- bundle(streamlines = list(sl))
+#' b@n_streamlines  # 1
+#' b@bundle_attributes  # NULL (no bundle-level attributes)
+#'
+#' # bundle_data is stored
+#' b2 <- bundle(
+#'   streamlines = list(sl),
+#'   bundle_data = list(subject = "sub-01")
+#' )
+#' b2@bundle_data$subject  # "sub-01"
+#'
+#' # format(), print(), length() and indexing methods
+#' format(b2)
+#' print(b2)
+#' length(b2)   # 1
+#' b2[[1]]      # first streamline
+#'
+#' # subsetting preserves bundle_data
+#' pts2 <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' sl2 <- streamline(points = pts2)
+#' b3 <- bundle(streamlines = list(sl, sl2), bundle_data = list(subject = "sub-01"))
+#' b3[1]@n_streamlines  # 1, bundle_data preserved
 bundle <- S7::new_class(
   name = "bundle",
   package = "fiber",
   properties = list(
     streamlines = S7::class_list,
-    bundle_data = S7::class_list
+    bundle_data = S7::class_list,
+    n_streamlines = S7::new_property(
+      class = S7::class_integer,
+      getter = function(self) length(self@streamlines)
+    ),
+    bundle_attributes = S7::new_property(
+      class = S7::class_character,
+      getter = function(self) names(self@bundle_data)
+    )
   ),
   validator = function(self) {
     bad <- !vapply(
@@ -36,36 +83,25 @@ bundle <- S7::new_class(
   }
 )
 
-# ---- constructor ------------------------------------------------------------
-
-#' Create a bundle object
-#'
-#' A convenience constructor that wraps the [bundle] S7 class.
-#'
-#' @param streamlines A list of [streamline] objects.
-#' @param bundle_data A named list of bundle-level metadata.  Defaults to an
-#'   empty list.
-#'
-#' @return An object of class [bundle].
-#' @export
-#' @seealso [new_streamline()]
-new_bundle <- function(streamlines, bundle_data = list()) {
-  bundle(streamlines = streamlines, bundle_data = bundle_data)
-}
-
 # ---- predicate --------------------------------------------------------------
 
-#' Check whether an object is a bundle
+#' Test whether an object is a bundle
 #'
 #' @param x An object.
-#' @return `TRUE` if `x` is of class [bundle], otherwise `FALSE`.
+#' @returns `TRUE` if `x` is of class [bundle], otherwise `FALSE`.
 #' @export
+#' @examples
+#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' sl <- streamline(points = pts)
+#' b <- bundle(streamlines = list(sl))
+#' is_bundle(b)   # TRUE
+#' is_bundle(sl)  # FALSE
 is_bundle <- function(x) S7::S7_inherits(x, bundle)
 
 # ---- format / print ---------------------------------------------------------
 
 S7::method(format, bundle) <- function(x, ...) {
-  n <- length(x@streamlines)
+  n <- x@n_streamlines
   if (n == 0L) {
     return("<bundle [0 streamlines]>")
   }
@@ -114,10 +150,10 @@ S7::method(print, bundle) <- function(x, ...) {
 
 # ---- length / indexing for bundle -------------------------------------------
 
-S7::method(length, bundle) <- function(x) length(x@streamlines)
+S7::method(length, bundle) <- function(x) x@n_streamlines
 
 S7::method(`[[`, bundle) <- function(x, i, ...) x@streamlines[[i]]
 
 S7::method(`[`, bundle) <- function(x, i, j, ..., drop = TRUE) {
-  new_bundle(x@streamlines[i], bundle_data = x@bundle_data)
+  bundle(streamlines = x@streamlines[i], bundle_data = x@bundle_data)
 }

@@ -10,7 +10,7 @@ bind_bundles(..., bundle_data = NULL)
 \item{...}{One or more \link{streamline} or \link{bundle} objects.}
 
 \item{bundle_data}{A named list of bundle-level metadata to attach to the
-resulting \link{bundle}.  Defaults to an empty list (or the \code{bundle_data} of
+resulting \link{bundle}. Defaults to an empty list (or the \code{bundle_data} of
 the first \link{bundle} input if one is present and \code{bundle_data} is not
 supplied).}
 }
@@ -18,8 +18,23 @@ supplied).}
 A \link{bundle} containing all input streamlines.
 }
 \description{
-Accepts any mix of \link{streamline} and \link{bundle} objects.  All streamlines are
-collected into a flat list and wrapped in a new \link{bundle}.  \code{bundle_data}
+Accepts any mix of \link{streamline} and \link{bundle} objects. All streamlines are
+collected into a flat list and wrapped in a new \link{bundle}. \code{bundle_data}
 from the first \link{bundle} argument (if any) is preserved; pass your own via
 the \code{bundle_data} argument to override.
+}
+\examples{
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl1 <- streamline(points = pts)
+sl2 <- streamline(points = pts)
+b1 <- bundle(streamlines = list(sl1))
+b2 <- bundle(streamlines = list(sl2))
+
+# combine two bundles
+b_all <- bind_bundles(b1, b2)
+b_all@n_streamlines  # 2
+
+# mix a bundle and a loose streamline
+b_mixed <- bind_bundles(b1, sl2)
+b_mixed@n_streamlines  # 2
 }
