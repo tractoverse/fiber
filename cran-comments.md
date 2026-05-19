@@ -1,12 +1,12 @@
 ## Resubmission
 
-Resubmission as v0.1.1 in which we:
+In this release v0.1.1, we:
 
 * Improved documentation of S7 classes, generics and methods following the release of roxygen2 8.0.0.
 * Removed redundant `new_streamline()` and `new_bundle()` constructors.
-* Added coercers from and to the `dwiFiber` S4 class of the [\pkg{dti}](https://cran.r-project.org/package=dti) package.
+* Added coercers from and to the `dwiFiber` S4 class of the [dti](https://cran.r-project.org/package=dti) package.
 * Refactored shape descriptors API.
-* Rewrote pairwise Hausdorff distance matrix using C++ via the [\pkg{cpp11}](https://cran.r-project.org/package=cpp11) package.
+* Rewrote pairwise Hausdorff distance matrix using C++ via the [cpp11](https://cran.r-project.org/package=cpp11) package.
 * Created the tractoverse GitHub organization and transferred fiber repository to it.
 
 Part of these improvements are meant to address issues raised by the CRAN maintainers.
