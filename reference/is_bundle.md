@@ -17,8 +17,8 @@ is_bundle(x)
 ## Value
 
 `TRUE` if `x` is of class
-[bundle](https://astamm.github.io/fiber/reference/bundle.md), otherwise
-`FALSE`.
+[bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
+otherwise `FALSE`.
 
 ## Examples
 

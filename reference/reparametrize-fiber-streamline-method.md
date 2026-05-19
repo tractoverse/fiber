@@ -1,16 +1,17 @@
-# [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md) method for `streamline` objects
+# [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md) method for `streamline` objects
 
 Resamples a single
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 onto a uniform arc-length grid. See
-[`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+[`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
 for the full parameter documentation.
 
 ## Arguments
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 - n_points:
@@ -18,10 +19,11 @@ for the full parameter documentation.
   Number of equally-spaced arc-length points to use.
 
   - For a single
-    [streamline](https://astamm.github.io/fiber/reference/streamline.md),
+    [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
     defaults to `nrow(x@points)`.
 
-  - For a [bundle](https://astamm.github.io/fiber/reference/bundle.md),
+  - For a
+    [bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
     defaults to the rounded mean number of points across all
     streamlines.
 
@@ -29,7 +31,8 @@ for the full parameter documentation.
 
 ## Value
 
-A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+A
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 reparametrized onto the new grid. The returned object has the same class
 as the input but with `@points` resampled to exactly `n_points` rows and
 all `@point_data` vectors resampled correspondingly via linear
@@ -37,7 +40,7 @@ interpolation.
 
 ## See also
 
-[`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+[`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
 
 ## Examples
 

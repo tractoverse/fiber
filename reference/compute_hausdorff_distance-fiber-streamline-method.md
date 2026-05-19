@@ -1,18 +1,20 @@
-# [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md) method for two `streamline` objects
+# [`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md) method for two `streamline` objects
 
-[`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+[`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md)
 method for two `streamline` objects
 
 ## Arguments
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 - y:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 ## Value
@@ -24,7 +26,7 @@ performed in C++ via `hausdorff_distance_cpp()`.
 
 ## See also
 
-[`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+[`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md)
 
 ## Examples
 

@@ -38,7 +38,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/astamm/fiber/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/tractoverse/fiber/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -54,7 +54,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The <a href="https://astamm.github.io/fiber/"><strong>fiber</strong></a> package provides two <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> classes — <code>streamline</code> and <code>bundle</code> — for representing diffusion MRI tractography data in R, together with a concise set of methods:</p>
+<p>The <a href="https://tractoverse.github.io/fiber/"><strong>fiber</strong></a> package provides two <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> classes — <code>streamline</code> and <code>bundle</code> — for representing diffusion MRI tractography data in R, together with a concise set of methods:</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -159,16 +159,16 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <strong>fiber</strong> from <a href="https://github.com/astamm/fiber" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of <strong>fiber</strong> from <a href="https://github.com/tractoverse/fiber" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"astamm/fiber"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"tractoverse/fiber"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/astamm/fiber" class="external-link">fiber</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tractoverse/fiber" class="external-link">fiber</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Build a helix streamline (50 points)</span></span>
 <span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
@@ -208,8 +208,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/astamm/fiber/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/astamm/fiber/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/tractoverse/fiber/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/tractoverse/fiber/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -239,9 +239,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/astamm/fiber/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/astamm/fiber/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/astamm/fiber" class="external-link"><img src="https://codecov.io/gh/astamm/fiber/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/astamm/fiber/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/astamm/fiber/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://github.com/tractoverse/fiber/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tractoverse/fiber/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/tractoverse/fiber" class="external-link"><img src="https://codecov.io/gh/tractoverse/fiber/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/tractoverse/fiber/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/tractoverse/fiber/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
 <li><a href="https://CRAN.R-project.org/package=fiber" class="external-link"><img src="https://www.r-pkg.org/badges/version/fiber" alt="CRAN status"></a></li>
 </ul>
 </div>

@@ -2,7 +2,7 @@
 
 `get_euclidean_length()` is a function that computes the Euclidean
 (straight-line) distance of a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object.
 
 ## Usage
@@ -15,7 +15,8 @@ get_euclidean_length(x)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 ## Value

@@ -5,9 +5,9 @@
 uniform arc-length grid using linear interpolation, with methods
 available for the following classes:
 
-- [`fiber::bundle`](https://astamm.github.io/fiber/reference/reparametrize-fiber-bundle-method.md)
+- [`fiber::bundle`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-bundle-method.md)
 
-- [`fiber::streamline`](https://astamm.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)
+- [`fiber::streamline`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)
 
 ## Usage
 
@@ -19,8 +19,9 @@ reparametrize(x, n_points = NULL)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
-  or [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+  or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
   object.
 
 - n_points:
@@ -28,10 +29,11 @@ reparametrize(x, n_points = NULL)
   Number of equally-spaced arc-length points to use.
 
   - For a single
-    [streamline](https://astamm.github.io/fiber/reference/streamline.md),
+    [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
     defaults to `nrow(x@points)`.
 
-  - For a [bundle](https://astamm.github.io/fiber/reference/bundle.md),
+  - For a
+    [bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
     defaults to the rounded mean number of points across all
     streamlines.
 

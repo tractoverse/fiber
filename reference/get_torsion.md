@@ -1,7 +1,7 @@
 # Torsion of a streamline
 
 `get_torsion()` is function that computes the torsion of a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object. The torsion \\\tau(s)\\ at each point along the arc-length
 abscissa is computed using cubic smoothing splines (4 degrees of freedom
 per component).
@@ -16,7 +16,8 @@ get_torsion(x)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 ## Value

@@ -1,13 +1,14 @@
-# [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md) method for `bundle` objects
+# [`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md) method for `bundle` objects
 
-[`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+[`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md)
 method for `bundle` objects
 
 ## Arguments
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/bundle.md) object.
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+  object.
 
 - ...:
 
@@ -19,4 +20,4 @@ method for `bundle` objects
 
 ## See also
 
-[`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+[`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md)

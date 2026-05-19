@@ -1,7 +1,7 @@
 # Coerce an object to a streamline
 
 `as_streamline()` converts a supported object into a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md).
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md).
 
 ## Usage
 
@@ -21,25 +21,26 @@ as_streamline(x, ...)
 
 ## Value
 
-A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+A
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object.
 
 ## Details
 
 Currently supported input classes:
 
-- [streamline](https://astamm.github.io/fiber/reference/streamline.md):
+- [streamline](https://tractoverse.github.io/fiber/reference/streamline.md):
   returned unchanged.
 
 - `dwiFiber` (from dti): the object must contain **exactly one** fiber.
   For multi-fiber objects use
-  [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+  [`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md)
   instead.
 
 ## See also
 
-[`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md),
-[`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+[`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md),
+[`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md)
 
 ## Examples
 

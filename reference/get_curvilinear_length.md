@@ -2,7 +2,7 @@
 
 `get_curvilinear_length()` is a function that computes the total
 arc-length of a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object as the sum of Euclidean segment lengths between consecutive
 points.
 
@@ -16,7 +16,8 @@ get_curvilinear_length(x)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 ## Value

@@ -1,14 +1,16 @@
-# [`add_shape_descriptors()`](https://astamm.github.io/fiber/reference/add_shape_descriptors.md) method for `bundle` objects
+# [`add_shape_descriptors()`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors.md) method for `bundle` objects
 
 Adds multiple shape descriptors to every
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
-inside a [bundle](https://astamm.github.io/fiber/reference/bundle.md).
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+inside a
+[bundle](https://tractoverse.github.io/fiber/reference/bundle.md).
 
 ## Arguments
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/bundle.md) object.
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+  object.
 
 - descriptors:
 
@@ -18,10 +20,10 @@ inside a [bundle](https://astamm.github.io/fiber/reference/bundle.md).
 
 ## Value
 
-A [bundle](https://astamm.github.io/fiber/reference/bundle.md) with the
-specified shape descriptors added to the `@streamline_data` or
+A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md) with
+the specified shape descriptors added to the `@streamline_data` or
 `@point_data` slots of each streamline as appropriate.
 
 ## See also
 
-[`add_shape_descriptors()`](https://astamm.github.io/fiber/reference/add_shape_descriptors.md)
+[`add_shape_descriptors()`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors.md)

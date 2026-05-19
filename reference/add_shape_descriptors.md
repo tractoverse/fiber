@@ -2,25 +2,25 @@
 
 `add_shape_descriptors()` is an S7 generic that computes a number of
 shape descriptors for each
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object and stores them in the `@streamline_data` or `@point_data` slots
 as appropriate, with methods available for the following classes:
 
-- [`fiber::bundle`](https://astamm.github.io/fiber/reference/add_shape_descriptors-fiber-bundle-method.md)
+- [`fiber::bundle`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-bundle-method.md)
 
-- [`fiber::streamline`](https://astamm.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
+- [`fiber::streamline`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
 
 This function provides a convenient way to compute shape descriptors and
 attach them to
-[streamline](https://astamm.github.io/fiber/reference/streamline.md) or
-[bundle](https://astamm.github.io/fiber/reference/bundle.md) objects.
-See the documentation for each individual shape descriptor function
-(e.g.
-[`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md),
-[`get_curvilinear_length()`](https://astamm.github.io/fiber/reference/get_curvilinear_length.md),
-[`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md),
-[`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md),
-[`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md))
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+objects. See the documentation for each individual shape descriptor
+function (e.g.
+[`get_euclidean_length()`](https://tractoverse.github.io/fiber/reference/get_euclidean_length.md),
+[`get_curvilinear_length()`](https://tractoverse.github.io/fiber/reference/get_curvilinear_length.md),
+[`get_sinuosity()`](https://tractoverse.github.io/fiber/reference/get_sinuosity.md),
+[`get_curvature()`](https://tractoverse.github.io/fiber/reference/get_curvature.md),
+[`get_torsion()`](https://tractoverse.github.io/fiber/reference/get_torsion.md))
 for more details on how each descriptor is computed.
 
 ## Usage
@@ -37,8 +37,9 @@ add_shape_descriptors(
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
-  or [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+  or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
   object.
 
 - descriptors:

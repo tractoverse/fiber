@@ -17,7 +17,7 @@ is_streamline(x)
 ## Value
 
 `TRUE` if `x` is of class
-[streamline](https://astamm.github.io/fiber/reference/streamline.md),
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
 otherwise `FALSE`.
 
 ## Examples

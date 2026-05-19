@@ -1,7 +1,7 @@
 # Curvature of a streamline
 
 `get_curvature()` is function that computes the curvature of a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object. The curvature \\\kappa(s)\\ at each point along the arc-length
 abscissa is computed using cubic smoothing splines (3 degrees of freedom
 per component).
@@ -16,7 +16,8 @@ get_curvature(x)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 ## Value

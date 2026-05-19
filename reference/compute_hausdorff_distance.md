@@ -2,15 +2,15 @@
 
 `compute_hausdorff_distance()` is an S7 generic that computes the
 symmetric Hausdorff distance between
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 objects based on their 3-D coordinate matrices, with methods available
 for the following classes:
 
 - `ANY`
 
-- [`fiber::bundle`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-fiber-bundle-method.md)
+- [`fiber::bundle`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance-fiber-bundle-method.md)
 
-- [`fiber::streamline`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance-fiber-streamline-method.md)
+- [`fiber::streamline`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance-fiber-streamline-method.md)
 
 The four dispatch cases are:
 
@@ -38,35 +38,37 @@ compute_hausdorff_distance(x, y = NULL)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
-  or [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+  or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
   object.
 
 - y:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
-  or [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+  or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
   object, or `NULL` (default). When `NULL` and `x` is a
-  [bundle](https://astamm.github.io/fiber/reference/bundle.md), the
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md), the
   pairwise distance matrix within `x` is returned.
 
 ## Value
 
 - A non-negative numeric scalar when both `x` and `y` are
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md)s.
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)s.
 
 - A [`dist`](https://rdrr.io/r/stats/dist.html) object of size \\n\\
   when `x` is a
-  [bundle](https://astamm.github.io/fiber/reference/bundle.md) and `y`
-  is `NULL` or a
-  [bundle](https://astamm.github.io/fiber/reference/bundle.md) (use
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md) and
+  `y` is `NULL` or a
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md) (use
   [`as.matrix()`](https://rdrr.io/r/base/matrix.html) to expand to a
   full \\n \times n\\ matrix).
 
 - A numeric vector of length \\n\\ when `x` is a
-  [bundle](https://astamm.github.io/fiber/reference/bundle.md) and `y`
-  is a
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md).
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md) and
+  `y` is a
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md).
 
 ## Examples
 

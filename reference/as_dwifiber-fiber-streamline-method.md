@@ -1,13 +1,14 @@
-# [`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md) method for `streamline` objects
+# [`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md) method for `streamline` objects
 
-[`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+[`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md)
 method for `streamline` objects
 
 ## Arguments
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 - ...:
@@ -20,4 +21,4 @@ An S4 `dwiFiber` object.
 
 ## See also
 
-[`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+[`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md)

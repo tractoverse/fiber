@@ -1,7 +1,7 @@
 # Coerce an object to a bundle
 
 `as_bundle()` converts a supported object into a
-[bundle](https://astamm.github.io/fiber/reference/bundle.md).
+[bundle](https://tractoverse.github.io/fiber/reference/bundle.md).
 
 ## Usage
 
@@ -21,22 +21,23 @@ as_bundle(x, ...)
 
 ## Value
 
-A [bundle](https://astamm.github.io/fiber/reference/bundle.md) object.
+A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+object.
 
 ## Details
 
 Currently supported input classes:
 
-- [streamline](https://astamm.github.io/fiber/reference/streamline.md):
+- [streamline](https://tractoverse.github.io/fiber/reference/streamline.md):
   wrapped in a single-element
-  [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
   (lossless).
 
-- [bundle](https://astamm.github.io/fiber/reference/bundle.md): returned
-  unchanged.
+- [bundle](https://tractoverse.github.io/fiber/reference/bundle.md):
+  returned unchanged.
 
 - `dwiFiber` (from dti): each fiber becomes a
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md).
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md).
   The per-point direction vectors (columns 4–6 of `@fibers`) are stored
   as `@point_data$direction_x`, `@point_data$direction_y`, and
   `@point_data$direction_z`. Tracking metadata (`method`, `minfa`,
@@ -44,8 +45,8 @@ Currently supported input classes:
 
 ## See also
 
-[`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md),
-[`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md)
+[`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md),
+[`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md)
 
 ## Examples
 

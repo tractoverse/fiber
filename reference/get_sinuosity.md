@@ -2,7 +2,7 @@
 
 `get_sinuosity()` is a function that computes the ratio of curvilinear
 length to Euclidean length for a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object, with a value of 1 indicating a perfectly straight streamline and
 larger values indicating greater curviness.
 
@@ -16,7 +16,8 @@ get_sinuosity(x)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 ## Value

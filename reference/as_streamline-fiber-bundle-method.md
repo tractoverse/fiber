@@ -1,14 +1,14 @@
-# [`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md) method for `bundle` objects
+# [`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md) method for `bundle` objects
 
-[`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+[`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md)
 method for `bundle` objects
 
 ## Arguments
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/bundle.md) object
-  containing exactly one streamline.
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+  object containing exactly one streamline.
 
 - ...:
 
@@ -17,9 +17,9 @@ method for `bundle` objects
 ## Value
 
 The sole
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 inside `x`.
 
 ## See also
 
-[`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+[`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md)

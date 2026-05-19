@@ -1,12 +1,12 @@
 # Bundle S7 class
 
 A `bundle` is an ordered collection of
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 objects representing a tractogram or white-matter bundle. It stores two
 compartments:
 
 - `@streamlines` — a list of
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   objects.
 
 - `@bundle_data` — a named list of bundle-level metadata (arbitrary R
@@ -23,7 +23,7 @@ bundle(streamlines = list(), bundle_data = list())
 - streamlines:
 
   A list of
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   objects.
 
 - bundle_data:
@@ -48,7 +48,7 @@ The following methods are defined for `bundle` objects:
   `x@n_streamlines`).
 
 - `x[[i]]`: Extracts the `i`-th
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   from the bundle.
 
 - `x[i]`: Returns a new bundle containing only the selected streamlines,

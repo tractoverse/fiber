@@ -2,29 +2,29 @@
 
 ## Overview
 
-The [**fiber**](https://astamm.github.io/fiber/) package provides two
-[S7](https://rconsortium.github.io/S7/) classes — `streamline` and
+The [**fiber**](https://tractoverse.github.io/fiber/) package provides
+two [S7](https://rconsortium.github.io/S7/) classes — `streamline` and
 `bundle` — for representing diffusion MRI tractography data in R,
 together with a concise set of methods:
 
 | Function | Description |
 |----|----|
-| [`streamline()`](https://astamm.github.io/fiber/reference/streamline.md) | Construct a single streamline |
-| [`bundle()`](https://astamm.github.io/fiber/reference/bundle.md) | Construct a bundle of streamlines |
-| [`is_streamline()`](https://astamm.github.io/fiber/reference/is_streamline.md) | Test if an object is a `streamline` |
-| [`is_bundle()`](https://astamm.github.io/fiber/reference/is_bundle.md) | Test if an object is a `bundle` |
-| [`bind_bundles()`](https://astamm.github.io/fiber/reference/bind_bundles.md) | Combine streamlines and/or bundles |
-| [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md) | Resample onto a uniform arc-length grid |
-| [`as_dwifiber()`](https://astamm.github.io/fiber/reference/as_dwifiber.md) | Coerce to `dwiFiber` class from [](https://cran.r-project.org/package=dti) |
-| [`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md) | Coerce to `streamline` class |
-| [`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md) | Coerce to `bundle` class |
-| [`get_euclidean_length()`](https://astamm.github.io/fiber/reference/get_euclidean_length.md) | Straight-line distance between endpoints |
-| [`get_curvilinear_length()`](https://astamm.github.io/fiber/reference/get_curvilinear_length.md) | Total arc-length |
-| [`get_sinuosity()`](https://astamm.github.io/fiber/reference/get_sinuosity.md) | Curvilinear / Euclidean length ratio |
-| [`get_curvature()`](https://astamm.github.io/fiber/reference/get_curvature.md) | Curvature profile or summary scalar |
-| [`get_torsion()`](https://astamm.github.io/fiber/reference/get_torsion.md) | Torsion profile or summary scalar |
-| [`add_shape_descriptors()`](https://astamm.github.io/fiber/reference/add_shape_descriptors.md) | Add curvature, torsion, and/or sinuosity to `@point_data` and/or `@streamline_data` |
-| [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md) | Symmetric Hausdorff distance |
+| [`streamline()`](https://tractoverse.github.io/fiber/reference/streamline.md) | Construct a single streamline |
+| [`bundle()`](https://tractoverse.github.io/fiber/reference/bundle.md) | Construct a bundle of streamlines |
+| [`is_streamline()`](https://tractoverse.github.io/fiber/reference/is_streamline.md) | Test if an object is a `streamline` |
+| [`is_bundle()`](https://tractoverse.github.io/fiber/reference/is_bundle.md) | Test if an object is a `bundle` |
+| [`bind_bundles()`](https://tractoverse.github.io/fiber/reference/bind_bundles.md) | Combine streamlines and/or bundles |
+| [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md) | Resample onto a uniform arc-length grid |
+| [`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md) | Coerce to `dwiFiber` class from [](https://cran.r-project.org/package=dti) |
+| [`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md) | Coerce to `streamline` class |
+| [`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md) | Coerce to `bundle` class |
+| [`get_euclidean_length()`](https://tractoverse.github.io/fiber/reference/get_euclidean_length.md) | Straight-line distance between endpoints |
+| [`get_curvilinear_length()`](https://tractoverse.github.io/fiber/reference/get_curvilinear_length.md) | Total arc-length |
+| [`get_sinuosity()`](https://tractoverse.github.io/fiber/reference/get_sinuosity.md) | Curvilinear / Euclidean length ratio |
+| [`get_curvature()`](https://tractoverse.github.io/fiber/reference/get_curvature.md) | Curvature profile or summary scalar |
+| [`get_torsion()`](https://tractoverse.github.io/fiber/reference/get_torsion.md) | Torsion profile or summary scalar |
+| [`add_shape_descriptors()`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors.md) | Add curvature, torsion, and/or sinuosity to `@point_data` and/or `@streamline_data` |
+| [`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md) | Symmetric Hausdorff distance |
 
 ### Classes
 
@@ -44,12 +44,12 @@ A `bundle` stores:
 ## Installation
 
 You can install the development version of **fiber** from
-[GitHub](https://github.com/astamm/fiber) with:
+[GitHub](https://github.com/tractoverse/fiber) with:
 
 ``` r
 
 # install.packages("pak")
-pak::pak("astamm/fiber")
+pak::pak("tractoverse/fiber")
 ```
 
 ## Quick start

@@ -1,4 +1,4 @@
-# [`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md) method for `bundle` objects
+# [`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md) method for `bundle` objects
 
 Dispatches to one of three behaviours depending on `y`:
 
@@ -6,26 +6,28 @@ Dispatches to one of three behaviours depending on `y`:
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/bundle.md) object.
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+  object.
 
 - y:
 
   `NULL`, a
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md),
-  or a [bundle](https://astamm.github.io/fiber/reference/bundle.md).
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
+  or a
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md).
 
 ## Value
 
 - A [`dist`](https://rdrr.io/r/stats/dist.html) object of size
   `x@n_streamlines` when `y` is `NULL` or a
-  [bundle](https://astamm.github.io/fiber/reference/bundle.md). The
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md). The
   lower triangle stores all pairwise symmetric Hausdorff distances
   (computed in C++). Use
   [`as.matrix()`](https://rdrr.io/r/base/matrix.html) to obtain the full
   \\n \times n\\ matrix.
 
 - A numeric vector of length `x@n_streamlines` when `y` is a
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md).
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md).
 
 ## Details
 
@@ -34,16 +36,17 @@ Dispatches to one of three behaviours depending on `y`:
   computed in C++ via a single linear loop.
 
 - `y` is a
-  [streamline](https://astamm.github.io/fiber/reference/streamline.md):
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md):
   numeric vector of distances from `y` to each streamline in `x`.
 
-- `y` is a [bundle](https://astamm.github.io/fiber/reference/bundle.md):
+- `y` is a
+  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md):
   [`dist`](https://rdrr.io/r/stats/dist.html) object for the
   concatenation of all streamlines from `x` and `y`.
 
 ## See also
 
-[`compute_hausdorff_distance()`](https://astamm.github.io/fiber/reference/compute_hausdorff_distance.md)
+[`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md)
 
 ## Examples
 

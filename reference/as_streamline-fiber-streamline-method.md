@@ -1,13 +1,14 @@
-# [`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md) method for `streamline` objects
+# [`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md) method for `streamline` objects
 
-[`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+[`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md)
 method for `streamline` objects
 
 ## Arguments
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   object.
 
 - ...:
@@ -20,4 +21,4 @@ method for `streamline` objects
 
 ## See also
 
-[`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md)
+[`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md)

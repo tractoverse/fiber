@@ -1,9 +1,9 @@
 # Coerce a streamline or bundle to a `dwiFiber` object
 
 `as_dwifiber()` converts a
-[streamline](https://astamm.github.io/fiber/reference/streamline.md) or
-[bundle](https://astamm.github.io/fiber/reference/bundle.md) to the S4
-class `dwiFiber` from the dti package.
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md) to
+the S4 class `dwiFiber` from the dti package.
 
 ## Usage
 
@@ -15,8 +15,9 @@ as_dwifiber(x, ...)
 
 - x:
 
-  A [streamline](https://astamm.github.io/fiber/reference/streamline.md)
-  or [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+  A
+  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+  or [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
   object.
 
 - ...:
@@ -44,8 +45,8 @@ b-values, etc.) are filled with neutral placeholders.
 
 ## See also
 
-[`as_streamline()`](https://astamm.github.io/fiber/reference/as_streamline.md),
-[`as_bundle()`](https://astamm.github.io/fiber/reference/as_bundle.md)
+[`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md),
+[`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md)
 
 ## Examples
 

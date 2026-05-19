@@ -1,27 +1,30 @@
-# [`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md) method for `bundle` objects
+# [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md) method for `bundle` objects
 
 Resamples every
-[streamline](https://astamm.github.io/fiber/reference/streamline.md)
-inside a [bundle](https://astamm.github.io/fiber/reference/bundle.md)
-onto a common uniform arc-length grid. See
-[`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+[streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
+inside a
+[bundle](https://tractoverse.github.io/fiber/reference/bundle.md) onto a
+common uniform arc-length grid. See
+[`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
 for the full parameter documentation.
 
 ## Arguments
 
 - x:
 
-  A [bundle](https://astamm.github.io/fiber/reference/bundle.md) object.
+  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+  object.
 
 - n_points:
 
   Number of equally-spaced arc-length points to use.
 
   - For a single
-    [streamline](https://astamm.github.io/fiber/reference/streamline.md),
+    [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
     defaults to `nrow(x@points)`.
 
-  - For a [bundle](https://astamm.github.io/fiber/reference/bundle.md),
+  - For a
+    [bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
     defaults to the rounded mean number of points across all
     streamlines.
 
@@ -29,7 +32,7 @@ for the full parameter documentation.
 
 ## Value
 
-A [bundle](https://astamm.github.io/fiber/reference/bundle.md)
+A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
 reparametrized onto the new grid. Every streamline in the returned
 bundle has exactly `n_points` rows in `@points` (defaulting to the
 rounded mean number of points across all streamlines when `n_points` is
@@ -37,7 +40,7 @@ rounded mean number of points across all streamlines when `n_points` is
 
 ## See also
 
-[`reparametrize()`](https://astamm.github.io/fiber/reference/reparametrize.md)
+[`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
 
 ## Examples
 
