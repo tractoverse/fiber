@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="S7 Data Structures for Diffusion MRI Tractography">
-<meta name="description" content="Provides two S7 classes — streamline and bundle — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, and combination of streamlines or bundles into a single bundle.">
-<meta property="og:description" content="Provides two S7 classes — streamline and bundle — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, and combination of streamlines or bundles into a single bundle.">
+<meta name="description" content="Provides two S7 classes — streamline and bundle — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, combination of streamlines or bundles into a single bundle, and coercion to and from the dwiFiber S4 class of the dti package. See Dell'Acqua, F., Descoteaux, M. and Leemans, A. (2024) &quot;Handbook of Diffusion MR Tractography&quot; &lt;doi:10.1016/C2018-0-02520-7&gt; for more about the mathematical and computational underpinnings of diffusion MRI tractography.">
+<meta property="og:description" content="Provides two S7 classes — streamline and bundle — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, combination of streamlines or bundles into a single bundle, and coercion to and from the dwiFiber S4 class of the dti package. See Dell'Acqua, F., Descoteaux, M. and Leemans, A. (2024) &quot;Handbook of Diffusion MR Tractography&quot; &lt;doi:10.1016/C2018-0-02520-7&gt; for more about the mathematical and computational underpinnings of diffusion MRI tractography.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">fiber</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,8 +57,8 @@
 <p>The <a href="https://astamm.github.io/fiber/"><strong>fiber</strong></a> package provides two <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> classes — <code>streamline</code> and <code>bundle</code> — for representing diffusion MRI tractography data in R, together with a concise set of methods:</p>
 <table class="table">
 <colgroup>
-<col width="40%">
-<col width="60%">
+<col width="50%">
+<col width="50%">
 </colgroup>
 <thead><tr>
 <th>Function</th>
@@ -66,12 +66,22 @@
 </tr></thead>
 <tbody>
 <tr>
-<td><code>new_streamline()</code></td>
+<td><code><a href="reference/streamline.html">streamline()</a></code></td>
 <td>Construct a single streamline</td>
 </tr>
 <tr>
-<td><code>new_bundle()</code></td>
+<td><code><a href="reference/bundle.html">bundle()</a></code></td>
 <td>Construct a bundle of streamlines</td>
+</tr>
+<tr>
+<td><code><a href="reference/is_streamline.html">is_streamline()</a></code></td>
+<td>Test if an object is a <code>streamline</code>
+</td>
+</tr>
+<tr>
+<td><code><a href="reference/is_bundle.html">is_bundle()</a></code></td>
+<td>Test if an object is a <code>bundle</code>
+</td>
 </tr>
 <tr>
 <td><code><a href="reference/bind_bundles.html">bind_bundles()</a></code></td>
@@ -80,6 +90,19 @@
 <tr>
 <td><code><a href="reference/reparametrize.html">reparametrize()</a></code></td>
 <td>Resample onto a uniform arc-length grid</td>
+</tr>
+<tr>
+<td><code><a href="reference/as_dwifiber.html">as_dwifiber()</a></code></td>
+<td>Coerce to <code>dwiFiber</code> class from <a href="https://cran.r-project.org/package=dti" class="external-link"></a>
+</td>
+</tr>
+<tr>
+<td><code><a href="reference/as_streamline.html">as_streamline()</a></code></td>
+<td>Coerce to <code>streamline</code> class</td>
+</tr>
+<tr>
+<td><code><a href="reference/as_bundle.html">as_bundle()</a></code></td>
+<td>Coerce to <code>bundle</code> class</td>
 </tr>
 <tr>
 <td><code><a href="reference/get_euclidean_length.html">get_euclidean_length()</a></code></td>
@@ -102,7 +125,12 @@
 <td>Torsion profile or summary scalar</td>
 </tr>
 <tr>
-<td><code>get_hausdorff_distance()</code></td>
+<td><code><a href="reference/add_shape_descriptors.html">add_shape_descriptors()</a></code></td>
+<td>Add curvature, torsion, and/or sinuosity to <code>@point_data</code> and/or <code>@streamline_data</code>
+</td>
+</tr>
+<tr>
+<td><code><a href="reference/compute_hausdorff_distance.html">compute_hausdorff_distance()</a></code></td>
 <td>Symmetric Hausdorff distance</td>
 </tr>
 </tbody>
@@ -144,7 +172,7 @@
 <span></span>
 <span><span class="co"># Build a helix streamline (50 points)</span></span>
 <span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">sl</span> <span class="op">&lt;-</span> <span class="fu">new_streamline</span><span class="op">(</span></span>
+<span><span class="va">sl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/streamline.html">streamline</a></span><span class="op">(</span></span>
 <span>  points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span>, Z <span class="op">=</span> <span class="va">t</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sl</span></span>
@@ -156,16 +184,11 @@
 <span><span class="fu"><a href="reference/get_sinuosity.html">get_sinuosity</a></span><span class="op">(</span><span class="va">sl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 6.358015</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="reference/get_curvature.html">get_curvature</a></span><span class="op">(</span><span class="va">sl</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;           s    curvature</span></span>
-<span><span class="co">#&gt; 1 0.0000000 1.537338e-05</span></span>
-<span><span class="co">#&gt; 2 0.1297554 1.625127e-02</span></span>
-<span><span class="co">#&gt; 3 0.2595108 4.592627e-02</span></span>
-<span><span class="co">#&gt; 4 0.3892662 8.636675e-02</span></span>
-<span><span class="co">#&gt; 5 0.5190216 1.352354e-01</span></span>
-<span><span class="co">#&gt; 6 0.6487770 1.906608e-01</span></span>
+<span><span class="co">#&gt; [1] 1.537338e-05 1.625127e-02 4.592627e-02 8.636675e-02 1.352354e-01</span></span>
+<span><span class="co">#&gt; [6] 1.906608e-01</span></span>
 <span></span>
 <span><span class="co"># Bundle two streamlines</span></span>
-<span><span class="va">sl2</span> <span class="op">&lt;-</span> <span class="fu">new_streamline</span><span class="op">(</span></span>
+<span><span class="va">sl2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/streamline.html">streamline</a></span><span class="op">(</span></span>
 <span>  points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.1</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.1</span>, Z <span class="op">=</span> <span class="va">t</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bind_bundles.html">bind_bundles</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span></span>
@@ -178,7 +201,7 @@
 <span><span class="co">#&gt; &lt;bundle [2 streamlines | 20–20 pts/streamline]&gt;</span></span>
 <span></span>
 <span><span class="co"># Hausdorff distance</span></span>
-<span><span class="fu">get_hausdorff_distance</span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/compute_hausdorff_distance.html">compute_hausdorff_distance</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.1</span></span></code></pre></div>
 </div>
 </div>

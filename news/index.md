@@ -1,5 +1,16 @@
 # Changelog
 
+## fiber 0.1.1
+
+- Improved documentation of S7 classes, generics and methods following
+  the release of roxygen2 8.0.0.
+- Removed redundant `new_streamline()` and `new_bundle()` constructors.
+- Added coercers from and to the `dwiFiber` S4 class of the
+  [](https://cran.r-project.org/package=dti) package.
+- Refactored shape descriptors API.
+- Rewrote pairwise Hausdorff distance matrix using C++ via the
+  [](https://cran.r-project.org/package=cpp11) package.
+
 ## fiber 0.1.0
 
 ### Breaking changes
