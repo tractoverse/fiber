@@ -16,9 +16,11 @@ returned.}
 \value{
 \itemize{
 \item A non-negative numeric scalar when both \code{x} and \code{y} are \link{streamline}s.
-\item A symmetric numeric distance matrix when \code{x} is a \link{bundle} and \code{y} is
-\code{NULL} or a \link{bundle}.
-\item A numeric vector when \code{x} is a \link{bundle} and \code{y} is a \link{streamline}.
+\item A \code{\link[stats:dist]{dist}} object of size \eqn{n} when \code{x} is a \link{bundle}
+and \code{y} is \code{NULL} or a \link{bundle} (use \code{\link[=as.matrix]{as.matrix()}} to expand to a full
+\eqn{n \times n} matrix).
+\item A numeric vector of length \eqn{n} when \code{x} is a \link{bundle} and \code{y} is
+a \link{streamline}.
 }
 }
 \description{
@@ -49,22 +51,23 @@ concatenation of all streamlines from \code{x} and \code{y} as one collection.
 \examples{
 pts1 <- matrix(runif(30), ncol = 3)
 colnames(pts1) <- c("X", "Y", "Z")
-sl1 <- new_streamline(points = pts1)
+sl1 <- streamline(points = pts1)
 pts2 <- matrix(runif(30), ncol = 3)
 colnames(pts2) <- c("X", "Y", "Z")
-sl2 <- new_streamline(points = pts2)
+sl2 <- streamline(points = pts2)
 
 # streamline x streamline -> scalar
 compute_hausdorff_distance(sl1, sl2)
 
-# bundle x missing -> pairwise matrix
-b <- new_bundle(streamlines = list(sl1, sl2))
+# bundle x missing -> pairwise dist object
+b <- bundle(streamlines = list(sl1, sl2))
 compute_hausdorff_distance(b)
+as.matrix(compute_hausdorff_distance(b))
 
 # bundle x streamline -> vector
 compute_hausdorff_distance(b, sl1)
 
 # bundle x bundle -> combined pairwise matrix
-b2 <- new_bundle(streamlines = list(sl2))
+b2 <- bundle(streamlines = list(sl2))
 compute_hausdorff_distance(b, b2)
 }

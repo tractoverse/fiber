@@ -10,19 +10,42 @@
 \item{y}{\code{NULL}, a \link{streamline}, or a \link{bundle}.}
 }
 \value{
-See description above.
+\itemize{
+\item A \code{\link[stats:dist]{dist}} object of size \code{x@n_streamlines} when \code{y} is
+\code{NULL} or a \link{bundle}. The lower triangle stores all pairwise symmetric
+Hausdorff distances (computed in C++). Use \code{\link[=as.matrix]{as.matrix()}} to obtain the
+full \eqn{n \times n} matrix.
+\item A numeric vector of length \code{x@n_streamlines} when \code{y} is a \link{streamline}.
+}
 }
 \description{
 Dispatches to one of three behaviours depending on \code{y}:
 }
 \details{
 \itemize{
-\item \code{y = NULL}: pairwise \eqn{n \times n} distance matrix within \code{x}.
+\item \code{y = NULL}: pairwise distances within \code{x} as a \code{\link[stats:dist]{dist}}
+object of size \eqn{n}, computed in C++ via a single linear loop.
 \item \code{y} is a \link{streamline}: numeric vector of distances from \code{y} to each
 streamline in \code{x}.
-\item \code{y} is a \link{bundle}: \eqn{(n_x + n_y) \times (n_x + n_y)} pairwise matrix
-across the concatenation of all streamlines from \code{x} and \code{y}.
+\item \code{y} is a \link{bundle}: \code{\link[stats:dist]{dist}} object for the concatenation
+of all streamlines from \code{x} and \code{y}.
 }
+}
+\examples{
+pts1 <- matrix(runif(30), ncol = 3)
+colnames(pts1) <- c("X", "Y", "Z")
+pts2 <- matrix(runif(30), ncol = 3)
+colnames(pts2) <- c("X", "Y", "Z")
+sl1 <- streamline(points = pts1)
+sl2 <- streamline(points = pts2)
+b <- bundle(streamlines = list(sl1, sl2))
+
+# pairwise dist object (size 2)
+compute_hausdorff_distance(b)
+as.matrix(compute_hausdorff_distance(b))
+
+# distances from sl1 to each streamline in b
+compute_hausdorff_distance(b, sl1)
 }
 \seealso{
 \code{\link[=compute_hausdorff_distance]{compute_hausdorff_distance()}}

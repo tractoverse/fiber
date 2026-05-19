@@ -15,3 +15,9 @@ is_streamline(x)
 \description{
 Test whether an object is a streamline
 }
+\examples{
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl <- streamline(points = pts)
+is_streamline(sl)     # TRUE
+is_streamline(42)     # FALSE
+}

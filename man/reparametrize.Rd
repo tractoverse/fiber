@@ -34,16 +34,16 @@ following classes:
 }
 }
 \examples{
-#' # reparametrize a single streamline to 10 points
+# reparametrize a single streamline to 10 points
 pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
-sl <- new_streamline(points = pts)
+sl <- streamline(points = pts)
 sl_reparam <- reparametrize(sl, n_points = 10)
 # reparametrize a bundle to the mean number of points across its streamlines
-sl1 <- new_streamline(points = pts)
+sl1 <- streamline(points = pts)
 pts2 <- matrix(runif(60), ncol = 3)
 colnames(pts2) <- c("X", "Y", "Z")
-sl2 <- new_streamline(points = pts2)
-bundle <- new_bundle(streamlines = list(sl1, sl2))
-bundle_reparam <- reparametrize(bundle)
+sl2 <- streamline(points = pts2)
+b <- bundle(streamlines = list(sl1, sl2))
+bundle_reparam <- reparametrize(b)
 }

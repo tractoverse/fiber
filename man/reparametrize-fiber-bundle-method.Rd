@@ -17,11 +17,25 @@ all streamlines.
 Pass \code{NULL} to use these defaults explicitly.}
 }
 \value{
-A \link{bundle} reparametrized onto the new grid.
+A \link{bundle} reparametrized onto the new grid. Every streamline in the
+returned bundle has exactly \code{n_points} rows in \verb{@points} (defaulting to
+the rounded mean number of points across all streamlines when \code{n_points}
+is \code{NULL}).
 }
 \description{
 Resamples every \link{streamline} inside a \link{bundle} onto a common uniform
 arc-length grid. See \code{\link[=reparametrize]{reparametrize()}} for the full parameter documentation.
+}
+\examples{
+pts1 <- matrix(runif(30), ncol = 3)
+colnames(pts1) <- c("X", "Y", "Z")
+pts2 <- matrix(runif(60), ncol = 3)
+colnames(pts2) <- c("X", "Y", "Z")
+b <- bundle(streamlines = list(streamline(points = pts1),
+                                streamline(points = pts2)))
+b_reparam <- reparametrize(b, n_points = 15)
+b_reparam[[1]]@n_points  # 15
+b_reparam[[2]]@n_points  # 15
 }
 \seealso{
 \code{\link[=reparametrize]{reparametrize()}}

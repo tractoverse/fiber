@@ -10,7 +10,9 @@ get_curvature(x)
 \item{x}{A \link{streamline} object.}
 }
 \value{
-A numeric scalar \eqn{\ge 1}.
+A non-negative numeric vector of length \code{x@n_points} giving the
+curvature \eqn{\kappa(s)} at each sampled point along the streamline.
+Higher values indicate sharper bending at that location.
 }
 \description{
 \code{get_curvature()} is function that computes the curvature of a
@@ -21,6 +23,6 @@ splines (3 degrees of freedom per component).
 \examples{
 pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
-sl <- new_streamline(points = pts)
+sl <- streamline(points = pts)
 get_curvature(sl)
 }

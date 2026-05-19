@@ -19,6 +19,6 @@ A non-negative numeric scalar.
 \examples{
 pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
-sl <- new_streamline(points = pts)
+sl <- streamline(points = pts)
 get_euclidean_length(sl)
 }

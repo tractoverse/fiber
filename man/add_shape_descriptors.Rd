@@ -41,19 +41,19 @@ each individual shape descriptor function (e.g. \code{get_euclidean_length()},
 # add multiple shape descriptors to a single streamline
 pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
-sl <- new_streamline(points = pts)
+sl <- streamline(points = pts)
 sl <- add_shape_descriptors(
   sl,
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
 # add multiple shape descriptors to a bundle
-sl1 <- new_streamline(points = pts)
+sl1 <- streamline(points = pts)
 pts2 <- matrix(runif(60), ncol = 3)
 colnames(pts2) <- c("X", "Y", "Z")
-sl2 <- new_streamline(points = pts2)
-bundle <- new_bundle(streamlines = list(sl1, sl2))
-bundle <- add_shape_descriptors(
-  bundle,
+sl2 <- streamline(points = pts2)
+b <- bundle(streamlines = list(sl1, sl2))
+b <- add_shape_descriptors(
+  b,
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
 }

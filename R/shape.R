@@ -14,7 +14,7 @@ NULL
 #' @examples
 #' pts <- matrix(runif(30), ncol = 3)
 #' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- new_streamline(points = pts)
+#' sl <- streamline(points = pts)
 #' get_euclidean_length(sl)
 get_euclidean_length <- function(x) {
   if (!is_streamline(x)) {
@@ -37,7 +37,7 @@ get_euclidean_length <- function(x) {
 #' @examples
 #' pts <- matrix(runif(30), ncol = 3)
 #' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- new_streamline(points = pts)
+#' sl <- streamline(points = pts)
 #' get_curvilinear_length(sl)
 get_curvilinear_length <- function(x) {
   if (!is_streamline(x)) {
@@ -61,7 +61,7 @@ get_curvilinear_length <- function(x) {
 #' @examples
 #' pts <- matrix(runif(30), ncol = 3)
 #' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- new_streamline(points = pts)
+#' sl <- streamline(points = pts)
 #' get_sinuosity(sl)
 get_sinuosity <- function(x) {
   if (!is_streamline(x)) {
@@ -78,12 +78,14 @@ get_sinuosity <- function(x) {
 #' splines (3 degrees of freedom per component).
 #'
 #' @param x A [streamline] object.
-#' @returns A numeric scalar \eqn{\ge 1}.
+#' @returns A non-negative numeric vector of length `x@n_points` giving the
+#'   curvature \eqn{\kappa(s)} at each sampled point along the streamline.
+#'   Higher values indicate sharper bending at that location.
 #' @export
 #' @examples
 #' pts <- matrix(runif(30), ncol = 3)
 #' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- new_streamline(points = pts)
+#' sl <- streamline(points = pts)
 #' get_curvature(sl)
 get_curvature <- function(x) {
   if (!is_streamline(x)) {
@@ -118,12 +120,15 @@ get_curvature <- function(x) {
 #' splines (4 degrees of freedom per component).
 #'
 #' @param x A [streamline] object.
-#' @returns A numeric scalar \eqn{\ge 1}.
+#' @returns A numeric vector of length `x@n_points` giving the torsion
+#'   \eqn{\tau(s)} at each sampled point along the streamline. Positive values
+#'   indicate right-handed twisting; negative values indicate left-handed
+#'   twisting; zero indicates a planar curve at that location.
 #' @export
 #' @examples
 #' pts <- matrix(runif(30), ncol = 3)
 #' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- new_streamline(points = pts)
+#' sl <- streamline(points = pts)
 #' get_torsion(sl)
 get_torsion <- function(x) {
   if (!is_streamline(x)) {
@@ -185,19 +190,19 @@ get_torsion <- function(x) {
 #' # add multiple shape descriptors to a single streamline
 #' pts <- matrix(runif(30), ncol = 3)
 #' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- new_streamline(points = pts)
+#' sl <- streamline(points = pts)
 #' sl <- add_shape_descriptors(
 #'   sl,
 #'   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 #' )
 #' # add multiple shape descriptors to a bundle
-#' sl1 <- new_streamline(points = pts)
+#' sl1 <- streamline(points = pts)
 #' pts2 <- matrix(runif(60), ncol = 3)
 #' colnames(pts2) <- c("X", "Y", "Z")
-#' sl2 <- new_streamline(points = pts2)
-#' bundle <- new_bundle(streamlines = list(sl1, sl2))
-#' bundle <- add_shape_descriptors(
-#'   bundle,
+#' sl2 <- streamline(points = pts2)
+#' b <- bundle(streamlines = list(sl1, sl2))
+#' b <- add_shape_descriptors(
+#'   b,
 #'   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 #' )
 add_shape_descriptors <- S7::new_generic(
@@ -253,11 +258,13 @@ S7::method(add_shape_descriptors, streamline) <- function(
     } else if (desc == "torsion") {
       x@point_data$torsion <- get_torsion(x)
     } else {
-      cli::cli_warn(
-        "Unknown shape descriptor: {.val {desc}}. Currently
-      available descriptors are: {.val euclidean_length},
-      {.val curvilinear_length}, {.val sinuosity}, {.val curvature}, and
-      {.val torsion}."
+      warning(
+        cli::format_inline(
+          "Unknown shape descriptor: {.val {desc}}. Currently available ",
+          "descriptors are: {.val euclidean_length}, {.val curvilinear_length}, ",
+          "{.val sinuosity}, {.val curvature}, and {.val torsion}."
+        ),
+        call. = FALSE
       )
     }
   }
@@ -326,30 +333,33 @@ S7::method(add_shape_descriptors, bundle) <- function(
 #'   returned.
 #' @returns
 #'   - A non-negative numeric scalar when both `x` and `y` are [streamline]s.
-#'   - A symmetric numeric distance matrix when `x` is a [bundle] and `y` is
-#'     `NULL` or a [bundle].
-#'   - A numeric vector when `x` is a [bundle] and `y` is a [streamline].
+#'   - A [`dist`][stats::dist] object of size \eqn{n} when `x` is a [bundle]
+#'     and `y` is `NULL` or a [bundle] (use [as.matrix()] to expand to a full
+#'     \eqn{n \times n} matrix).
+#'   - A numeric vector of length \eqn{n} when `x` is a [bundle] and `y` is
+#'     a [streamline].
 #' @export
 #' @examples
 #' pts1 <- matrix(runif(30), ncol = 3)
 #' colnames(pts1) <- c("X", "Y", "Z")
-#' sl1 <- new_streamline(points = pts1)
+#' sl1 <- streamline(points = pts1)
 #' pts2 <- matrix(runif(30), ncol = 3)
 #' colnames(pts2) <- c("X", "Y", "Z")
-#' sl2 <- new_streamline(points = pts2)
+#' sl2 <- streamline(points = pts2)
 #'
 #' # streamline x streamline -> scalar
 #' compute_hausdorff_distance(sl1, sl2)
 #'
-#' # bundle x missing -> pairwise matrix
-#' b <- new_bundle(streamlines = list(sl1, sl2))
+#' # bundle x missing -> pairwise dist object
+#' b <- bundle(streamlines = list(sl1, sl2))
 #' compute_hausdorff_distance(b)
+#' as.matrix(compute_hausdorff_distance(b))
 #'
 #' # bundle x streamline -> vector
 #' compute_hausdorff_distance(b, sl1)
 #'
 #' # bundle x bundle -> combined pairwise matrix
-#' b2 <- new_bundle(streamlines = list(sl2))
+#' b2 <- bundle(streamlines = list(sl2))
 #' compute_hausdorff_distance(b, b2)
 compute_hausdorff_distance <- S7::new_generic(
   "compute_hausdorff_distance",
@@ -365,11 +375,23 @@ compute_hausdorff_distance <- S7::new_generic(
 #'
 #' @param x A [streamline] object.
 #' @param y A [streamline] object.
-#' @returns A non-negative numeric scalar.
+#' @returns A non-negative numeric scalar equal to
+#'   \eqn{\max(d_H(x \to y),\, d_H(y \to x))}, where
+#'   \eqn{d_H(A \to B) = \max_{a \in A} \min_{b \in B} \|a - b\|_2} is the
+#'   directed Hausdorff distance. The core computation is performed in C++
+#'   via `hausdorff_distance_cpp()`.
 #' @seealso [compute_hausdorff_distance()]
 #' @name compute_hausdorff_distance-fiber-streamline-method
 #' @aliases compute_hausdorff_distance,fiber::streamline-method
 #' @usage NULL
+#' @examples
+#' pts1 <- matrix(runif(30), ncol = 3)
+#' colnames(pts1) <- c("X", "Y", "Z")
+#' pts2 <- matrix(runif(30), ncol = 3)
+#' colnames(pts2) <- c("X", "Y", "Z")
+#' sl1 <- streamline(points = pts1)
+#' sl2 <- streamline(points = pts2)
+#' compute_hausdorff_distance(sl1, sl2)
 S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
   if (!is_streamline(y)) {
     cli::cli_abort(c(
@@ -382,10 +404,7 @@ S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
   xyz_cols <- c("X", "Y", "Z")
   mat_x <- x@points[, xyz_cols, drop = FALSE]
   mat_y <- y@points[, xyz_cols, drop = FALSE]
-  max(
-    .directed_hausdorff(mat_x, mat_y),
-    .directed_hausdorff(mat_y, mat_x)
-  )
+  hausdorff_distance_cpp(mat_x, mat_y)
 }
 
 # --- method: bundle ---------------------------------------------------------
@@ -394,43 +413,71 @@ S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
 #'
 #' Dispatches to one of three behaviours depending on `y`:
 #'
-#' - `y = NULL`: pairwise \eqn{n \times n} distance matrix within `x`.
+#' - `y = NULL`: pairwise distances within `x` as a [`dist`][stats::dist]
+#'   object of size \eqn{n}, computed in C++ via a single linear loop.
 #' - `y` is a [streamline]: numeric vector of distances from `y` to each
 #'   streamline in `x`.
-#' - `y` is a [bundle]: \eqn{(n_x + n_y) \times (n_x + n_y)} pairwise matrix
-#'   across the concatenation of all streamlines from `x` and `y`.
+#' - `y` is a [bundle]: [`dist`][stats::dist] object for the concatenation
+#'   of all streamlines from `x` and `y`.
 #'
 #' @param x A [bundle] object.
 #' @param y `NULL`, a [streamline], or a [bundle].
-#' @returns See description above.
+#' @returns
+#'   - A [`dist`][stats::dist] object of size `x@n_streamlines` when `y` is
+#'     `NULL` or a [bundle]. The lower triangle stores all pairwise symmetric
+#'     Hausdorff distances (computed in C++). Use [as.matrix()] to obtain the
+#'     full \eqn{n \times n} matrix.
+#'   - A numeric vector of length `x@n_streamlines` when `y` is a [streamline].
 #' @seealso [compute_hausdorff_distance()]
 #' @name compute_hausdorff_distance-fiber-bundle-method
 #' @aliases compute_hausdorff_distance,fiber::bundle-method
 #' @usage NULL
+#' @examples
+#' pts1 <- matrix(runif(30), ncol = 3)
+#' colnames(pts1) <- c("X", "Y", "Z")
+#' pts2 <- matrix(runif(30), ncol = 3)
+#' colnames(pts2) <- c("X", "Y", "Z")
+#' sl1 <- streamline(points = pts1)
+#' sl2 <- streamline(points = pts2)
+#' b <- bundle(streamlines = list(sl1, sl2))
+#'
+#' # pairwise dist object (size 2)
+#' compute_hausdorff_distance(b)
+#' as.matrix(compute_hausdorff_distance(b))
+#'
+#' # distances from sl1 to each streamline in b
+#' compute_hausdorff_distance(b, sl1)
 S7::method(compute_hausdorff_distance, bundle) <- function(x, y = NULL) {
+  xyz_cols <- c("X", "Y", "Z")
   if (is.null(y)) {
-    # --- bundle x missing: symmetric pairwise matrix ------------------------
+    # --- bundle x missing: dist object via C++ single-loop ------------------
     sls <- x@streamlines
     n <- length(sls)
-    mat <- matrix(0, nrow = n, ncol = n)
-    for (i in seq_len(n - 1L)) {
-      for (j in seq(i + 1L, n)) {
-        d <- compute_hausdorff_distance(sls[[i]], sls[[j]])
-        mat[i, j] <- d
-        mat[j, i] <- d
-      }
-    }
-    mat
+    mats <- lapply(sls, function(sl) sl@points[, xyz_cols, drop = FALSE])
+    dv <- pairwise_hausdorff_cpp(mats)
+    structure(
+      dv,
+      class = "dist",
+      Size = n,
+      Diag = FALSE,
+      Upper = FALSE,
+      method = "hausdorff"
+    )
   } else if (is_streamline(y)) {
     # --- bundle x streamline: vector of distances ---------------------------
+    mat_y <- y@points[, xyz_cols, drop = FALSE]
     vapply(
       x@streamlines,
-      compute_hausdorff_distance,
-      numeric(1L),
-      y = y
+      function(sl) {
+        hausdorff_distance_cpp(
+          sl@points[, xyz_cols, drop = FALSE],
+          mat_y
+        )
+      },
+      numeric(1L)
     )
   } else if (is_bundle(y)) {
-    # --- bundle x bundle: combined pairwise matrix --------------------------
+    # --- bundle x bundle: combined dist object ------------------------------
     combined <- bind_bundles(x, y)
     compute_hausdorff_distance(combined)
   } else {

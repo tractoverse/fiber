@@ -33,8 +33,8 @@ concise set of methods:
 
 | Function | Description |
 |---|---|
-| `new_streamline()` | Construct a single streamline |
-| `new_bundle()` | Construct a bundle of streamlines |
+| `streamline()` | Construct a single streamline |
+| `bundle()` | Construct a bundle of streamlines |
 | `bind_bundles()` | Combine streamlines and/or bundles |
 | `reparametrize()` | Resample onto a uniform arc-length grid |
 | `get_euclidean_length()` | Straight-line distance between endpoints |

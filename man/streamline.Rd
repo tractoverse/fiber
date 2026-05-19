@@ -2,8 +2,6 @@
 % Please edit documentation in R/streamline.R
 \name{streamline}
 \alias{streamline}
-\alias{format,fiber::streamline-method}
-\alias{print,fiber::streamline-method}
 \title{Streamline S7 class}
 \usage{
 streamline(points = NULL, point_data = list(), streamline_data = list())
@@ -32,8 +30,49 @@ at every point).
 \item \verb{@streamline_data} — a named list of numeric scalars (length-1 vectors)
 holding per-streamline attributes (e.g. a tract-level weight or mean FA).
 }
-
-Use the \code{\link[=new_streamline]{new_streamline()}} constructor to create instances. Properties are
-accessed with the \code{@} operator: \code{sl@points}, \code{sl@point_data},
-\code{sl@streamline_data}.
 }
+\section{Methods for standard generics}{
+
+The following methods are defined for \code{streamline} objects:
+\itemize{
+\item \code{format(x, ...)}: Returns a compact character string such as
+\verb{<streamline [10 pts] | point: FA>}.
+\item \code{print(x, ...)}: Prints the formatted string to the console and
+invisibly returns \code{x}.
+}
+}
+
+\examples{
+# Create a streamline with 5 points and some attributes
+sl <- streamline(
+  points = matrix(
+    c(0, 0, 0,
+      1, 0, 0,
+      1, 1, 0,
+      1, 1, 1,
+      0, 1, 1),
+    ncol = 3,
+    byrow = TRUE,
+    dimnames = list(NULL, c("X", "Y", "Z"))
+  ),
+  point_data = list(FA = c(0.5, 0.6, 0.7, 0.8, 0.9)),
+  streamline_data = list(mean_FA = 0.7)
+)
+sl@n_points  # 5
+sl@point_attributes  # "FA"
+sl@streamline_attributes  # "mean_FA"
+
+# format() and print() methods
+format(sl)  # "<streamline [5 pts] | point: FA | streamline: mean_FA>"
+print(sl)
+}
+\section{Additional properties}{
+
+\describe{
+\item{\code{@n_points}}{An integer scalar giving the number of points in the streamline (read-only).}
+
+\item{\code{@point_attributes}}{A character vector of the names of the per-point attributes (read-only).}
+
+\item{\code{@streamline_attributes}}{A character vector of the names of the per-streamline attributes (read-only).}
+}}
+

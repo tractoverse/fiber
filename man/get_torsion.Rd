@@ -10,7 +10,10 @@ get_torsion(x)
 \item{x}{A \link{streamline} object.}
 }
 \value{
-A numeric scalar \eqn{\ge 1}.
+A numeric vector of length \code{x@n_points} giving the torsion
+\eqn{\tau(s)} at each sampled point along the streamline. Positive values
+indicate right-handed twisting; negative values indicate left-handed
+twisting; zero indicates a planar curve at that location.
 }
 \description{
 \code{get_torsion()} is function that computes the torsion of a
@@ -21,6 +24,6 @@ splines (4 degrees of freedom per component).
 \examples{
 pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
-sl <- new_streamline(points = pts)
+sl <- streamline(points = pts)
 get_torsion(sl)
 }

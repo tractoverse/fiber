@@ -15,3 +15,10 @@ is_bundle(x)
 \description{
 Test whether an object is a bundle
 }
+\examples{
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl <- streamline(points = pts)
+b <- bundle(streamlines = list(sl))
+is_bundle(b)   # TRUE
+is_bundle(sl)  # FALSE
+}

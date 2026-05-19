@@ -29,8 +29,12 @@ Suggests:
     tinytest
 Collate: 
     'bundle.R'
+    'cpp11.R'
+    'fiber-package.R'
     'streamline.R'
     'parametrize.R'
     'shape.R'
     'utils.R'
     'zzz.R'
+LinkingTo: 
+    cpp11

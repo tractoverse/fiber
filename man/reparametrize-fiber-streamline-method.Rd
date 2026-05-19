@@ -17,11 +17,21 @@ all streamlines.
 Pass \code{NULL} to use these defaults explicitly.}
 }
 \value{
-A \link{streamline} reparametrized onto the new grid.
+A \link{streamline} reparametrized onto the new grid. The returned
+object has the same class as the input but with \verb{@points} resampled to
+exactly \code{n_points} rows and all \verb{@point_data} vectors resampled
+correspondingly via linear interpolation.
 }
 \description{
 Resamples a single \link{streamline} onto a uniform arc-length grid. See
 \code{\link[=reparametrize]{reparametrize()}} for the full parameter documentation.
+}
+\examples{
+pts <- matrix(runif(30), ncol = 3)
+colnames(pts) <- c("X", "Y", "Z")
+sl <- streamline(points = pts, point_data = list(FA = runif(10)))
+sl_reparam <- reparametrize(sl, n_points = 20)
+sl_reparam@n_points  # 20
 }
 \seealso{
 \code{\link[=reparametrize]{reparametrize()}}

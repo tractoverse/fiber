@@ -2,11 +2,6 @@
 % Please edit documentation in R/bundle.R
 \name{bundle}
 \alias{bundle}
-\alias{format,fiber::bundle-method}
-\alias{print,fiber::bundle-method}
-\alias{length,fiber::bundle-method}
-\alias{[[,fiber::bundle-method}
-\alias{[,fiber::bundle-method}
 \title{Bundle S7 class}
 \usage{
 bundle(streamlines = list(), bundle_data = list())
@@ -27,6 +22,54 @@ tractogram or white-matter bundle. It stores two compartments:
 \item \verb{@bundle_data} — a named list of bundle-level metadata (arbitrary R
 objects, e.g. the affine transform used during tracking).
 }
-
-Use the \code{\link[=new_bundle]{new_bundle()}} constructor to create instances.
 }
+\section{Methods for standard generics}{
+
+The following methods are defined for \code{bundle} objects:
+\itemize{
+\item \code{format(x, ...)}: Returns a compact character string such as
+\verb{<bundle [2 streamlines | 10–20 pts/streamline]>}.
+\item \code{print(x, ...)}: Prints the formatted string to the console and
+invisibly returns \code{x}.
+\item \code{length(x)}: Returns the number of streamlines (equivalent to
+\code{x@n_streamlines}).
+\item \code{x[[i]]}: Extracts the \code{i}-th \link{streamline} from the bundle.
+\item \code{x[i]}: Returns a new \link{bundle} containing only the selected
+streamlines, preserving \verb{@bundle_data}.
+}
+}
+
+\examples{
+pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl <- streamline(points = pts)
+b <- bundle(streamlines = list(sl))
+b@n_streamlines  # 1
+b@bundle_attributes  # NULL (no bundle-level attributes)
+
+# bundle_data is stored
+b2 <- bundle(
+  streamlines = list(sl),
+  bundle_data = list(subject = "sub-01")
+)
+b2@bundle_data$subject  # "sub-01"
+
+# format(), print(), length() and indexing methods
+format(b2)
+print(b2)
+length(b2)   # 1
+b2[[1]]      # first streamline
+
+# subsetting preserves bundle_data
+pts2 <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+sl2 <- streamline(points = pts2)
+b3 <- bundle(streamlines = list(sl, sl2), bundle_data = list(subject = "sub-01"))
+b3[1]@n_streamlines  # 1, bundle_data preserved
+}
+\section{Additional properties}{
+
+\describe{
+\item{\code{@n_streamlines}}{An integer scalar giving the number of streamlines in the bundle (read-only).}
+
+\item{\code{@bundle_attributes}}{A character vector of the names of the bundle-level attributes (read-only).}
+}}
+

@@ -1,6 +1,6 @@
 library(fiber)
 
-# ---- new_streamline ---------------------------------------------------------
+# ---- streamline ---------------------------------------------------------
 
 # valid matrix
 pts <- matrix(
@@ -8,31 +8,31 @@ pts <- matrix(
   ncol = 3,
   dimnames = list(NULL, c("X", "Y", "Z"))
 )
-sl <- new_streamline(pts)
+sl <- streamline(pts)
 expect_true(is_streamline(sl))
 expect_true(is.matrix(sl@points))
 
 # not a matrix -> error
-expect_error(new_streamline("not a matrix"))
+expect_error(streamline("not a matrix"))
 
 # no colnames -> error
-expect_error(new_streamline(matrix(1:9, ncol = 3)))
+expect_error(streamline(matrix(1:9, ncol = 3)))
 
 # missing required column names -> error
 bad <- matrix(1:9, ncol = 3, dimnames = list(NULL, c("A", "B", "C")))
-expect_error(new_streamline(bad))
+expect_error(streamline(bad))
 
 # point_data length mismatch -> error
-expect_error(new_streamline(pts, point_data = list(FA = c(0.1, 0.2))))
+expect_error(streamline(pts, point_data = list(FA = c(0.1, 0.2))))
 
 # streamline_data non-scalar -> error
-expect_error(new_streamline(pts, streamline_data = list(weight = c(1, 2))))
+expect_error(streamline(pts, streamline_data = list(weight = c(1, 2))))
 
 # ---- with point_data and streamline_data ------------------------------------
 
-sl_pd <- new_streamline(pts, point_data = list(FA = c(0.1, 0.2, 0.3)))
-sl_sld <- new_streamline(pts, streamline_data = list(weight = 0.5))
-sl_all <- new_streamline(
+sl_pd <- streamline(pts, point_data = list(FA = c(0.1, 0.2, 0.3)))
+sl_sld <- streamline(pts, streamline_data = list(weight = 0.5))
+sl_all <- streamline(
   pts,
   point_data = list(FA = c(0.1, 0.2, 0.3)),
   streamline_data = list(weight = 0.5)
