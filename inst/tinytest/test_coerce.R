@@ -47,6 +47,9 @@ expect_error(as_bundle(TRUE))
 # ---- as_dwifiber (only when dti is available) -------------------------------
 
 if (requireNamespace("dti", quietly = TRUE)) {
+  rgl_use_null <- Sys.getenv("RGL_USE_NULL", unset = NA)
+  Sys.setenv(RGL_USE_NULL = "true") # avoid rgl warnings
+
   # bundle -> dwiFiber and back
   sl1 <- make_sl(6L)
   sl2 <- make_sl(4L)
@@ -83,4 +86,6 @@ if (requireNamespace("dti", quietly = TRUE)) {
   dfi_sl <- as_dwifiber(sl1)
   expect_true(is(dfi_sl, "dwiFiber"))
   expect_equal(length(dfi_sl@startind), 1L)
+
+  Sys.setenv(RGL_USE_NULL = rgl_use_null) # restore previous state
 }
