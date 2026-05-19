@@ -6,18 +6,18 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/astamm/fiber/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/astamm/fiber/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/tractoverse/fiber/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tractoverse/fiber/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/astamm/fiber/graph/badge.svg)](https://app.codecov.io/gh/astamm/fiber)
-[![pkgdown](https://github.com/astamm/fiber/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/astamm/fiber/actions/workflows/pkgdown.yaml)
+coverage](https://codecov.io/gh/tractoverse/fiber/graph/badge.svg)](https://app.codecov.io/gh/tractoverse/fiber)
+[![pkgdown](https://github.com/tractoverse/fiber/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/tractoverse/fiber/actions/workflows/pkgdown.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/fiber)](https://CRAN.R-project.org/package=fiber)
 <!-- badges: end -->
 
 ## Overview
 
-The [**fiber**](https://astamm.github.io/fiber/) package provides two
-[S7](https://rconsortium.github.io/S7/) classes — `streamline` and
+The [**fiber**](https://tractoverse.github.io/fiber/) package provides
+two [S7](https://rconsortium.github.io/S7/) classes — `streamline` and
 `bundle` — for representing diffusion MRI tractography data in R,
 together with a concise set of methods:
 
@@ -58,11 +58,11 @@ A `bundle` stores:
 ## Installation
 
 You can install the development version of **fiber** from
-[GitHub](https://github.com/astamm/fiber) with:
+[GitHub](https://github.com/tractoverse/fiber) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("astamm/fiber")
+pak::pak("tractoverse/fiber")
 ```
 
 ## Quick start

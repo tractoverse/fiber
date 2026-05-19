@@ -7,6 +7,7 @@ Resubmission as v0.1.1 in which we:
 * Added coercers from and to the `dwiFiber` S4 class of the [\pkg{dti}](https://cran.r-project.org/package=dti) package.
 * Refactored shape descriptors API.
 * Rewrote pairwise Hausdorff distance matrix using C++ via the [\pkg{cpp11}](https://cran.r-project.org/package=cpp11) package.
+* Created the tractoverse GitHub organization and transferred fiber repository to it.
 
 Part of these improvements are meant to address issues raised by the CRAN maintainers.
 

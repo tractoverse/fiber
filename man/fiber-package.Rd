@@ -6,14 +6,14 @@
 \alias{fiber-package}
 \title{fiber: S7 Data Structures for Diffusion MRI Tractography}
 \description{
-Provides two S7 classes — 'streamline' and 'bundle' — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, and combination of streamlines or bundles into a single bundle.
+Provides two S7 classes — streamline and bundle — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, combination of streamlines or bundles into a single bundle, and coercion to and from the dwiFiber S4 class of the 'dti' package. See Dell'Acqua, F., Descoteaux, M. and Leemans, A. (2024) "Handbook of Diffusion MR Tractography" \doi{10.1016/C2018-0-02520-7} for more about the mathematical and computational underpinnings of diffusion MRI tractography.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/astamm/fiber}
-  \item \url{https://astamm.github.io/fiber/}
-  \item Report bugs at \url{https://github.com/astamm/fiber/issues}
+  \item \url{https://github.com/tractoverse/fiber}
+  \item \url{https://tractoverse.github.io/fiber/}
+  \item Report bugs at \url{https://github.com/tractoverse/fiber/issues}
 }
 
 }
