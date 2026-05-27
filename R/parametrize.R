@@ -97,7 +97,22 @@ S7::method(reparametrize, streamline) <- function(x, n_points = NULL) {
     new_pts <- cbind(new_pts, extra)
   }
 
-  new_pd <- lapply(x@point_data, function(v) .approx1(s, v, s_new))
+  # Only numeric point_data can be interpolated; non-numeric entries are
+  # dropped with a warning because they have no natural interpolant.
+  new_pd <- list()
+  for (nm in names(x@point_data)) {
+    v <- x@point_data[[nm]]
+    if (is.numeric(v)) {
+      new_pd[[nm]] <- .approx1(s, v, s_new)
+    } else {
+      cli::cli_warn(c(
+        "!" = "Non-numeric {.field @point_data} attribute {.val {nm}} \\
+               cannot be interpolated and will be dropped.",
+        "i" = "Only numeric per-point attributes are preserved by \\
+               {.fn reparametrize}."
+      ))
+    }
+  }
 
   streamline(
     points = new_pts,
@@ -210,4 +225,123 @@ bind_bundles <- function(..., bundle_data = NULL) {
 
   bd <- if (!is.null(bundle_data)) bundle_data else first_bd
   bundle(streamlines = sls, bundle_data = bd)
+}
+
+# ---- as_bundle_set ----------------------------------------------------------
+
+#' Coerce an object to a bundle_set
+#'
+#' `as_bundle_set()` converts a supported object into a [bundle_set].
+#'
+#' Currently supported input classes:
+#' - [bundle_set]: returned unchanged.
+#' - [bundle]: wrapped in a single-element [bundle_set]. An optional `name`
+#'   argument sets the element name (defaults to `"bundle_1"`).
+#'
+#' @param x An object to coerce.
+#' @param ... Additional arguments passed to methods (e.g. `name` for bundles).
+#' @returns A [bundle_set] object.
+#' @seealso [bundle_set()], [bind_bundle_sets()]
+#' @export
+#' @examples
+#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' b <- bundle(streamlines = list(streamline(points = pts)))
+#' bs <- as_bundle_set(b, name = "sub-01")
+#' bs@n_bundles  # 1
+as_bundle_set <- S7::new_generic("as_bundle_set", "x")
+
+S7::method(as_bundle_set, bundle_set) <- function(x, ...) x
+
+S7::method(as_bundle_set, bundle) <- function(x, ..., name = "bundle_1") {
+  nms <- list(x)
+  names(nms) <- name
+  bundle_set(bundles = nms)
+}
+
+S7::method(as_bundle_set, S7::class_any) <- function(x, ...) {
+  cli::cli_abort(
+    "Don't know how to coerce an object of class {.cls {class(x)[1L]}} \\
+     to a {.cls bundle_set}."
+  )
+}
+
+# ---- bind_bundle_sets -------------------------------------------------------
+
+#' Combine bundles and/or bundle_sets into a single bundle_set
+#'
+#' Accepts any mix of named [bundle] objects (passed as `name = bundle`) or
+#' [bundle_set] objects. All bundles are collected into a flat named list and
+#' wrapped in a new [bundle_set].
+#'
+#' @param ... Named [bundle] objects or [bundle_set] objects to combine. Each
+#'   bare [bundle] argument must be **named** so that its label in the
+#'   resulting set is unambiguous.
+#' @param set_data A named list of set-level metadata to attach to the
+#'   resulting [bundle_set]. Defaults to the `set_data` of the first
+#'   [bundle_set] input (if present) or an empty list.
+#' @returns A [bundle_set] containing all input bundles.
+#' @export
+#' @examples
+#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' b1 <- bundle(streamlines = list(streamline(points = pts)))
+#' b2 <- bundle(streamlines = list(streamline(points = pts)))
+#'
+#' # two named bare bundles
+#' bs <- bind_bundle_sets("sub-01" = b1, "sub-02" = b2)
+#' bs@n_bundles   # 2
+#' bs@bundle_names  # c("sub-01", "sub-02")
+#'
+#' # combine two bundle_sets
+#' bs1 <- bundle_set(list("sub-01" = b1))
+#' bs2 <- bundle_set(list("sub-02" = b2))
+#' bs_all <- bind_bundle_sets(bs1, bs2)
+#' bs_all@n_bundles  # 2
+bind_bundle_sets <- function(..., set_data = NULL) {
+  inputs <- list(...)
+  if (length(inputs) == 0L) {
+    cli::cli_abort("At least one argument is required.")
+  }
+
+  nms <- names(inputs)
+  all_bundles <- list()
+  first_sd <- list()
+  found_set <- FALSE
+
+  for (i in seq_along(inputs)) {
+    obj <- inputs[[i]]
+    nm <- if (!is.null(nms)) nms[[i]] else ""
+    if (is_bundle(obj)) {
+      if (is.null(nm) || nm == "") {
+        cli::cli_abort(c(
+          "Bare {.cls fiber::bundle} arguments must be named.",
+          "i" = "Use {.code bind_bundle_sets(\"sub-01\" = b1, \"sub-02\" = b2)}."
+        ))
+      }
+      all_bundles[[nm]] <- obj
+    } else if (is_bundle_set(obj)) {
+      new_bds <- obj@bundles
+      if (length(new_bds) > 0L) {
+        dups <- intersect(names(all_bundles), names(new_bds))
+        if (length(dups) > 0L) {
+          cli::cli_abort(c(
+            "Duplicate bundle name{?s}: {.val {dups}}.",
+            "i" = "Each bundle in a {.cls bundle_set} must have a unique name."
+          ))
+        }
+        all_bundles <- c(all_bundles, new_bds)
+      }
+      if (!found_set) {
+        first_sd <- obj@set_data
+        found_set <- TRUE
+      }
+    } else {
+      cli::cli_abort(
+        "Each argument must be a named {.cls fiber::bundle} or a \\
+         {.cls fiber::bundle_set}."
+      )
+    }
+  }
+
+  sd <- if (!is.null(set_data)) set_data else first_sd
+  bundle_set(bundles = all_bundles, set_data = sd)
 }

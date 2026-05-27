@@ -85,17 +85,17 @@ streamline <- S7::new_class(
     n_pts <- self@n_points
     for (nm in self@point_attributes) {
       v <- self@point_data[[nm]]
-      if (!is.numeric(v) || length(v) != n_pts) {
+      if (length(v) != n_pts) {
         return(cli::format_inline(
-          "@point_data[[\"{nm}\"]] must be a numeric vector of length {n_pts}."
+          "@point_data[[\"{nm}\"]] must be a vector of length {n_pts}."
         ))
       }
     }
     for (nm in self@streamline_attributes) {
       v <- self@streamline_data[[nm]]
-      if (!is.numeric(v) || length(v) != 1L) {
+      if (length(v) != 1L) {
         return(cli::format_inline(
-          "@streamline_data[[\"{nm}\"]] must be a numeric scalar (length 1)."
+          "@streamline_data[[\"{nm}\"]] must be a scalar (length 1)."
         ))
       }
     }

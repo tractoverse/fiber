@@ -157,3 +157,149 @@ S7::method(`[[`, bundle) <- function(x, i, ...) x@streamlines[[i]]
 S7::method(`[`, bundle) <- function(x, i, j, ..., drop = TRUE) {
   bundle(streamlines = x@streamlines[i], bundle_data = x@bundle_data)
 }
+
+# ---- S7 class: bundle_set ---------------------------------------------------
+
+#' Bundle set S7 class
+#'
+#' @description
+#' A `bundle_set` is a **named collection of [bundle] objects**, designed for
+#' multi-subject or multi-session studies where each element represents one
+#' subject's (or session's) tractogram. It stores two compartments:
+#'
+#' - `@bundles` — a *named* list of [bundle] objects. Names typically encode
+#'   subject or session identifiers (e.g. `"sub-01"`, `"sub-02"`).
+#' - `@set_data` — a named list of set-level metadata (arbitrary R objects,
+#'   e.g. study name, atlas used, acquisition protocol).
+#'
+#' @param bundles A named list of [bundle] objects.
+#' @param set_data A named list of set-level metadata.
+#' @prop n_bundles An integer scalar giving the number of bundles in the set
+#'   (read-only).
+#' @prop bundle_names A character vector of the names of the bundles
+#'   (read-only).
+#' @prop set_attributes A character vector of the names of the set-level
+#'   attributes (read-only).
+#'
+#' @returns A `bundle_set` S7 object.
+#' @section Methods for standard generics:
+#' The following methods are defined for `bundle_set` objects:
+#' - `format(x, ...)`: Returns a compact character string.
+#' - `print(x, ...)`: Prints the formatted string to the console and
+#'   invisibly returns `x`.
+#' - `length(x)`: Returns the number of bundles.
+#' - `x[[i]]`: Extracts the `i`-th (or named) [bundle] from the set.
+#' - `x[i]`: Returns a new [bundle_set] containing only the selected bundles,
+#'   preserving `@set_data`.
+#' - `names(x)`: Returns the names of the bundles.
+#' @export
+#' @examples
+#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' b1 <- bundle(streamlines = list(streamline(points = pts)),
+#'              bundle_data = list(subject = "sub-01"))
+#' b2 <- bundle(streamlines = list(streamline(points = pts)),
+#'              bundle_data = list(subject = "sub-02"))
+#' bs <- bundle_set(bundles = list("sub-01" = b1, "sub-02" = b2))
+#' bs@n_bundles      # 2
+#' bs@bundle_names   # c("sub-01", "sub-02")
+#' bs[["sub-01"]]    # first bundle
+bundle_set <- S7::new_class(
+  name = "bundle_set",
+  package = "fiber",
+  properties = list(
+    bundles = S7::class_list,
+    set_data = S7::class_list,
+    n_bundles = S7::new_property(
+      class = S7::class_integer,
+      getter = function(self) length(self@bundles)
+    ),
+    bundle_names = S7::new_property(
+      class = S7::class_character,
+      getter = function(self) names(self@bundles) %||% character(0L)
+    ),
+    set_attributes = S7::new_property(
+      class = S7::class_character,
+      getter = function(self) names(self@set_data)
+    )
+  ),
+  validator = function(self) {
+    bad <- !vapply(
+      self@bundles,
+      function(x) S7::S7_inherits(x, bundle),
+      logical(1L)
+    )
+    if (any(bad)) {
+      return("All elements of @bundles must be <fiber::bundle> objects.")
+    }
+    if (length(self@bundles) > 0L && is.null(names(self@bundles))) {
+      return("@bundles must be a named list.")
+    }
+    NULL
+  }
+)
+
+# ---- predicate --------------------------------------------------------------
+
+#' Test whether an object is a bundle_set
+#'
+#' @param x An object.
+#' @returns `TRUE` if `x` is of class [bundle_set], otherwise `FALSE`.
+#' @export
+#' @examples
+#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#' b <- bundle(streamlines = list(streamline(points = pts)))
+#' bs <- bundle_set(bundles = list("sub-01" = b))
+#' is_bundle_set(bs)  # TRUE
+#' is_bundle_set(b)   # FALSE
+is_bundle_set <- function(x) S7::S7_inherits(x, bundle_set)
+
+# ---- format / print ---------------------------------------------------------
+
+S7::method(format, bundle_set) <- function(x, ...) {
+  n <- x@n_bundles
+  if (n == 0L) {
+    return("<bundle_set [0 bundles]>")
+  }
+  nms <- x@bundle_names
+  nm_preview <- if (n <= 3L) {
+    paste(nms, collapse = ", ")
+  } else {
+    paste0(paste(nms[1:3], collapse = ", "), ", \u2026 (", n - 3L, " more)")
+  }
+  sd_keys <- names(x@set_data)
+  sd_str <- if (length(sd_keys) > 0L) {
+    paste0(" | set: ", paste(sd_keys, collapse = ", "))
+  } else {
+    ""
+  }
+  n_sls <- vapply(x@bundles, function(b) b@n_streamlines, integer(1L))
+  paste0(
+    "<bundle_set [",
+    n,
+    " bundles | ",
+    min(n_sls),
+    "\u2013",
+    max(n_sls),
+    " streamlines/bundle]: ",
+    nm_preview,
+    sd_str,
+    ">"
+  )
+}
+
+S7::method(print, bundle_set) <- function(x, ...) {
+  cat(format(x, ...), "\n")
+  invisible(x)
+}
+
+# ---- length / names / indexing ----------------------------------------------
+
+S7::method(length, bundle_set) <- function(x) x@n_bundles
+
+S7::method(names, bundle_set) <- function(x) x@bundle_names
+
+S7::method(`[[`, bundle_set) <- function(x, i, ...) x@bundles[[i]]
+
+S7::method(`[`, bundle_set) <- function(x, i, j, ..., drop = TRUE) {
+  bundle_set(bundles = x@bundles[i], set_data = x@set_data)
+}
