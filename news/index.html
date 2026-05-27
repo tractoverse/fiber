@@ -34,7 +34,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="fiber-012">fiber 0.1.2<a class="anchor" aria-label="anchor" href="#fiber-012"></a></h2>
-<ul><li>Added missing <code>\value</code> documentation to the <code><a href="../reference/compute_hausdorff_distance.html">compute_hausdorff_distance()</a></code> catch-all method (#CRAN).</li>
+<ul><li>Added <code>bundle_set</code> S7 class — a named collection of <code>bundle</code> objects for multi-subject or multi-session studies.</li>
+<li>Added <code><a href="../reference/is_bundle_set.html">is_bundle_set()</a></code> predicate, <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code>/<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>/<code><a href="https://rdrr.io/r/base/length.html" class="external-link">length()</a></code>/<code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code>/<code>[[</code>/<code>[</code> methods for <code>bundle_set</code>.</li>
+<li>Added <code><a href="../reference/as_bundle_set.html">as_bundle_set()</a></code> generic with methods for <code>bundle_set</code> (identity) and <code>bundle</code> (wrap).</li>
+<li>Added <code><a href="../reference/bind_bundle_sets.html">bind_bundle_sets()</a></code> to combine named <code>bundle</code> objects and/or <code>bundle_set</code> objects into a single <code>bundle_set</code>.</li>
+<li>Relaxed the <code>streamline</code> validator: <code>@point_data</code> entries no longer need to be numeric (any vector of the correct length is accepted); <code>@streamline_data</code> entries no longer need to be numeric either (any scalar is accepted). Non-numeric <code>@point_data</code> entries are dropped with a warning when <code><a href="../reference/reparametrize.html">reparametrize()</a></code> is called, since they have no natural arc-length interpolant.</li>
+<li>Added missing <code>\value</code> documentation to the <code><a href="../reference/compute_hausdorff_distance.html">compute_hausdorff_distance()</a></code> catch-all method (#CRAN).</li>
 <li>Replaced <code>\dontrun{}</code> with <code>if (requireNamespace("dti", quietly = TRUE)) {}</code> in the <code><a href="../reference/as_dwifiber.html">as_dwifiber()</a></code> example (#CRAN).</li>
 </ul></div>
     <div class="section level2">

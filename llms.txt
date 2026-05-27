@@ -131,6 +131,9 @@ compute_hausdorff_distance(sl, sl2)
 - [`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md)
   : Coerce an object to a bundle
 
+- [`as_bundle_set()`](https://tractoverse.github.io/fiber/reference/as_bundle_set.md)
+  : Coerce an object to a bundle_set
+
 - [`as_dwifiber-fiber-bundle-method`](https://tractoverse.github.io/fiber/reference/as_dwifiber-fiber-bundle-method.md)
   [`as_dwifiber,fiber::bundle-method`](https://tractoverse.github.io/fiber/reference/as_dwifiber-fiber-bundle-method.md)
   :
@@ -167,11 +170,17 @@ compute_hausdorff_distance(sl, sl2)
 - [`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md)
   : Coerce an object to a streamline
 
+- [`bind_bundle_sets()`](https://tractoverse.github.io/fiber/reference/bind_bundle_sets.md)
+  : Combine bundles and/or bundle_sets into a single bundle_set
+
 - [`bind_bundles()`](https://tractoverse.github.io/fiber/reference/bind_bundles.md)
   : Combine streamlines and/or bundles into a single bundle
 
 - [`bundle()`](https://tractoverse.github.io/fiber/reference/bundle.md)
   : Bundle S7 class
+
+- [`bundle_set()`](https://tractoverse.github.io/fiber/reference/bundle_set.md)
+  : Bundle set S7 class
 
 - [`compute_hausdorff_distance,any-method`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance-any-method.md)
   :
@@ -213,6 +222,9 @@ compute_hausdorff_distance(sl, sl2)
 
 - [`is_bundle()`](https://tractoverse.github.io/fiber/reference/is_bundle.md)
   : Test whether an object is a bundle
+
+- [`is_bundle_set()`](https://tractoverse.github.io/fiber/reference/is_bundle_set.md)
+  : Test whether an object is a bundle_set
 
 - [`is_streamline()`](https://tractoverse.github.io/fiber/reference/is_streamline.md)
   : Test whether an object is a streamline

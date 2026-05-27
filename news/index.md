@@ -2,6 +2,27 @@
 
 ## fiber 0.1.2
 
+- Added `bundle_set` S7 class — a named collection of `bundle` objects
+  for multi-subject or multi-session studies.
+- Added
+  [`is_bundle_set()`](https://tractoverse.github.io/fiber/reference/is_bundle_set.md)
+  predicate,
+  [`format()`](https://rdrr.io/r/base/format.html)/[`print()`](https://rdrr.io/r/base/print.html)/[`length()`](https://rdrr.io/r/base/length.html)/[`names()`](https://rdrr.io/r/base/names.html)/`[[`/`[`
+  methods for `bundle_set`.
+- Added
+  [`as_bundle_set()`](https://tractoverse.github.io/fiber/reference/as_bundle_set.md)
+  generic with methods for `bundle_set` (identity) and `bundle` (wrap).
+- Added
+  [`bind_bundle_sets()`](https://tractoverse.github.io/fiber/reference/bind_bundle_sets.md)
+  to combine named `bundle` objects and/or `bundle_set` objects into a
+  single `bundle_set`.
+- Relaxed the `streamline` validator: `@point_data` entries no longer
+  need to be numeric (any vector of the correct length is accepted);
+  `@streamline_data` entries no longer need to be numeric either (any
+  scalar is accepted). Non-numeric `@point_data` entries are dropped
+  with a warning when
+  [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
+  is called, since they have no natural arc-length interpolant.
 - Added missing `\value` documentation to the
   [`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md)
   catch-all method (#CRAN).
