@@ -54,7 +54,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The <a href="https://tractoverse.github.io/fiber/"><strong>fiber</strong></a> package provides two <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> classes — <code>streamline</code> and <code>bundle</code> — for representing diffusion MRI tractography data in R, together with a concise set of methods:</p>
+<p>The <a href="https://tractoverse.github.io/fiber/"><strong>fiber</strong></a> package provides three <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> classes — <code>streamline</code>, <code>bundle</code>, and <code>bundle_set</code> — for representing diffusion MRI tractography data in R, together with a concise set of methods:</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -74,6 +74,10 @@
 <td>Construct a bundle of streamlines</td>
 </tr>
 <tr>
+<td><code><a href="reference/bundle_set.html">bundle_set()</a></code></td>
+<td>Construct a named set of bundles (multi-subject / multi-session)</td>
+</tr>
+<tr>
 <td><code><a href="reference/is_streamline.html">is_streamline()</a></code></td>
 <td>Test if an object is a <code>streamline</code>
 </td>
@@ -84,8 +88,21 @@
 </td>
 </tr>
 <tr>
+<td><code><a href="reference/is_bundle_set.html">is_bundle_set()</a></code></td>
+<td>Test if an object is a <code>bundle_set</code>
+</td>
+</tr>
+<tr>
 <td><code><a href="reference/bind_bundles.html">bind_bundles()</a></code></td>
-<td>Combine streamlines and/or bundles</td>
+<td>Combine streamlines and/or bundles into a single bundle</td>
+</tr>
+<tr>
+<td><code><a href="reference/bind_bundle_sets.html">bind_bundle_sets()</a></code></td>
+<td>Combine named bundles and/or bundle sets into a single bundle set</td>
+</tr>
+<tr>
+<td><code><a href="reference/as_bundle_set.html">as_bundle_set()</a></code></td>
+<td>Coerce to <code>bundle_set</code> class</td>
 </tr>
 <tr>
 <td><code><a href="reference/reparametrize.html">reparametrize()</a></code></td>
@@ -143,9 +160,9 @@
 <li>
 <code>@points</code> — an <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \times 3</annotation></semantics></math> numeric matrix with columns <code>"X"</code>, <code>"Y"</code>, <code>"Z"</code>.</li>
 <li>
-<code>@point_data</code> — a named list of per-point numeric vectors (length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>).</li>
+<code>@point_data</code> — a named list of per-point vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> (any type).</li>
 <li>
-<code>@streamline_data</code> — a named list of per-streamline numeric scalars.</li>
+<code>@streamline_data</code> — a named list of per-streamline scalars (any type).</li>
 </ul>
 <p>A <code>bundle</code> stores:</p>
 <ul>
@@ -153,6 +170,13 @@
 <code>@streamlines</code> — a list of <code>streamline</code> objects.</li>
 <li>
 <code>@bundle_data</code> — a named list of bundle-level metadata.</li>
+</ul>
+<p>A <code>bundle_set</code> stores:</p>
+<ul>
+<li>
+<code>@bundles</code> — a <em>named</em> list of <code>bundle</code> objects (names typically encode subject or session IDs, e.g. <code>"sub-01"</code>).</li>
+<li>
+<code>@set_data</code> — a named list of set-level metadata.</li>
 </ul>
 </div>
 </div>
@@ -202,7 +226,22 @@
 <span></span>
 <span><span class="co"># Hausdorff distance</span></span>
 <span><span class="fu"><a href="reference/compute_hausdorff_distance.html">compute_hausdorff_distance</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.1</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.1</span></span>
+<span></span>
+<span><span class="co"># Multi-subject: collect bundles from two subjects into a bundle_set</span></span>
+<span><span class="va">b_sub01</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bundle.html">bundle</a></span><span class="op">(</span></span>
+<span>  streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl</span><span class="op">)</span>,</span>
+<span>  bundle_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>subject <span class="op">=</span> <span class="st">"sub-01"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">b_sub02</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bundle.html">bundle</a></span><span class="op">(</span></span>
+<span>  streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl2</span><span class="op">)</span>,</span>
+<span>  bundle_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>subject <span class="op">=</span> <span class="st">"sub-02"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">bs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bind_bundle_sets.html">bind_bundle_sets</a></span><span class="op">(</span><span class="st">"sub-01"</span> <span class="op">=</span> <span class="va">b_sub01</span>, <span class="st">"sub-02"</span> <span class="op">=</span> <span class="va">b_sub02</span><span class="op">)</span></span>
+<span><span class="va">bs</span></span>
+<span><span class="co">#&gt; &lt;bundle_set [2 bundles | 1–1 streamlines/bundle]: sub-01, sub-02&gt;</span></span>
+<span><span class="va">bs</span><span class="op">[[</span><span class="st">"sub-01"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="co">#&gt; &lt;bundle [1 streamlines | 50–50 pts/streamline] | bundle: subject&gt;</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
