@@ -26,18 +26,22 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The [**fiber**](https://tractoverse.github.io/fiber/) package provides two
-[S7](https://rconsortium.github.io/S7/) classes — `streamline` and `bundle` —
-for representing diffusion MRI tractography data in R, together with a
-concise set of methods:
+The [**fiber**](https://tractoverse.github.io/fiber/) package provides three
+[S7](https://rconsortium.github.io/S7/) classes — `streamline`, `bundle`, and
+`bundle_set` — for representing diffusion MRI tractography data in R, together
+with a concise set of methods:
 
 | Function | Description |
 |---|---|
 | `streamline()` | Construct a single streamline |
 | `bundle()` | Construct a bundle of streamlines |
+| `bundle_set()` | Construct a named set of bundles (multi-subject / multi-session) |
 | `is_streamline()` | Test if an object is a `streamline` |
 | `is_bundle()` | Test if an object is a `bundle` |
-| `bind_bundles()` | Combine streamlines and/or bundles |
+| `is_bundle_set()` | Test if an object is a `bundle_set` |
+| `bind_bundles()` | Combine streamlines and/or bundles into a single bundle |
+| `bind_bundle_sets()` | Combine named bundles and/or bundle sets into a single bundle set |
+| `as_bundle_set()` | Coerce to `bundle_set` class |
 | `reparametrize()` | Resample onto a uniform arc-length grid |
 | `as_dwifiber()` | Coerce to `dwiFiber` class from [\pkg{dti}](https://cran.r-project.org/package=dti) |
 | `as_streamline()` | Coerce to `streamline` class |
@@ -55,13 +59,19 @@ concise set of methods:
 A `streamline` stores:
 
 - `@points` — an $n \times 3$ numeric matrix with columns `"X"`, `"Y"`, `"Z"`.
-- `@point_data` — a named list of per-point numeric vectors (length $n$).
-- `@streamline_data` — a named list of per-streamline numeric scalars.
+- `@point_data` — a named list of per-point vectors of length $n$ (any type).
+- `@streamline_data` — a named list of per-streamline scalars (any type).
 
 A `bundle` stores:
 
 - `@streamlines` — a list of `streamline` objects.
 - `@bundle_data` — a named list of bundle-level metadata.
+
+A `bundle_set` stores:
+
+- `@bundles` — a *named* list of `bundle` objects (names typically encode
+  subject or session IDs, e.g. `"sub-01"`).
+- `@set_data` — a named list of set-level metadata.
 
 ## Installation
 
@@ -104,4 +114,17 @@ b20
 
 # Hausdorff distance
 compute_hausdorff_distance(sl, sl2)
+
+# Multi-subject: collect bundles from two subjects into a bundle_set
+b_sub01 <- bundle(
+  streamlines = list(sl),
+  bundle_data = list(subject = "sub-01")
+)
+b_sub02 <- bundle(
+  streamlines = list(sl2),
+  bundle_data = list(subject = "sub-02")
+)
+bs <- bind_bundle_sets("sub-01" = b_sub01, "sub-02" = b_sub02)
+bs
+bs[["sub-01"]]
 ```
