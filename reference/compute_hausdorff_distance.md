@@ -82,26 +82,26 @@ sl2 <- streamline(points = pts2)
 
 # streamline x streamline -> scalar
 compute_hausdorff_distance(sl1, sl2)
-#> [1] 0.402474
+#> [1] 0.4748043
 
 # bundle x missing -> pairwise dist object
 b <- bundle(streamlines = list(sl1, sl2))
 compute_hausdorff_distance(b)
-#>          1
-#> 2 0.402474
+#>           1
+#> 2 0.4748043
 as.matrix(compute_hausdorff_distance(b))
-#>          1        2
-#> 1 0.000000 0.402474
-#> 2 0.402474 0.000000
+#>           1         2
+#> 1 0.0000000 0.4748043
+#> 2 0.4748043 0.0000000
 
 # bundle x streamline -> vector
 compute_hausdorff_distance(b, sl1)
-#> [1] 0.000000 0.402474
+#> [1] 0.0000000 0.4748043
 
 # bundle x bundle -> combined pairwise matrix
 b2 <- bundle(streamlines = list(sl2))
 compute_hausdorff_distance(b, b2)
-#>          1        2
-#> 2 0.402474         
-#> 3 0.402474 0.000000
+#>           1         2
+#> 2 0.4748043          
+#> 3 0.4748043 0.0000000
 ```

@@ -30,5 +30,5 @@ pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
 sl <- streamline(points = pts)
 get_euclidean_length(sl)
-#> [1] 0.3549163
+#> [1] 0.4319309
 ```

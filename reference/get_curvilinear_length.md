@@ -31,5 +31,5 @@ pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
 sl <- streamline(points = pts)
 get_curvilinear_length(sl)
-#> [1] 6.366717
+#> [1] 5.704679
 ```

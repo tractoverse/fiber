@@ -51,12 +51,17 @@ b-values, etc.) are filled with neutral placeholders.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# requires the dti package
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl  <- streamline(points = pts)
-b   <- bundle(streamlines = list(sl))
-dfi <- as_dwifiber(b)
-class(dfi)  # "dwiFiber"
-} # }
+if (requireNamespace("dti", quietly = TRUE)) {
+  pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+  sl  <- streamline(points = pts)
+  b   <- bundle(streamlines = list(sl))
+  dfi <- as_dwifiber(b)
+  class(dfi)  # "dwiFiber"
+}
+#> Warning: RGL: unable to open X11 display
+#> Warning: 'rgl.init' failed, will use the null device.
+#> See '?rgl.useNULL' for ways to avoid this warning.
+#> [1] "dwiFiber"
+#> attr(,"package")
+#> [1] "dti"
 ```

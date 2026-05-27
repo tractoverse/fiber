@@ -38,5 +38,5 @@ colnames(pts2) <- c("X", "Y", "Z")
 sl1 <- streamline(points = pts1)
 sl2 <- streamline(points = pts2)
 compute_hausdorff_distance(sl1, sl2)
-#> [1] 0.5349375
+#> [1] 0.6591845
 ```

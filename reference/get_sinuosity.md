@@ -31,5 +31,5 @@ pts <- matrix(runif(30), ncol = 3)
 colnames(pts) <- c("X", "Y", "Z")
 sl <- streamline(points = pts)
 get_sinuosity(sl)
-#> [1] 10.17893
+#> [1] 7.931771
 ```

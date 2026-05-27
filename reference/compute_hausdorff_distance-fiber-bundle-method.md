@@ -62,13 +62,13 @@ b <- bundle(streamlines = list(sl1, sl2))
 # pairwise dist object (size 2)
 compute_hausdorff_distance(b)
 #>           1
-#> 2 0.4346477
+#> 2 0.5892901
 as.matrix(compute_hausdorff_distance(b))
 #>           1         2
-#> 1 0.0000000 0.4346477
-#> 2 0.4346477 0.0000000
+#> 1 0.0000000 0.5892901
+#> 2 0.5892901 0.0000000
 
 # distances from sl1 to each streamline in b
 compute_hausdorff_distance(b, sl1)
-#> [1] 0.0000000 0.4346477
+#> [1] 0.0000000 0.5892901
 ```

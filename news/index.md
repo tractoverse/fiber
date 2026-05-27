@@ -1,5 +1,15 @@
 # Changelog
 
+## fiber 0.1.2
+
+- Added missing `\value` documentation to the
+  [`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md)
+  catch-all method (#CRAN).
+- Replaced `\dontrun{}` with
+  `if (requireNamespace("dti", quietly = TRUE)) {}` in the
+  [`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md)
+  example (#CRAN).
+
 ## fiber 0.1.1
 
 - Improved documentation of S7 classes, generics and methods following
