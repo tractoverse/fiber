@@ -171,13 +171,12 @@ S7::method(as_bundle, S7::class_any) <- function(x, ...) {
 #' @seealso [as_streamline()], [as_bundle()]
 #' @export
 #' @examples
-#' \dontrun{
-#' # requires the dti package
-#' pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-#' sl  <- streamline(points = pts)
-#' b   <- bundle(streamlines = list(sl))
-#' dfi <- as_dwifiber(b)
-#' class(dfi)  # "dwiFiber"
+#' if (requireNamespace("dti", quietly = TRUE)) {
+#'   pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
+#'   sl  <- streamline(points = pts)
+#'   b   <- bundle(streamlines = list(sl))
+#'   dfi <- as_dwifiber(b)
+#'   class(dfi)  # "dwiFiber"
 #' }
 as_dwifiber <- S7::new_generic("as_dwifiber", "x")
 

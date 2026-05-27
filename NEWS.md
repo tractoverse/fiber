@@ -1,3 +1,8 @@
+# fiber 0.1.2
+
+* Added missing `\value` documentation to the `compute_hausdorff_distance()` catch-all method (#CRAN).
+* Replaced `\dontrun{}` with `if (requireNamespace("dti", quietly = TRUE)) {}` in the `as_dwifiber()` example (#CRAN).
+
 # fiber 0.1.1
 
 * Improved documentation of S7 classes, generics and methods following the release of roxygen2 8.0.0.

@@ -3,6 +3,10 @@
 \name{compute_hausdorff_distance,any-method}
 \alias{compute_hausdorff_distance,any-method}
 \title{\code{\link[=compute_hausdorff_distance]{compute_hausdorff_distance()}} catch-all method}
+\value{
+Does not return a value; always throws an error for unsupported
+input types.
+}
 \description{
 \code{\link[=compute_hausdorff_distance]{compute_hausdorff_distance()}} catch-all method
 }

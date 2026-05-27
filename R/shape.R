@@ -494,6 +494,8 @@ S7::method(compute_hausdorff_distance, bundle) <- function(x, y = NULL) {
 #' [compute_hausdorff_distance()] catch-all method
 #'
 #' @usage NULL
+#' @returns Does not return a value; always throws an error for unsupported
+#'   input types.
 S7::method(compute_hausdorff_distance, S7::class_any) <- function(x, y = NULL) {
   cli::cli_abort(c(
     "{.arg x} must be a {.cls fiber::streamline} or {.cls fiber::bundle}
