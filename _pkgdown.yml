@@ -2,3 +2,7 @@ url: https://tractoverse.github.io/fiber/
 template:
   bootstrap: 5
 
+news:
+  releases:
+  - text: "fiber 0.1.2"
+    href: https://astamm.github.io/posts/2026-05-30-fiber-012/
