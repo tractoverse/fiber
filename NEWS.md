@@ -1,3 +1,5 @@
+# fiber (development version)
+
 # fiber 0.1.2
 
 * Added `bundle_set` S7 class — a named collection of `bundle` objects for multi-subject or multi-session studies.
