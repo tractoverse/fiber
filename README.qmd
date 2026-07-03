@@ -58,10 +58,12 @@ with a concise set of methods:
 
 A `streamline` stores:
 
-- `@point_data` — a named list of vectors of length $P$ (the number of
-  points). The coordinate vectors `"X"`, `"Y"`, and `"Z"` are **required**
-  and must be numeric. Additional per-point attributes (e.g. fractional
-  anisotropy) sit alongside them.
+- `@points` — a numeric matrix of size $P \times 3$ (the number of points by
+  the three spatial dimensions). The columns must be named `"X"`, `"Y"`, and
+  `"Z"`.
+- `@point_data` — a named list of **numeric-only** vectors of length $P$ (the
+  number of points). Stores additional per-point attributes (e.g. fractional
+  anisotropy).
 - `@streamline_data` — a named list of per-streamline **scalars** (length-1
   values, any type, e.g. a mean FA or a character label).
 
@@ -78,7 +80,9 @@ A `bundle` stores:
 A `bundle_set` stores:
 
 - `@bundles` — a list of `bundle` objects (optionally named, e.g. with
-  subject or session IDs such as `"sub-01"`).
+  subject or session IDs such as `"sub-01"`, in which case names are
+  transferred as a bundle attribute in `@bundle_data` called
+  `id_from_input_list`).
 - `@bundle_data` — a named list of per-bundle vectors of length $B$ (the
   number of bundles). Attributes common to all bundles are lifted here
   automatically at construction time and pushed back into individual bundles

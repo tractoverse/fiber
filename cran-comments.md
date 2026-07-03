@@ -16,7 +16,7 @@
 * [win-builder](https://win-builder.r-project.org/) R-devel
 
 **R-Hub**
-* All 34 available platforms except *rchk* since there is no C/C++ code.
+* All 35 available platforms except *rchk* since there is no C/C++ code.
 
 ## R CMD check results
 
