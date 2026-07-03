@@ -11,11 +11,15 @@
 to all available descriptors: \code{c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")}.}
 }
 \value{
-A \link{bundle} with the specified shape descriptors added to the
-\verb{@streamline_data} or \verb{@point_data} slots of each streamline as appropriate.
+A \link{bundle} with the specified shape descriptors added.
 }
 \description{
-Adds multiple shape descriptors to every \link{streamline} inside a \link{bundle}.
+Adds shape descriptors to a \link{bundle}. Scalar descriptors
+(\code{euclidean_length}, \code{curvilinear_length}, \code{sinuosity}) are stored as
+length-S vectors in \code{bundle@streamline_data}. Per-point descriptors
+(\code{curvature}, \code{torsion}) are stored in each individual streamline's
+\verb{@point_data}. Both are accessible via the subsetting push-down
+(\code{bundle[[i]]}).
 }
 \seealso{
 \code{\link[=add_shape_descriptors]{add_shape_descriptors()}}

@@ -7,36 +7,40 @@
 streamline(points = NULL, point_data = list(), streamline_data = list())
 }
 \arguments{
-\item{points}{A numeric matrix with columns \code{"X"}, \code{"Y"}, and \code{"Z"}.}
+\item{points}{A \eqn{P \times 3} numeric matrix with column names \code{"X"},
+\code{"Y"}, and \code{"Z"} giving the 3-D coordinates of the streamline points.}
 
-\item{point_data}{A named list of per-point numeric vectors.}
+\item{point_data}{A named list of numeric vectors, each of length \eqn{P},
+holding additional per-point attributes. Must \strong{not} include \code{"X"},
+\code{"Y"}, or \code{"Z"} (those live in \verb{@points}).}
 
-\item{streamline_data}{A named list of per-streamline numeric scalars.}
+\item{streamline_data}{A named list of per-streamline scalars (length-1,
+any type).}
 }
 \value{
 A \code{streamline} S7 object.
 }
 \description{
 A \code{streamline} represents a single fibre tract. It stores three data
-compartments that mirror the conceptual levels found in tractography file
-formats:
+compartments:
 \itemize{
-\item \verb{@points} — an \eqn{n \times 3} numeric matrix whose columns are named
-\code{"X"}, \code{"Y"}, and \code{"Z"}, holding the ordered 3-D coordinates of the
-\eqn{n} points along the tract.
-\item \verb{@point_data} — a named list of numeric vectors, each of length \eqn{n},
-holding per-point scalar attributes (e.g. fractional anisotropy sampled
-at every point).
-\item \verb{@streamline_data} — a named list of numeric scalars (length-1 vectors)
-holding per-streamline attributes (e.g. a tract-level weight or mean FA).
+\item \verb{@points} — a \eqn{P \times 3} numeric matrix with column names \code{"X"},
+\code{"Y"}, and \code{"Z"} holding the 3-D coordinates of the \eqn{P} points along
+the tract.
+\item \verb{@point_data} — a named list of numeric vectors, each of length \eqn{P},
+holding additional per-point scalar attributes (e.g. fractional
+anisotropy). Coordinates are \strong{not} stored here.
+\item \verb{@streamline_data} — a named list of scalars (length-1 values of any
+type) holding per-streamline attributes (e.g. a tract-level weight or
+mean FA, or a character label).
 }
 }
 \section{Methods for standard generics}{
 
 The following methods are defined for \code{streamline} objects:
 \itemize{
-\item \code{format(x, ...)}: Returns a compact character string such as
-\verb{<streamline [10 pts] | point: FA>}.
+\item \code{format(x, ...)}: Returns a cli-formatted string describing the
+streamline object.
 \item \code{print(x, ...)}: Prints the formatted string to the console and
 invisibly returns \code{x}.
 }
@@ -45,34 +49,32 @@ invisibly returns \code{x}.
 \examples{
 # Create a streamline with 5 points and some attributes
 sl <- streamline(
-  points = matrix(
-    c(0, 0, 0,
-      1, 0, 0,
-      1, 1, 0,
-      1, 1, 1,
-      0, 1, 1),
-    ncol = 3,
-    byrow = TRUE,
-    dimnames = list(NULL, c("X", "Y", "Z"))
+  points = cbind(
+    X = c(0, 1, 1, 1, 0),
+    Y = c(0, 0, 1, 1, 1),
+    Z = c(0, 0, 0, 1, 1)
   ),
   point_data = list(FA = c(0.5, 0.6, 0.7, 0.8, 0.9)),
-  streamline_data = list(mean_FA = 0.7)
+  streamline_data = list(mean_FA = 0.7, label = "CST")
 )
-sl@n_points  # 5
-sl@point_attributes  # "FA"
-sl@streamline_attributes  # "mean_FA"
+sl@n_points         # 5
+sl@point_attributes # "FA"
+sl@streamline_attributes # c("mean_FA", "label")
 
 # format() and print() methods
-format(sl)  # "<streamline [5 pts] | point: FA | streamline: mean_FA>"
+format(sl)
 print(sl)
 }
 \section{Additional properties}{
 
 \describe{
-\item{\code{@n_points}}{An integer scalar giving the number of points in the streamline (read-only).}
+\item{\code{@n_points}}{An integer scalar giving the number of points in the
+streamline (read-only).}
 
-\item{\code{@point_attributes}}{A character vector of the names of the per-point attributes (read-only).}
+\item{\code{@point_attributes}}{A character vector of the names of the per-point
+attributes stored in \verb{@point_data} (read-only).}
 
-\item{\code{@streamline_attributes}}{A character vector of the names of the per-streamline attributes (read-only).}
+\item{\code{@streamline_attributes}}{A character vector of the names of the
+per-streamline attributes (read-only).}
 }}
 

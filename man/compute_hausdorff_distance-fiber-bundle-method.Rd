@@ -32,12 +32,8 @@ of all streamlines from \code{x} and \code{y}.
 }
 }
 \examples{
-pts1 <- matrix(runif(30), ncol = 3)
-colnames(pts1) <- c("X", "Y", "Z")
-pts2 <- matrix(runif(30), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-sl1 <- streamline(points = pts1)
-sl2 <- streamline(points = pts2)
+sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 b <- bundle(streamlines = list(sl1, sl2))
 
 # pairwise dist object (size 2)

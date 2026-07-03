@@ -9,7 +9,7 @@
 
 \item{n_points}{Number of equally-spaced arc-length points to use.
 \itemize{
-\item For a single \link{streamline}, defaults to \code{nrow(x@points)}.
+\item For a single \link{streamline}, defaults to \code{x@n_points}.
 \item For a \link{bundle}, defaults to the rounded mean number of points across
 all streamlines.
 }
@@ -17,25 +17,23 @@ all streamlines.
 Pass \code{NULL} to use these defaults explicitly.}
 }
 \value{
-A \link{bundle} reparametrized onto the new grid. Every streamline in the
-returned bundle has exactly \code{n_points} rows in \verb{@points} (defaulting to
-the rounded mean number of points across all streamlines when \code{n_points}
-is \code{NULL}).
+A \link{bundle} reparametrized onto the new grid. Every streamline in
+the returned bundle has exactly \code{n_points} rows in \verb{@points} (defaulting
+to the rounded mean number of points across all streamlines when
+\code{n_points} is \code{NULL}). \verb{@streamline_data} and \verb{@bundle_data} are
+preserved unchanged.
 }
 \description{
 Resamples every \link{streamline} inside a \link{bundle} onto a common uniform
 arc-length grid. See \code{\link[=reparametrize]{reparametrize()}} for the full parameter documentation.
 }
 \examples{
-pts1 <- matrix(runif(30), ncol = 3)
-colnames(pts1) <- c("X", "Y", "Z")
-pts2 <- matrix(runif(60), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-b <- bundle(streamlines = list(streamline(points = pts1),
-                                streamline(points = pts2)))
-b_reparam <- reparametrize(b, n_points = 15)
-b_reparam[[1]]@n_points  # 15
-b_reparam[[2]]@n_points  # 15
+sl1 <- streamline(points = cbind(X = runif(5), Y = runif(5), Z = runif(5)))
+sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+b <- bundle(streamlines = list(sl1, sl2))
+b_reparam <- reparametrize(b, n_points = 8)
+b_reparam[[1]]@n_points  # 8
+b_reparam[[2]]@n_points  # 8
 }
 \seealso{
 \code{\link[=reparametrize]{reparametrize()}}

@@ -16,8 +16,7 @@ is_streamline(x)
 Test whether an object is a streamline
 }
 \examples{
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl <- streamline(points = pts)
-is_streamline(sl)     # TRUE
-is_streamline(42)     # FALSE
+sl <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
+is_streamline(sl) # TRUE
+is_streamline(42) # FALSE
 }

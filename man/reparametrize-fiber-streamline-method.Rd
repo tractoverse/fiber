@@ -9,7 +9,7 @@
 
 \item{n_points}{Number of equally-spaced arc-length points to use.
 \itemize{
-\item For a single \link{streamline}, defaults to \code{nrow(x@points)}.
+\item For a single \link{streamline}, defaults to \code{x@n_points}.
 \item For a \link{bundle}, defaults to the rounded mean number of points across
 all streamlines.
 }
@@ -18,18 +18,20 @@ Pass \code{NULL} to use these defaults explicitly.}
 }
 \value{
 A \link{streamline} reparametrized onto the new grid. The returned
-object has the same class as the input but with \verb{@points} resampled to
-exactly \code{n_points} rows and all \verb{@point_data} vectors resampled
-correspondingly via linear interpolation.
+object has \verb{@points} resampled to exactly \code{n_points} rows via linear
+interpolation, and any numeric \verb{@point_data} entries likewise resampled.
+Non-numeric \verb{@point_data} entries are dropped with a warning.
+\verb{@streamline_data} is preserved unchanged.
 }
 \description{
 Resamples a single \link{streamline} onto a uniform arc-length grid. See
 \code{\link[=reparametrize]{reparametrize()}} for the full parameter documentation.
 }
 \examples{
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts, point_data = list(FA = runif(10)))
+sl <- streamline(
+  points = cbind(X = runif(10), Y = runif(10), Z = runif(10)),
+  point_data = list(FA = runif(10))
+)
 sl_reparam <- reparametrize(sl, n_points = 20)
 sl_reparam@n_points  # 20
 }

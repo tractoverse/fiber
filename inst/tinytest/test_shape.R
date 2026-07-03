@@ -1,11 +1,19 @@
 library(fiber)
 
 set.seed(42)
-pts1 <- matrix(runif(30), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-pts2 <- matrix(runif(30), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl1 <- streamline(pts1)
-sl2 <- streamline(pts2)
-b <- bundle(list(sl1, sl2))
+n <- 10L
+make_sl <- function(n = 10L) {
+  streamline(
+    points = cbind(
+      X = runif(n),
+      Y = runif(n),
+      Z = runif(n)
+    )
+  )
+}
+sl1 <- make_sl()
+sl2 <- make_sl()
+b <- bundle(streamlines = list(sl1, sl2))
 
 not_sl <- list(1, 2, 3)
 
@@ -70,8 +78,16 @@ b_desc <- add_shape_descriptors(
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
 expect_true(is_bundle(b_desc))
+# Scalar descriptors are stored in bundle@streamline_data as length-S vectors
+expect_equal(length(b_desc@streamline_data$euclidean_length), 2L)
+expect_equal(length(b_desc@streamline_data$curvilinear_length), 2L)
+# [[ push-down makes them accessible on individual streamlines
 expect_true(!is.null(b_desc[[1L]]@streamline_data$euclidean_length))
 expect_true(!is.null(b_desc[[2L]]@streamline_data$euclidean_length))
+
+# Per-point descriptors on bundle
+b_pt <- add_shape_descriptors(b, descriptors = c("curvature", "torsion"))
+expect_equal(length(b_pt@streamlines[[1L]]@point_data$curvature), sl1@n_points)
 
 # ---- compute_hausdorff_distance: streamline x streamline --------------------
 
@@ -101,7 +117,7 @@ expect_true(all(d_bsl >= 0))
 
 # ---- compute_hausdorff_distance: bundle x bundle ----------------------------
 
-b2 <- bundle(list(sl2))
+b2 <- bundle(streamlines = list(sl2))
 d_bb <- compute_hausdorff_distance(b, b2)
 expect_true(inherits(d_bb, "dist"))
 expect_equal(attr(d_bb, "Size"), 3L)

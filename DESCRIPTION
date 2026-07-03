@@ -1,7 +1,7 @@
 Package: fiber
 Type: Package
 Title: S7 Data Structures for Diffusion MRI Tractography
-Version: 0.1.2.9000
+Version: 0.2.0
 Authors@R: c(
     person(
         given = "Aymeric",
@@ -35,6 +35,8 @@ Suggests:
     dti,
     tinytest
 Collate: 
+    'bind.R'
+    'bundle-set.R'
     'bundle.R'
     'streamline.R'
     'coerce.R'
