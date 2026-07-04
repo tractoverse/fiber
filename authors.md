@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/tractoverse/fiber/blob/master/DESCRIPTION)
 
 Stamm A (2026). *fiber: S7 Data Structures for Diffusion MRI
-Tractography*. R package version 0.1.2.9000,
+Tractography*. R package version 0.2.0,
 <https://github.com/tractoverse/fiber>.
 
     @Manual{,
       title = {fiber: S7 Data Structures for Diffusion MRI Tractography},
       author = {Aymeric Stamm},
       year = {2026},
-      note = {R package version 0.1.2.9000},
+      note = {R package version 0.2.0},
       url = {https://github.com/tractoverse/fiber},
     }

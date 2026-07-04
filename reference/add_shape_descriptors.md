@@ -23,6 +23,14 @@ function (e.g.
 [`get_torsion()`](https://tractoverse.github.io/fiber/reference/get_torsion.md))
 for more details on how each descriptor is computed.
 
+For [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
+objects, scalar descriptors (`euclidean_length`, `curvilinear_length`,
+`sinuosity`) are stored as length-S vectors in `bundle@streamline_data`.
+Per-point descriptors (`curvature`, `torsion`) continue to be stored in
+each individual streamline's `@point_data`. Both are accessible via
+`bundle[[i]]@streamline_data` and `bundle[[i]]@point_data` respectively,
+through the subsetting push-down mechanism.
+
 ## Usage
 
 ``` r
@@ -51,28 +59,27 @@ add_shape_descriptors(
 ## Value
 
 An object of the same class as `x` with the specified shape descriptors
-added to the `@streamline_data` or `@point_data` slots of each
-streamline.
+added to the appropriate slots.
 
 ## Examples
 
 ``` r
 # add multiple shape descriptors to a single streamline
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 sl <- add_shape_descriptors(
   sl,
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
+sl@streamline_data$euclidean_length
+#> [1] 0.8047799
+
 # add multiple shape descriptors to a bundle
-sl1 <- streamline(points = pts)
-pts2 <- matrix(runif(60), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-sl2 <- streamline(points = pts2)
-b <- bundle(streamlines = list(sl1, sl2))
+sl2 <- streamline(points = cbind(X = runif(20), Y = runif(20), Z = runif(20)))
+b <- bundle(streamlines = list(sl, sl2))
 b <- add_shape_descriptors(
   b,
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
+b@streamline_data$euclidean_length  # length-2 vector
+#> [1] 0.8047799 0.5586424
 ```

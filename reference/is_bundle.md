@@ -23,8 +23,7 @@ otherwise `FALSE`.
 ## Examples
 
 ``` r
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
 b <- bundle(streamlines = list(sl))
 is_bundle(b)   # TRUE
 #> [1] TRUE

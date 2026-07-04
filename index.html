@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">fiber</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@
 </tr>
 <tr>
 <td><code><a href="reference/bundle_set.html">bundle_set()</a></code></td>
-<td>Construct a named set of bundles (multi-subject / multi-session)</td>
+<td>Construct a set of bundles (multi-subject / multi-session)</td>
 </tr>
 <tr>
 <td><code><a href="reference/is_streamline.html">is_streamline()</a></code></td>
@@ -106,20 +106,7 @@
 </tr>
 <tr>
 <td><code><a href="reference/bind_bundle_sets.html">bind_bundle_sets()</a></code></td>
-<td>Combine named bundles and/or bundle sets into a single bundle set</td>
-</tr>
-<tr>
-<td><code><a href="reference/as_bundle_set.html">as_bundle_set()</a></code></td>
-<td>Coerce to <code>bundle_set</code> class</td>
-</tr>
-<tr>
-<td><code><a href="reference/reparametrize.html">reparametrize()</a></code></td>
-<td>Resample onto a uniform arc-length grid</td>
-</tr>
-<tr>
-<td><code><a href="reference/as_dwifiber.html">as_dwifiber()</a></code></td>
-<td>Coerce to <code>dwiFiber</code> class from <a href="https://cran.r-project.org/package=dti" class="external-link"></a>
-</td>
+<td>Combine bundles and/or bundle sets into a single bundle set</td>
 </tr>
 <tr>
 <td><code><a href="reference/as_streamline.html">as_streamline()</a></code></td>
@@ -128,6 +115,19 @@
 <tr>
 <td><code><a href="reference/as_bundle.html">as_bundle()</a></code></td>
 <td>Coerce to <code>bundle</code> class</td>
+</tr>
+<tr>
+<td><code><a href="reference/as_bundle_set.html">as_bundle_set()</a></code></td>
+<td>Coerce to <code>bundle_set</code> class</td>
+</tr>
+<tr>
+<td><code><a href="reference/as_dwifiber.html">as_dwifiber()</a></code></td>
+<td>Coerce to <code>dwiFiber</code> class from <a href="https://cran.r-project.org/package=dti" class="external-link"></a>
+</td>
+</tr>
+<tr>
+<td><code><a href="reference/reparametrize.html">reparametrize()</a></code></td>
+<td>Resample onto a uniform arc-length grid</td>
 </tr>
 <tr>
 <td><code><a href="reference/get_euclidean_length.html">get_euclidean_length()</a></code></td>
@@ -166,25 +166,29 @@
 <p>A <code>streamline</code> stores:</p>
 <ul>
 <li>
-<code>@points</code> — an <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \times 3</annotation></semantics></math> numeric matrix with columns <code>"X"</code>, <code>"Y"</code>, <code>"Z"</code>.</li>
+<code>@points</code> — a numeric matrix of size <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">P \times 3</annotation></semantics></math> (the number of points by the three spatial dimensions). The columns must be named <code>"X"</code>, <code>"Y"</code>, and <code>"Z"</code>.</li>
 <li>
-<code>@point_data</code> — a named list of per-point vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> (any type).</li>
+<code>@point_data</code> — a named list of <strong>numeric-only</strong> vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math> (the number of points). Stores additional per-point attributes (e.g. fractional anisotropy).</li>
 <li>
-<code>@streamline_data</code> — a named list of per-streamline scalars (any type).</li>
+<code>@streamline_data</code> — a named list of per-streamline <strong>scalars</strong> (length-1 values, any type, e.g. a mean FA or a character label).</li>
 </ul>
 <p>A <code>bundle</code> stores:</p>
 <ul>
 <li>
 <code>@streamlines</code> — a list of <code>streamline</code> objects.</li>
 <li>
-<code>@bundle_data</code> — a named list of bundle-level metadata.</li>
+<code>@streamline_data</code> — a named list of per-streamline vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math> (the number of streamlines). Attributes common to all streamlines are lifted here automatically at construction time and pushed back into individual streamlines when subsetting.</li>
+<li>
+<code>@bundle_data</code> — a named list of bundle-level <strong>scalars</strong> (length-1 values, any type).</li>
 </ul>
 <p>A <code>bundle_set</code> stores:</p>
 <ul>
 <li>
-<code>@bundles</code> — a <em>named</em> list of <code>bundle</code> objects (names typically encode subject or session IDs, e.g. <code>"sub-01"</code>).</li>
+<code>@bundles</code> — a list of <code>bundle</code> objects (optionally named, e.g. with subject or session IDs such as <code>"sub-01"</code>, in which case names are transferred as a bundle attribute in <code>@bundle_data</code> called <code>id_from_input_list</code>).</li>
 <li>
-<code>@set_data</code> — a named list of set-level metadata.</li>
+<code>@bundle_data</code> — a named list of per-bundle vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> (the number of bundles). Attributes common to all bundles are lifted here automatically at construction time and pushed back into individual bundles when subsetting.</li>
+<li>
+<code>@set_data</code> — a named list of set-level <strong>scalars</strong> (length-1 values, any type).</li>
 </ul>
 </div>
 </div>
@@ -208,7 +212,12 @@
 <span>  points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span>, Z <span class="op">=</span> <span class="va">t</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sl</span></span>
-<span><span class="co">#&gt; &lt;streamline [50 pts]&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Object of class `fiber::streamline()` with 50 points. ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • Point attributes: none</span></span>
+<span><span class="co">#&gt; • Streamline attributes: none</span></span>
+<span><span class="co">#&gt; </span></span>
 <span></span>
 <span><span class="co"># Shape descriptors</span></span>
 <span><span class="fu"><a href="reference/get_curvilinear_length.html">get_curvilinear_length</a></span><span class="op">(</span><span class="va">sl</span><span class="op">)</span></span>
@@ -223,14 +232,26 @@
 <span><span class="va">sl2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/streamline.html">streamline</a></span><span class="op">(</span></span>
 <span>  points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.1</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.1</span>, Z <span class="op">=</span> <span class="va">t</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bind_bundles.html">bind_bundles</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bundle.html">bundle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">b</span></span>
-<span><span class="co">#&gt; &lt;bundle [2 streamlines | 50–50 pts/streamline]&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Object of class `fiber::bundle()` with 2 streamliness and [50–50] points per streamline. ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • Point attributes: none</span></span>
+<span><span class="co">#&gt; • Streamline attributes: none</span></span>
+<span><span class="co">#&gt; • Bundle attributes: none</span></span>
+<span><span class="co">#&gt; </span></span>
 <span></span>
 <span><span class="co"># Reparametrize to 20 points each</span></span>
 <span><span class="va">b20</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/reparametrize.html">reparametrize</a></span><span class="op">(</span><span class="va">b</span>, n_points <span class="op">=</span> <span class="fl">20L</span><span class="op">)</span></span>
 <span><span class="va">b20</span></span>
-<span><span class="co">#&gt; &lt;bundle [2 streamlines | 20–20 pts/streamline]&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Object of class `fiber::bundle()` with 2 streamliness and [20–20] points per streamline. ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • Point attributes: none</span></span>
+<span><span class="co">#&gt; • Streamline attributes: none</span></span>
+<span><span class="co">#&gt; • Bundle attributes: none</span></span>
+<span><span class="co">#&gt; </span></span>
 <span></span>
 <span><span class="co"># Hausdorff distance</span></span>
 <span><span class="fu"><a href="reference/compute_hausdorff_distance.html">compute_hausdorff_distance</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span></span>
@@ -245,11 +266,24 @@
 <span>  streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl2</span><span class="op">)</span>,</span>
 <span>  bundle_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>subject <span class="op">=</span> <span class="st">"sub-02"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">bs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bind_bundle_sets.html">bind_bundle_sets</a></span><span class="op">(</span><span class="st">"sub-01"</span> <span class="op">=</span> <span class="va">b_sub01</span>, <span class="st">"sub-02"</span> <span class="op">=</span> <span class="va">b_sub02</span><span class="op">)</span></span>
+<span><span class="va">bs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bundle_set.html">bundle_set</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sub-01"</span> <span class="op">=</span> <span class="va">b_sub01</span>, <span class="st">"sub-02"</span> <span class="op">=</span> <span class="va">b_sub02</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">bs</span></span>
-<span><span class="co">#&gt; &lt;bundle_set [2 bundles | 1–1 streamlines/bundle]: sub-01, sub-02&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Object of class `fiber::bundle_set()` with 2 bundles and [1–1] streamlines per bundle. ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • Point attributes: none</span></span>
+<span><span class="co">#&gt; • Streamline attributes: none</span></span>
+<span><span class="co">#&gt; • Bundle attributes: "subject" and "id_from_input_names"</span></span>
+<span><span class="co">#&gt; • Set attributes: none</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="va">bs</span><span class="op">[[</span><span class="st">"sub-01"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; &lt;bundle [1 streamlines | 50–50 pts/streamline] | bundle: subject&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Object of class `fiber::bundle()` with 1 streamlines and [50–50] points per streamline. ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • Point attributes: none</span></span>
+<span><span class="co">#&gt; • Streamline attributes: none</span></span>
+<span><span class="co">#&gt; • Bundle attributes: "subject" and "id_from_input_names"</span></span>
+<span><span class="co">#&gt; </span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

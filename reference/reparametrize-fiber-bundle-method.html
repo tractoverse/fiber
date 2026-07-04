@@ -9,7 +9,7 @@ arc-length grid. See reparametrize() for the full parameter documentation."></he
 
     <a class="navbar-brand me-2" href="../index.html">fiber</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ arc-length grid. See <code><a href="reparametrize.html">reparametrize()</a></cod
 
 
 <dt id="arg-n-points">n_points<a class="anchor" aria-label="anchor" href="#arg-n-points"></a></dt>
-<dd><p>Number of equally-spaced arc-length points to use.</p><ul><li><p>For a single <a href="streamline.html">streamline</a>, defaults to <code>nrow(x@points)</code>.</p></li>
+<dd><p>Number of equally-spaced arc-length points to use.</p><ul><li><p>For a single <a href="streamline.html">streamline</a>, defaults to <code>x@n_points</code>.</p></li>
 <li><p>For a <a href="bundle.html">bundle</a>, defaults to the rounded mean number of points across
 all streamlines.</p></li>
 </ul><p>Pass <code>NULL</code> to use these defaults explicitly.</p></dd>
@@ -64,10 +64,11 @@ all streamlines.</p></li>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <a href="bundle.html">bundle</a> reparametrized onto the new grid. Every streamline in the
-returned bundle has exactly <code>n_points</code> rows in <code>@points</code> (defaulting to
-the rounded mean number of points across all streamlines when <code>n_points</code>
-is <code>NULL</code>).</p>
+    <p>A <a href="bundle.html">bundle</a> reparametrized onto the new grid. Every streamline in
+the returned bundle has exactly <code>n_points</code> rows in <code>@points</code> (defaulting
+to the rounded mean number of points across all streamlines when
+<code>n_points</code> is <code>NULL</code>). <code>@streamline_data</code> and <code>@bundle_data</code> are
+preserved unchanged.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -76,17 +77,14 @@ is <code>NULL</code>).</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">pts1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">pts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">60</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">pts2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="bundle.html">bundle</a></span><span class="op">(</span>streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="va">pts1</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                                <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="va">pts2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b_reparam</span> <span class="op">&lt;-</span> <span class="fu"><a href="reparametrize.html">reparametrize</a></span><span class="op">(</span><span class="va">b</span>, n_points <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b_reparam</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">n_points</span>  <span class="co"># 15</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
-<span class="r-in"><span><span class="va">b_reparam</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">n_points</span>  <span class="co"># 15</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sl1</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sl2</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="bundle.html">bundle</a></span><span class="op">(</span>streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl1</span>, <span class="va">sl2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b_reparam</span> <span class="op">&lt;-</span> <span class="fu"><a href="reparametrize.html">reparametrize</a></span><span class="op">(</span><span class="va">b</span>, n_points <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b_reparam</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">n_points</span>  <span class="co"># 8</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
+<span class="r-in"><span><span class="va">b_reparam</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">n_points</span>  <span class="co"># 8</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

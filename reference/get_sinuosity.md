@@ -27,9 +27,7 @@ A numeric scalar \\\ge 1\\.
 ## Examples
 
 ``` r
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_sinuosity(sl)
-#> [1] 6.914767
+#> [1] 8.138817
 ```

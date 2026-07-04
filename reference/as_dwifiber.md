@@ -37,11 +37,11 @@ otherwise they are estimated via finite differences of the coordinates
 central differences in between), then unit-normalised.
 
 Bundle-level metadata stored in `@bundle_data` under the keys `method`,
-`minfa`, `maxangle`, `ddim`, `ddim0`, `voxelext`, `orientation`,
-`rotation`, `level`, and `source` are transferred to the corresponding
-`dwiFiber` / `dwi` slots when present. MRI-acquisition metadata that
-cannot be recovered from a `fiber` object (gradient directions,
-b-values, etc.) are filled with neutral placeholders.
+`minfa`, `maxangle`, `level`, and `source` are transferred to the
+corresponding `dwiFiber` slots when present. Vector-valued fields such
+as `ddim`, `ddim0`, `voxelext`, and `orientation` must be stored as
+individual scalars (e.g. `ddim_1`, `ddim_2`, `ddim_3`) and are
+reconstructed into vectors for the `dwiFiber` object.
 
 ## See also
 
@@ -52,9 +52,8 @@ b-values, etc.) are filled with neutral placeholders.
 
 ``` r
 if (requireNamespace("dti", quietly = TRUE)) {
-  pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-  sl  <- streamline(points = pts)
-  b   <- bundle(streamlines = list(sl))
+  sl <- streamline(points = cbind(X = runif(5), Y = runif(5), Z = runif(5)))
+  b  <- bundle(streamlines = list(sl))
   dfi <- as_dwifiber(b)
   class(dfi)  # "dwiFiber"
 }

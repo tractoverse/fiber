@@ -41,7 +41,9 @@ Currently supported input classes:
   The per-point direction vectors (columns 4–6 of `@fibers`) are stored
   as `@point_data$direction_x`, `@point_data$direction_y`, and
   `@point_data$direction_z`. Tracking metadata (`method`, `minfa`,
-  `maxangle`) are stored in `@bundle_data`.
+  `maxangle`) are stored as scalars in `@bundle_data`. Vector metadata
+  (`ddim`, `ddim0`, `voxelext`, `orientation`) are stored as individual
+  scalar entries (e.g. `voxelext_1`, `voxelext_2`, `voxelext_3`).
 
 ## See also
 
@@ -51,8 +53,7 @@ Currently supported input classes:
 ## Examples
 
 ``` r
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(5), Y = runif(5), Z = runif(5)))
 b  <- as_bundle(sl)
 b@n_streamlines  # 1
 #> [1] 1

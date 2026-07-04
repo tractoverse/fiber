@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">fiber</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,30 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="fiber-development-version">fiber (development version)<a class="anchor" aria-label="anchor" href="#fiber-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="fiber-020">fiber 0.2.0<a class="anchor" aria-label="anchor" href="#fiber-020"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
+<ul><li><p><code>streamline</code>: <code>@point_data</code> holds <strong>numeric-only</strong> attributes (e.g. fractional anisotropy).</p></li>
+<li><p><code>bundle</code>: <code>@bundle_data</code> is now restricted to named lists of <strong>scalars</strong> (length-1 values, any type). Previously arbitrary R objects were accepted. Non-scalar values (e.g. affine matrices stored as a single <code>@bundle_data</code> entry) must be split into individual scalar entries or moved elsewhere.</p></li>
+<li><p><code>bundle_set</code>: <code>@set_data</code> is now restricted to named lists of <strong>scalars</strong> (length-1 values, any type), consistent with <code>@bundle_data</code> at the bundle level.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-0-2-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-2-0"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> methods for <code>streamline</code>, <code>bundle</code>, and <code>bundle_set</code> now use {cli} for styled, ANSI-aware console output. Unknown shape descriptors passed to <code><a href="../reference/add_shape_descriptors.html">add_shape_descriptors()</a></code> now emit structured <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code> messages instead of base-R warnings.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li><p><code>bundle</code> gains a <code>@streamline_data</code> slot — a named list of vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math> (one entry per streamline) — for per-streamline attributes aggregated at the bundle level. <code><a href="../reference/add_shape_descriptors.html">add_shape_descriptors()</a></code> now stores scalar descriptors (<code>euclidean_length</code>, <code>curvilinear_length</code>, <code>sinuosity</code>) directly in <code>bundle@streamline_data</code> rather than in each individual streamline.</p></li>
+<li><p><code>bundle_set</code> gains a <code>@bundle_data</code> slot — a named list of vectors of length <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> (one entry per bundle) — for per-bundle attributes aggregated at the set level.</p></li>
+<li><p><strong>Automatic attribute lifting</strong>: when constructing a <code>bundle</code>, any <code>@streamline_data</code> key present in <em>all</em> supplied streamlines is automatically copied into <code>bundle@streamline_data</code> as a length-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math> vector. The same happens one level up: common <code>@bundle_data</code> keys are lifted into <code>bundle_set@bundle_data</code> when constructing a <code>bundle_set</code>. Individual child slots are dropped; parent-level values take precedence on conflict.</p></li>
+<li><p><strong>Subsetting push-down</strong>: <code>bundle[[i]]</code> now pushes the corresponding <code>bundle@streamline_data</code> values back into the extracted streamlines’ <code>@streamline_data</code>. Likewise <code>bundle_set[[i]]</code> and pushes <code>bundle_set@bundle_data</code> values into the extracted bundles’ <code>@bundle_data</code>.</p></li>
+<li><p><code>bundle_set</code>: <code>@bundles</code> no longer needs to be a named list. Names are used to populate a bundle attribute vector called <code>id_from_input_list</code> and names are then dropped from the input list.</p></li>
+<li><p><code><a href="../reference/bundle.html">bundle()</a></code> constructor gains a <code>streamline_data</code> argument for supplying per-streamline data explicitly (overrides automatic lifting).</p></li>
+<li><p><code><a href="../reference/bind_bundles.html">bind_bundles()</a></code> gains a <code>streamline_data</code> argument.</p></li>
+<li><p><code><a href="../reference/bind_bundle_sets.html">bind_bundle_sets()</a></code> gains a <code>bundle_data</code> argument. Bare <code>bundle</code> arguments no longer need to be named.</p></li>
+<li><p><code><a href="../reference/as_bundle_set.html">as_bundle_set()</a></code> method for <code>bundle</code>: the <code>name</code> argument is now optional (default <code>NULL</code>); omitting it creates an unnamed single-element <code>bundle_set</code>.</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="fiber-012">fiber 0.1.2<a class="anchor" aria-label="anchor" href="#fiber-012"></a></h2><p class="text-muted">CRAN release: 2026-05-30</p>

@@ -20,7 +20,7 @@ for the full parameter documentation.
 
   - For a single
     [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
-    defaults to `nrow(x@points)`.
+    defaults to `x@n_points`.
 
   - For a
     [bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
@@ -33,10 +33,11 @@ for the full parameter documentation.
 
 A
 [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
-reparametrized onto the new grid. The returned object has the same class
-as the input but with `@points` resampled to exactly `n_points` rows and
-all `@point_data` vectors resampled correspondingly via linear
-interpolation.
+reparametrized onto the new grid. The returned object has `@points`
+resampled to exactly `n_points` rows via linear interpolation, and any
+numeric `@point_data` entries likewise resampled. Non-numeric
+`@point_data` entries are dropped with a warning. `@streamline_data` is
+preserved unchanged.
 
 ## See also
 
@@ -45,9 +46,10 @@ interpolation.
 ## Examples
 
 ``` r
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts, point_data = list(FA = runif(10)))
+sl <- streamline(
+  points = cbind(X = runif(10), Y = runif(10), Z = runif(10)),
+  point_data = list(FA = runif(10))
+)
 sl_reparam <- reparametrize(sl, n_points = 20)
 sl_reparam@n_points  # 20
 #> [1] 20

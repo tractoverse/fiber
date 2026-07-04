@@ -29,10 +29,8 @@ Higher values indicate sharper bending at that location.
 ## Examples
 
 ``` r
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_curvature(sl)
-#>  [1]  0.003051135  2.678905266  6.658138276 35.784987815 24.723066652
-#>  [6] 27.966689070 46.045715652  2.812822424  1.842706014  0.002333150
+#>  [1] 2.224264e-03 2.902512e+00 5.463207e+00 4.946100e+00 2.085087e+01
+#>  [6] 5.724639e+00 1.397124e+00 7.540224e-01 1.602833e-01 4.313347e-04
 ```

@@ -51,24 +51,20 @@ Dispatches to one of three behaviours depending on `y`:
 ## Examples
 
 ``` r
-pts1 <- matrix(runif(30), ncol = 3)
-colnames(pts1) <- c("X", "Y", "Z")
-pts2 <- matrix(runif(30), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-sl1 <- streamline(points = pts1)
-sl2 <- streamline(points = pts2)
+sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 b <- bundle(streamlines = list(sl1, sl2))
 
 # pairwise dist object (size 2)
 compute_hausdorff_distance(b)
 #>           1
-#> 2 0.5349375
+#> 2 0.4681201
 as.matrix(compute_hausdorff_distance(b))
 #>           1         2
-#> 1 0.0000000 0.5349375
-#> 2 0.5349375 0.0000000
+#> 1 0.0000000 0.4681201
+#> 2 0.4681201 0.0000000
 
 # distances from sl1 to each streamline in b
 compute_hausdorff_distance(b, sl1)
-#> [1] 0.0000000 0.5349375
+#> [1] 0.0000000 0.4681201
 ```

@@ -27,9 +27,7 @@ A non-negative numeric scalar.
 ## Examples
 
 ``` r
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_curvilinear_length(sl)
-#> [1] 5.41975
+#> [1] 5.805339
 ```

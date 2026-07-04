@@ -12,7 +12,14 @@ This function provides a convenient way to compute shape descriptors and
 attach them to streamline or bundle objects. See the documentation for
 each individual shape descriptor function (e.g. get_euclidean_length(),
 get_curvilinear_length(), get_sinuosity(), get_curvature(),
-get_torsion()) for more details on how each descriptor is computed."><meta property="og:description" content="add_shape_descriptors() is an S7 generic that computes a number of shape
+get_torsion()) for more details on how each descriptor is computed.
+For bundle objects, scalar descriptors (euclidean_length,
+curvilinear_length, sinuosity) are stored as length-S vectors in
+bundle@streamline_data. Per-point descriptors (curvature, torsion)
+continue to be stored in each individual streamline's @point_data.
+Both are accessible via bundle[[i]]@streamline_data and
+bundle[[i]]@point_data respectively, through the subsetting push-down
+mechanism."><meta property="og:description" content="add_shape_descriptors() is an S7 generic that computes a number of shape
 descriptors for each streamline object and stores them in the
 @streamline_data or @point_data slots as appropriate, with methods
 available for the following classes:
@@ -25,7 +32,14 @@ This function provides a convenient way to compute shape descriptors and
 attach them to streamline or bundle objects. See the documentation for
 each individual shape descriptor function (e.g. get_euclidean_length(),
 get_curvilinear_length(), get_sinuosity(), get_curvature(),
-get_torsion()) for more details on how each descriptor is computed."></head><body>
+get_torsion()) for more details on how each descriptor is computed.
+For bundle objects, scalar descriptors (euclidean_length,
+curvilinear_length, sinuosity) are stored as length-S vectors in
+bundle@streamline_data. Per-point descriptors (curvature, torsion)
+continue to be stored in each individual streamline's @point_data.
+Both are accessible via bundle[[i]]@streamline_data and
+bundle[[i]]@point_data respectively, through the subsetting push-down
+mechanism."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -33,7 +47,7 @@ get_torsion()) for more details on how each descriptor is computed."></head><bod
 
     <a class="navbar-brand me-2" href="../index.html">fiber</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,6 +91,13 @@ attach them to <a href="streamline.html">streamline</a> or <a href="bundle.html"
 each individual shape descriptor function (e.g. <code><a href="get_euclidean_length.html">get_euclidean_length()</a></code>,
 <code><a href="get_curvilinear_length.html">get_curvilinear_length()</a></code>, <code><a href="get_sinuosity.html">get_sinuosity()</a></code>, <code><a href="get_curvature.html">get_curvature()</a></code>,
 <code><a href="get_torsion.html">get_torsion()</a></code>) for more details on how each descriptor is computed.</p>
+<p>For <a href="bundle.html">bundle</a> objects, scalar descriptors (<code>euclidean_length</code>,
+<code>curvilinear_length</code>, <code>sinuosity</code>) are stored as length-S vectors in
+<code>bundle@streamline_data</code>. Per-point descriptors (<code>curvature</code>, <code>torsion</code>)
+continue to be stored in each individual streamline's <code>@point_data</code>.
+Both are accessible via <code>bundle[[i]]@streamline_data</code> and
+<code>bundle[[i]]@point_data</code> respectively, through the subsetting push-down
+mechanism.</p>
     </div>
 
     <div class="section level2">
@@ -103,30 +124,30 @@ to all available descriptors: <code>c("euclidean_length", "curvilinear_length", 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of the same class as <code>x</code> with the specified shape descriptors
-added to the <code>@streamline_data</code> or <code>@point_data</code> slots of each streamline.</p>
+    <p>An object of the same class as <code>x</code> with the specified shape
+descriptors added to the appropriate slots.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># add multiple shape descriptors to a single streamline</span></span></span>
-<span class="r-in"><span><span class="va">pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">pts</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">sl</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="va">pts</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sl</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sl</span> <span class="op">&lt;-</span> <span class="fu">add_shape_descriptors</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">sl</span>,</span></span>
 <span class="r-in"><span>  descriptors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean_length"</span>, <span class="st">"curvilinear_length"</span>, <span class="st">"sinuosity"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sl</span><span class="op">@</span><span class="va">streamline_data</span><span class="op">$</span><span class="va">euclidean_length</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8047799</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># add multiple shape descriptors to a bundle</span></span></span>
-<span class="r-in"><span><span class="va">sl1</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="va">pts</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">pts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">60</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">pts2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">sl2</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="va">pts2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="bundle.html">bundle</a></span><span class="op">(</span>streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl1</span>, <span class="va">sl2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sl2</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamline.html">streamline</a></span><span class="op">(</span>points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="bundle.html">bundle</a></span><span class="op">(</span>streamlines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sl</span>, <span class="va">sl2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">add_shape_descriptors</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">b</span>,</span></span>
 <span class="r-in"><span>  descriptors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean_length"</span>, <span class="st">"curvilinear_length"</span>, <span class="st">"sinuosity"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">@</span><span class="va">streamline_data</span><span class="op">$</span><span class="va">euclidean_length</span>  <span class="co"># length-2 vector</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8047799 0.5586424</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

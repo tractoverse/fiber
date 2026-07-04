@@ -73,35 +73,31 @@ compute_hausdorff_distance(x, y = NULL)
 ## Examples
 
 ``` r
-pts1 <- matrix(runif(30), ncol = 3)
-colnames(pts1) <- c("X", "Y", "Z")
-sl1 <- streamline(points = pts1)
-pts2 <- matrix(runif(30), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-sl2 <- streamline(points = pts2)
+sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 
 # streamline x streamline -> scalar
 compute_hausdorff_distance(sl1, sl2)
-#> [1] 0.652874
+#> [1] 0.566281
 
 # bundle x missing -> pairwise dist object
 b <- bundle(streamlines = list(sl1, sl2))
 compute_hausdorff_distance(b)
 #>          1
-#> 2 0.652874
+#> 2 0.566281
 as.matrix(compute_hausdorff_distance(b))
 #>          1        2
-#> 1 0.000000 0.652874
-#> 2 0.652874 0.000000
+#> 1 0.000000 0.566281
+#> 2 0.566281 0.000000
 
 # bundle x streamline -> vector
 compute_hausdorff_distance(b, sl1)
-#> [1] 0.000000 0.652874
+#> [1] 0.000000 0.566281
 
 # bundle x bundle -> combined pairwise matrix
 b2 <- bundle(streamlines = list(sl2))
 compute_hausdorff_distance(b, b2)
 #>          1        2
-#> 2 0.652874         
-#> 3 0.652874 0.000000
+#> 2 0.566281         
+#> 3 0.566281 0.000000
 ```

@@ -2,20 +2,25 @@
 
 A `bundle` is an ordered collection of
 [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
-objects representing a tractogram or white-matter bundle. It stores two
-compartments:
+objects representing a tractogram or white-matter bundle. It stores
+three compartments:
 
 - `@streamlines` — a list of
   [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   objects.
 
-- `@bundle_data` — a named list of bundle-level metadata (arbitrary R
-  objects, e.g. the affine transform used during tracking).
+- `@streamline_data` — a named list of per-streamline vectors (any
+  type), each of length \\S\\ (the number of streamlines). Values common
+  to all streamlines may be lifted here automatically from the
+  individual streamlines' `@streamline_data` slots at construction time.
+
+- `@bundle_data` — a named list of scalars (length-1 values, any type)
+  holding bundle-level metadata.
 
 ## Usage
 
 ``` r
-bundle(streamlines = list(), bundle_data = list())
+bundle(streamlines = list(), streamline_data = list(), bundle_data = list())
 ```
 
 ## Arguments
@@ -26,9 +31,15 @@ bundle(streamlines = list(), bundle_data = list())
   [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
   objects.
 
+- streamline_data:
+
+  A named list of per-streamline vectors of length S. If not supplied,
+  any `@streamline_data` keys common to **all** streamlines are lifted
+  automatically.
+
 - bundle_data:
 
-  A named list of bundle-level metadata.
+  A named list of bundle-level scalar metadata.
 
 ## Value
 
@@ -38,8 +49,8 @@ A `bundle` S7 object.
 
 The following methods are defined for `bundle` objects:
 
-- `format(x, ...)`: Returns a compact character string such as
-  `<bundle [2 streamlines | 10–20 pts/streamline]>`.
+- `format(x, ...)`: Returns a cli-formatted string describing the bundle
+  object.
 
 - `print(x, ...)`: Prints the formatted string to the console and
   invisibly returns `x`.
@@ -49,10 +60,11 @@ The following methods are defined for `bundle` objects:
 
 - `x[[i]]`: Extracts the `i`-th
   [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
-  from the bundle.
+  from the bundle, with bundle-level `@streamline_data` pushed back into
+  the streamline.
 
 - `x[i]`: Returns a new bundle containing only the selected streamlines,
-  preserving `@bundle_data`.
+  with `@bundle_data` and the subset of `@streamline_data` preserved.
 
 ## Additional properties
 
@@ -60,6 +72,11 @@ The following methods are defined for `bundle` objects:
 
   An integer scalar giving the number of streamlines in the bundle
   (read-only).
+
+- `@streamline_attributes`:
+
+  A character vector of the names of the per-streamline attributes
+  stored at the bundle level (read-only).
 
 - `@bundle_attributes`:
 
@@ -69,36 +86,26 @@ The following methods are defined for `bundle` objects:
 ## Examples
 
 ``` r
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl <- streamline(points = pts)
-b <- bundle(streamlines = list(sl))
-b@n_streamlines  # 1
-#> [1] 1
-b@bundle_attributes  # NULL (no bundle-level attributes)
-#> NULL
-
-# bundle_data is stored
-b2 <- bundle(
-  streamlines = list(sl),
-  bundle_data = list(subject = "sub-01")
+sl1 <- streamline(
+  points = cbind(X = 0:4, Y = 0:4, Z = 0:4),
+  streamline_data = list(mean_FA = 0.6, label = "CST")
 )
-b2@bundle_data$subject  # "sub-01"
-#> [1] "sub-01"
+sl2 <- streamline(
+  points = cbind(X = 1:3, Y = 1:3, Z = 1:3),
+  streamline_data = list(mean_FA = 0.7, label = "CST")
+)
+# mean_FA and label are common to both streamlines and are lifted
+b <- bundle(streamlines = list(sl1, sl2))
+b@n_streamlines  # 2
+#> [1] 2
+b@streamline_attributes  # c("mean_FA", "label")
+#> [1] "mean_FA" "label"  
+b@streamline_data$mean_FA  # c(0.6, 0.7)
+#> [1] 0.6 0.7
 
-# format(), print(), length() and indexing methods
-format(b2)
-#> [1] "<bundle [1 streamlines | 5–5 pts/streamline] | bundle: subject>"
-print(b2)
-#> <bundle [1 streamlines | 5–5 pts/streamline] | bundle: subject> 
-length(b2)   # 1
-#> [1] 1
-b2[[1]]      # first streamline
-#> <streamline [5 pts]> 
-
-# subsetting preserves bundle_data
-pts2 <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl2 <- streamline(points = pts2)
-b3 <- bundle(streamlines = list(sl, sl2), bundle_data = list(subject = "sub-01"))
-b3[1]@n_streamlines  # 1, bundle_data preserved
-#> [1] 1
+# Subsetting pushes streamline_data back down
+b[[1]]@streamline_data$mean_FA  # 0.6
+#> [1] 0.6
+b[1]@streamline_data$mean_FA    # c(0.6)
+#> [1] 0.6
 ```

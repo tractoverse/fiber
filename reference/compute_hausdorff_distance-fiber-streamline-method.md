@@ -31,12 +31,8 @@ performed in C++ via `hausdorff_distance_cpp()`.
 ## Examples
 
 ``` r
-pts1 <- matrix(runif(30), ncol = 3)
-colnames(pts1) <- c("X", "Y", "Z")
-pts2 <- matrix(runif(30), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-sl1 <- streamline(points = pts1)
-sl2 <- streamline(points = pts2)
+sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 compute_hausdorff_distance(sl1, sl2)
-#> [1] 0.402474
+#> [1] 0.7950254
 ```

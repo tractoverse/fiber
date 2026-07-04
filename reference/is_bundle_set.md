@@ -23,9 +23,9 @@ otherwise `FALSE`.
 ## Examples
 
 ``` r
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-b <- bundle(streamlines = list(streamline(points = pts)))
-bs <- bundle_set(bundles = list("sub-01" = b))
+sl <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
+b <- bundle(streamlines = list(sl))
+bs <- bundle_set(bundles = list(b))
 is_bundle_set(bs)  # TRUE
 #> [1] TRUE
 is_bundle_set(b)   # FALSE

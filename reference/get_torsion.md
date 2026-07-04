@@ -30,10 +30,8 @@ zero indicates a planar curve at that location.
 ## Examples
 
 ``` r
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_torsion(sl)
-#>  [1] -4.773398e+01  1.162808e+00  2.996264e+00  8.199129e+00  5.831254e+00
-#>  [6]  2.130476e-01  7.561493e+00  1.269322e+00 -3.229987e-04 -4.676693e+01
+#>  [1]  1.826578e+02  1.380349e+00  2.709291e+00  2.849553e+00 -4.872782e+00
+#>  [6] -3.844751e+00  2.215573e+00  5.292907e+00 -2.781532e-03 -5.689486e+02
 ```

@@ -35,8 +35,8 @@ Currently supported input classes:
 - [bundle](https://tractoverse.github.io/fiber/reference/bundle.md):
   wrapped in a single-element
   [bundle_set](https://tractoverse.github.io/fiber/reference/bundle_set.md).
-  An optional `name` argument sets the element name (defaults to
-  `"bundle_1"`).
+  An optional `name` argument sets the element name (defaults to `NULL`,
+  producing an unnamed single-element set).
 
 ## See also
 
@@ -46,8 +46,8 @@ Currently supported input classes:
 ## Examples
 
 ``` r
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-b <- bundle(streamlines = list(streamline(points = pts)))
+sl <- streamline(points = cbind(X = runif(5), Y = runif(5), Z = runif(5)))
+b <- bundle(streamlines = list(sl))
 bs <- as_bundle_set(b, name = "sub-01")
 bs@n_bundles  # 1
 #> [1] 1

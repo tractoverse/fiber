@@ -21,7 +21,7 @@ for the full parameter documentation.
 
   - For a single
     [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
-    defaults to `nrow(x@points)`.
+    defaults to `x@n_points`.
 
   - For a
     [bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
@@ -36,7 +36,7 @@ A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
 reparametrized onto the new grid. Every streamline in the returned
 bundle has exactly `n_points` rows in `@points` (defaulting to the
 rounded mean number of points across all streamlines when `n_points` is
-`NULL`).
+`NULL`). `@streamline_data` and `@bundle_data` are preserved unchanged.
 
 ## See also
 
@@ -45,15 +45,12 @@ rounded mean number of points across all streamlines when `n_points` is
 ## Examples
 
 ``` r
-pts1 <- matrix(runif(30), ncol = 3)
-colnames(pts1) <- c("X", "Y", "Z")
-pts2 <- matrix(runif(60), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-b <- bundle(streamlines = list(streamline(points = pts1),
-                                streamline(points = pts2)))
-b_reparam <- reparametrize(b, n_points = 15)
-b_reparam[[1]]@n_points  # 15
-#> [1] 15
-b_reparam[[2]]@n_points  # 15
-#> [1] 15
+sl1 <- streamline(points = cbind(X = runif(5), Y = runif(5), Z = runif(5)))
+sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+b <- bundle(streamlines = list(sl1, sl2))
+b_reparam <- reparametrize(b, n_points = 8)
+b_reparam[[1]]@n_points  # 8
+#> [1] 8
+b_reparam[[2]]@n_points  # 8
+#> [1] 8
 ```
