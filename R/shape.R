@@ -12,38 +12,34 @@ NULL
 #' @returns A non-negative numeric scalar.
 #' @export
 #' @examples
-#' pts <- matrix(runif(30), ncol = 3)
-#' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- streamline(points = pts)
+#' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' get_euclidean_length(sl)
 get_euclidean_length <- function(x) {
   if (!is_streamline(x)) {
     cli::cli_abort("{.arg x} must be a {.cls fiber::streamline} object.")
   }
-  pts <- x@points
+  pts <- .get_coords(x)
   n <- nrow(pts)
   .dist3(pts[1L, ], pts[n, ])
 }
 
 #' Curvilinear length of a streamline
 #'
-#' `get_curvilinear_length()` is a function that computes the total arc-length of a
-#' [streamline] object as the sum of Euclidean segment lengths between
+#' `get_curvilinear_length()` is a function that computes the total arc-length
+#' of a [streamline] object as the sum of Euclidean segment lengths between
 #' consecutive points.
 #'
 #' @param x A [streamline] object.
 #' @returns A non-negative numeric scalar.
 #' @export
 #' @examples
-#' pts <- matrix(runif(30), ncol = 3)
-#' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- streamline(points = pts)
+#' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' get_curvilinear_length(sl)
 get_curvilinear_length <- function(x) {
   if (!is_streamline(x)) {
     cli::cli_abort("{.arg x} must be a {.cls fiber::streamline} object.")
   }
-  pts <- x@points
+  pts <- .get_coords(x)
   s <- .arc_length(pts)
   s[length(s)]
 }
@@ -59,9 +55,7 @@ get_curvilinear_length <- function(x) {
 #' @returns A numeric scalar \eqn{\ge 1}.
 #' @export
 #' @examples
-#' pts <- matrix(runif(30), ncol = 3)
-#' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- streamline(points = pts)
+#' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' get_sinuosity(sl)
 get_sinuosity <- function(x) {
   if (!is_streamline(x)) {
@@ -83,15 +77,13 @@ get_sinuosity <- function(x) {
 #'   Higher values indicate sharper bending at that location.
 #' @export
 #' @examples
-#' pts <- matrix(runif(30), ncol = 3)
-#' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- streamline(points = pts)
+#' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' get_curvature(sl)
 get_curvature <- function(x) {
   if (!is_streamline(x)) {
     cli::cli_abort("{.arg x} must be a {.cls fiber::streamline} object.")
   }
-  pts <- x@points
+  pts <- .get_coords(x)
   s <- .arc_length(pts)
 
   ssx <- stats::smooth.spline(s, pts[, "X"], df = 3L)
@@ -126,15 +118,13 @@ get_curvature <- function(x) {
 #'   twisting; zero indicates a planar curve at that location.
 #' @export
 #' @examples
-#' pts <- matrix(runif(30), ncol = 3)
-#' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- streamline(points = pts)
+#' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' get_torsion(sl)
 get_torsion <- function(x) {
   if (!is_streamline(x)) {
     cli::cli_abort("{.arg x} must be a {.cls fiber::streamline} object.")
   }
-  pts <- x@points
+  pts <- .get_coords(x)
   s <- .arc_length(pts)
 
   ssx <- stats::smooth.spline(s, pts[, "X"], df = 4L)
@@ -179,32 +169,38 @@ get_torsion <- function(x) {
 #' `get_curvilinear_length()`, `get_sinuosity()`, `get_curvature()`,
 #' `get_torsion()`) for more details on how each descriptor is computed.
 #'
+#' For [bundle] objects, scalar descriptors (`euclidean_length`,
+#' `curvilinear_length`, `sinuosity`) are stored as length-S vectors in
+#' `bundle@streamline_data`. Per-point descriptors (`curvature`, `torsion`)
+#' continue to be stored in each individual streamline's `@point_data`.
+#' Both are accessible via `bundle[[i]]@streamline_data` and
+#' `bundle[[i]]@point_data` respectively, through the subsetting push-down
+#' mechanism.
+#'
 #' @param x A [streamline] or [bundle] object.
 #' @param descriptors A character vector of shape descriptors to add. Defaults
 #' to all available descriptors: `c("euclidean_length", "curvilinear_length",
 #' "sinuosity", "curvature", "torsion")`.
-#' @returns An object of the same class as `x` with the specified shape descriptors
-#' added to the `@streamline_data` or `@point_data` slots of each streamline.
+#' @returns An object of the same class as `x` with the specified shape
+#'   descriptors added to the appropriate slots.
 #' @export
 #' @examples
 #' # add multiple shape descriptors to a single streamline
-#' pts <- matrix(runif(30), ncol = 3)
-#' colnames(pts) <- c("X", "Y", "Z")
-#' sl <- streamline(points = pts)
+#' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' sl <- add_shape_descriptors(
 #'   sl,
 #'   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 #' )
+#' sl@streamline_data$euclidean_length
+#'
 #' # add multiple shape descriptors to a bundle
-#' sl1 <- streamline(points = pts)
-#' pts2 <- matrix(runif(60), ncol = 3)
-#' colnames(pts2) <- c("X", "Y", "Z")
-#' sl2 <- streamline(points = pts2)
-#' b <- bundle(streamlines = list(sl1, sl2))
+#' sl2 <- streamline(points = cbind(X = runif(20), Y = runif(20), Z = runif(20)))
+#' b <- bundle(streamlines = list(sl, sl2))
 #' b <- add_shape_descriptors(
 #'   b,
 #'   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 #' )
+#' b@streamline_data$euclidean_length  # length-2 vector
 add_shape_descriptors <- S7::new_generic(
   "add_shape_descriptors",
   "x",
@@ -246,6 +242,13 @@ S7::method(add_shape_descriptors, streamline) <- function(
     "torsion"
   )
 ) {
+  known <- c(
+    "euclidean_length",
+    "curvilinear_length",
+    "sinuosity",
+    "curvature",
+    "torsion"
+  )
   for (desc in descriptors) {
     if (desc == "euclidean_length") {
       x@streamline_data$euclidean_length <- get_euclidean_length(x)
@@ -258,14 +261,10 @@ S7::method(add_shape_descriptors, streamline) <- function(
     } else if (desc == "torsion") {
       x@point_data$torsion <- get_torsion(x)
     } else {
-      warning(
-        cli::format_inline(
-          "Unknown shape descriptor: {.val {desc}}. Currently available ",
-          "descriptors are: {.val euclidean_length}, {.val curvilinear_length}, ",
-          "{.val sinuosity}, {.val curvature}, and {.val torsion}."
-        ),
-        call. = FALSE
-      )
+      cli::cli_warn(c(
+        "!" = "Unknown shape descriptor {.val {desc}}.",
+        "i" = "Available descriptors: {.val {known}}."
+      ))
     }
   }
   x
@@ -275,12 +274,16 @@ S7::method(add_shape_descriptors, streamline) <- function(
 
 #' [add_shape_descriptors()] method for `bundle` objects
 #'
-#' Adds multiple shape descriptors to every [streamline] inside a [bundle].
+#' Adds shape descriptors to a [bundle]. Scalar descriptors
+#' (`euclidean_length`, `curvilinear_length`, `sinuosity`) are stored as
+#' length-S vectors in `bundle@streamline_data`. Per-point descriptors
+#' (`curvature`, `torsion`) are stored in each individual streamline's
+#' `@point_data`. Both are accessible via the subsetting push-down
+#' (`bundle[[i]]`).
 #'
 #' @param x A [bundle] object.
 #' @inheritParams add_shape_descriptors
-#' @returns A [bundle] with the specified shape descriptors added to the
-#' `@streamline_data` or `@point_data` slots of each streamline as appropriate.
+#' @returns A [bundle] with the specified shape descriptors added.
 #' @seealso [add_shape_descriptors()]
 #' @name add_shape_descriptors-fiber-bundle-method
 #' @aliases add_shape_descriptors,fiber::bundle-method
@@ -295,11 +298,39 @@ S7::method(add_shape_descriptors, bundle) <- function(
     "torsion"
   )
 ) {
-  x@streamlines <- lapply(
-    x@streamlines,
-    add_shape_descriptors,
-    descriptors = descriptors
-  )
+  scalar_descs <- c("euclidean_length", "curvilinear_length", "sinuosity")
+  point_descs <- c("curvature", "torsion")
+  known <- c(scalar_descs, point_descs)
+
+  # Scalar per-streamline descriptors → stored in bundle@streamline_data
+  for (desc in intersect(descriptors, scalar_descs)) {
+    fn <- switch(
+      desc,
+      euclidean_length = get_euclidean_length,
+      curvilinear_length = get_curvilinear_length,
+      sinuosity = get_sinuosity
+    )
+    x@streamline_data[[desc]] <- vapply(x@streamlines, fn, numeric(1L))
+  }
+
+  # Per-point descriptors → stored in each streamline's @point_data
+  pt_descs_requested <- intersect(descriptors, point_descs)
+  if (length(pt_descs_requested) > 0L) {
+    x@streamlines <- lapply(
+      x@streamlines,
+      add_shape_descriptors,
+      descriptors = pt_descs_requested
+    )
+  }
+
+  # Unknown descriptors
+  for (desc in setdiff(descriptors, known)) {
+    cli::cli_warn(c(
+      "!" = "Unknown shape descriptor {.val {desc}}.",
+      "i" = "Available descriptors: {.val {known}}."
+    ))
+  }
+
   x
 }
 
@@ -340,12 +371,8 @@ S7::method(add_shape_descriptors, bundle) <- function(
 #'     a [streamline].
 #' @export
 #' @examples
-#' pts1 <- matrix(runif(30), ncol = 3)
-#' colnames(pts1) <- c("X", "Y", "Z")
-#' sl1 <- streamline(points = pts1)
-#' pts2 <- matrix(runif(30), ncol = 3)
-#' colnames(pts2) <- c("X", "Y", "Z")
-#' sl2 <- streamline(points = pts2)
+#' sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+#' sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #'
 #' # streamline x streamline -> scalar
 #' compute_hausdorff_distance(sl1, sl2)
@@ -385,12 +412,8 @@ compute_hausdorff_distance <- S7::new_generic(
 #' @aliases compute_hausdorff_distance,fiber::streamline-method
 #' @usage NULL
 #' @examples
-#' pts1 <- matrix(runif(30), ncol = 3)
-#' colnames(pts1) <- c("X", "Y", "Z")
-#' pts2 <- matrix(runif(30), ncol = 3)
-#' colnames(pts2) <- c("X", "Y", "Z")
-#' sl1 <- streamline(points = pts1)
-#' sl2 <- streamline(points = pts2)
+#' sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+#' sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' compute_hausdorff_distance(sl1, sl2)
 S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
   if (!is_streamline(y)) {
@@ -401,10 +424,7 @@ S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
       {.cls fiber::bundle} as {.arg x} and omit {.arg y}."
     ))
   }
-  xyz_cols <- c("X", "Y", "Z")
-  mat_x <- x@points[, xyz_cols, drop = FALSE]
-  mat_y <- y@points[, xyz_cols, drop = FALSE]
-  hausdorff_distance_cpp(mat_x, mat_y)
+  hausdorff_distance_cpp(.get_coords(x), .get_coords(y))
 }
 
 # --- method: bundle ---------------------------------------------------------
@@ -433,12 +453,8 @@ S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
 #' @aliases compute_hausdorff_distance,fiber::bundle-method
 #' @usage NULL
 #' @examples
-#' pts1 <- matrix(runif(30), ncol = 3)
-#' colnames(pts1) <- c("X", "Y", "Z")
-#' pts2 <- matrix(runif(30), ncol = 3)
-#' colnames(pts2) <- c("X", "Y", "Z")
-#' sl1 <- streamline(points = pts1)
-#' sl2 <- streamline(points = pts2)
+#' sl1 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
+#' sl2 <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 #' b <- bundle(streamlines = list(sl1, sl2))
 #'
 #' # pairwise dist object (size 2)
@@ -447,13 +463,15 @@ S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
 #'
 #' # distances from sl1 to each streamline in b
 #' compute_hausdorff_distance(b, sl1)
-S7::method(compute_hausdorff_distance, bundle) <- function(x, y = NULL) {
-  xyz_cols <- c("X", "Y", "Z")
+S7::method(compute_hausdorff_distance, bundle) <- function(
+  x,
+  y = NULL
+) {
   if (is.null(y)) {
     # --- bundle x missing: dist object via C++ single-loop ------------------
     sls <- x@streamlines
     n <- length(sls)
-    mats <- lapply(sls, function(sl) sl@points[, xyz_cols, drop = FALSE])
+    mats <- lapply(sls, .get_coords)
     dv <- pairwise_hausdorff_cpp(mats)
     structure(
       dv,
@@ -465,15 +483,10 @@ S7::method(compute_hausdorff_distance, bundle) <- function(x, y = NULL) {
     )
   } else if (is_streamline(y)) {
     # --- bundle x streamline: vector of distances ---------------------------
-    mat_y <- y@points[, xyz_cols, drop = FALSE]
+    mat_y <- .get_coords(y)
     vapply(
       x@streamlines,
-      function(sl) {
-        hausdorff_distance_cpp(
-          sl@points[, xyz_cols, drop = FALSE],
-          mat_y
-        )
-      },
+      function(sl) hausdorff_distance_cpp(.get_coords(sl), mat_y),
       numeric(1L)
     )
   } else if (is_bundle(y)) {

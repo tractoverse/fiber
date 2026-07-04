@@ -21,8 +21,6 @@ along the arc-length abscissa is computed using cubic smoothing
 splines (3 degrees of freedom per component).
 }
 \examples{
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_curvature(sl)
 }

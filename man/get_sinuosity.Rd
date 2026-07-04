@@ -19,8 +19,6 @@ length to Euclidean length for a \link{streamline} object, with a value of
 greater curviness.
 }
 \examples{
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_sinuosity(sl)
 }

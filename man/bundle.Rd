@@ -4,72 +4,79 @@
 \alias{bundle}
 \title{Bundle S7 class}
 \usage{
-bundle(streamlines = list(), bundle_data = list())
+bundle(streamlines = list(), streamline_data = list(), bundle_data = list())
 }
 \arguments{
 \item{streamlines}{A list of \link{streamline} objects.}
 
-\item{bundle_data}{A named list of bundle-level metadata.}
+\item{streamline_data}{A named list of per-streamline vectors of length S.
+If not supplied, any \verb{@streamline_data} keys common to \strong{all} streamlines
+are lifted automatically.}
+
+\item{bundle_data}{A named list of bundle-level scalar metadata.}
 }
 \value{
 A \code{bundle} S7 object.
 }
 \description{
 A \code{bundle} is an ordered collection of \link{streamline} objects representing a
-tractogram or white-matter bundle. It stores two compartments:
+tractogram or white-matter bundle. It stores three compartments:
 \itemize{
 \item \verb{@streamlines} — a list of \link{streamline} objects.
-\item \verb{@bundle_data} — a named list of bundle-level metadata (arbitrary R
-objects, e.g. the affine transform used during tracking).
+\item \verb{@streamline_data} — a named list of per-streamline vectors (any type),
+each of length \eqn{S} (the number of streamlines). Values common to all
+streamlines may be lifted here automatically from the individual
+streamlines' \verb{@streamline_data} slots at construction time.
+\item \verb{@bundle_data} — a named list of scalars (length-1 values, any type)
+holding bundle-level metadata.
 }
 }
 \section{Methods for standard generics}{
 
 The following methods are defined for \code{bundle} objects:
 \itemize{
-\item \code{format(x, ...)}: Returns a compact character string such as
-\verb{<bundle [2 streamlines | 10–20 pts/streamline]>}.
+\item \code{format(x, ...)}: Returns a cli-formatted string describing the bundle
+object.
 \item \code{print(x, ...)}: Prints the formatted string to the console and
 invisibly returns \code{x}.
 \item \code{length(x)}: Returns the number of streamlines (equivalent to
 \code{x@n_streamlines}).
-\item \code{x[[i]]}: Extracts the \code{i}-th \link{streamline} from the bundle.
-\item \code{x[i]}: Returns a new \link{bundle} containing only the selected
-streamlines, preserving \verb{@bundle_data}.
+\item \code{x[[i]]}: Extracts the \code{i}-th \link{streamline} from the bundle, with
+bundle-level \verb{@streamline_data} pushed back into the streamline.
+\item \code{x[i]}: Returns a new \link{bundle} containing only the selected streamlines,
+with \verb{@bundle_data} and the subset of \verb{@streamline_data} preserved.
 }
 }
 
 \examples{
-pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl <- streamline(points = pts)
-b <- bundle(streamlines = list(sl))
-b@n_streamlines  # 1
-b@bundle_attributes  # NULL (no bundle-level attributes)
-
-# bundle_data is stored
-b2 <- bundle(
-  streamlines = list(sl),
-  bundle_data = list(subject = "sub-01")
+sl1 <- streamline(
+  points = cbind(X = 0:4, Y = 0:4, Z = 0:4),
+  streamline_data = list(mean_FA = 0.6, label = "CST")
 )
-b2@bundle_data$subject  # "sub-01"
+sl2 <- streamline(
+  points = cbind(X = 1:3, Y = 1:3, Z = 1:3),
+  streamline_data = list(mean_FA = 0.7, label = "CST")
+)
+# mean_FA and label are common to both streamlines and are lifted
+b <- bundle(streamlines = list(sl1, sl2))
+b@n_streamlines  # 2
+b@streamline_attributes  # c("mean_FA", "label")
+b@streamline_data$mean_FA  # c(0.6, 0.7)
 
-# format(), print(), length() and indexing methods
-format(b2)
-print(b2)
-length(b2)   # 1
-b2[[1]]      # first streamline
-
-# subsetting preserves bundle_data
-pts2 <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-sl2 <- streamline(points = pts2)
-b3 <- bundle(streamlines = list(sl, sl2), bundle_data = list(subject = "sub-01"))
-b3[1]@n_streamlines  # 1, bundle_data preserved
+# Subsetting pushes streamline_data back down
+b[[1]]@streamline_data$mean_FA  # 0.6
+b[1]@streamline_data$mean_FA    # c(0.6)
 }
 \section{Additional properties}{
 
 \describe{
-\item{\code{@n_streamlines}}{An integer scalar giving the number of streamlines in the bundle (read-only).}
+\item{\code{@n_streamlines}}{An integer scalar giving the number of streamlines in
+the bundle (read-only).}
 
-\item{\code{@bundle_attributes}}{A character vector of the names of the bundle-level attributes (read-only).}
+\item{\code{@streamline_attributes}}{A character vector of the names of the
+per-streamline attributes stored at the bundle level (read-only).}
+
+\item{\code{@bundle_attributes}}{A character vector of the names of the bundle-level
+attributes (read-only).}
 }}
 

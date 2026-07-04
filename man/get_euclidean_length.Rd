@@ -17,8 +17,6 @@ A non-negative numeric scalar.
 (straight-line) distance of a \link{streamline} object.
 }
 \examples{
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 get_euclidean_length(sl)
 }

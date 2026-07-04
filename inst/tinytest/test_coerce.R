@@ -3,9 +3,8 @@ library(fiber)
 # ---- helpers ----------------------------------------------------------------
 
 make_sl <- function(n = 5L) {
-  pts <- matrix(as.numeric(seq_len(n * 3L)), nrow = n, ncol = 3L)
-  colnames(pts) <- c("X", "Y", "Z")
-  streamline(points = pts)
+  pts <- as.numeric(seq_len(n))
+  streamline(points = cbind(X = pts, Y = pts, Z = pts))
 }
 
 # ---- as_streamline ----------------------------------------------------------
@@ -19,7 +18,9 @@ expect_identical(as_streamline(sl), sl)
 b1 <- bundle(streamlines = list(sl))
 result_sl <- as_streamline(b1)
 expect_true(is_streamline(result_sl))
-expect_identical(result_sl@points, sl@points)
+expect_identical(result_sl@points[, "X"], sl@points[, "X"])
+expect_identical(result_sl@points[, "Y"], sl@points[, "Y"])
+expect_identical(result_sl@points[, "Z"], sl@points[, "Z"])
 
 # as_streamline on a multi-streamline bundle should error
 b2 <- bundle(streamlines = list(sl, make_sl(4L)))
@@ -35,7 +36,7 @@ expect_error(as_streamline("hello"))
 b_from_sl <- as_bundle(sl)
 expect_true(is_bundle(b_from_sl))
 expect_equal(b_from_sl@n_streamlines, 1L)
-expect_identical(b_from_sl[[1L]]@points, sl@points)
+expect_identical(b_from_sl[[1L]]@points[, "X"], sl@points[, "X"])
 
 # identity: as_bundle(bundle) returns the same object
 b_orig <- bundle(streamlines = list(sl))
@@ -59,7 +60,10 @@ if (requireNamespace("dti", quietly = TRUE)) {
       method = "LINEPROP",
       minfa = 0.3,
       maxangle = 30,
-      voxelext = c(2, 2, 2)
+      # voxelext stored as individual scalars under the new API
+      voxelext_1 = 2,
+      voxelext_2 = 2,
+      voxelext_3 = 2
     )
   )
 
@@ -76,11 +80,10 @@ if (requireNamespace("dti", quietly = TRUE)) {
   expect_true(is_bundle(b_rt))
   expect_equal(b_rt@n_streamlines, 2L)
 
-  # Points are recovered correctly
-  expect_identical(
-    b_rt[[1L]]@points,
-    sl1@points
-  )
+  # Coordinates are recovered correctly via @points
+  expect_identical(b_rt[[1L]]@points[, "X"], sl1@points[, "X"])
+  expect_identical(b_rt[[1L]]@points[, "Y"], sl1@points[, "Y"])
+  expect_identical(b_rt[[1L]]@points[, "Z"], sl1@points[, "Z"])
 
   # as_dwifiber(streamline) same as wrapping in a bundle first
   dfi_sl <- as_dwifiber(sl1)

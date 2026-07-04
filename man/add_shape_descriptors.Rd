@@ -17,8 +17,8 @@ add_shape_descriptors(
 to all available descriptors: \code{c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")}.}
 }
 \value{
-An object of the same class as \code{x} with the specified shape descriptors
-added to the \verb{@streamline_data} or \verb{@point_data} slots of each streamline.
+An object of the same class as \code{x} with the specified shape
+descriptors added to the appropriate slots.
 }
 \description{
 \code{add_shape_descriptors()} is an S7 generic that computes a number of shape
@@ -36,24 +36,30 @@ attach them to \link{streamline} or \link{bundle} objects. See the documentation
 each individual shape descriptor function (e.g. \code{get_euclidean_length()},
 \code{get_curvilinear_length()}, \code{get_sinuosity()}, \code{get_curvature()},
 \code{get_torsion()}) for more details on how each descriptor is computed.
+
+For \link{bundle} objects, scalar descriptors (\code{euclidean_length},
+\code{curvilinear_length}, \code{sinuosity}) are stored as length-S vectors in
+\code{bundle@streamline_data}. Per-point descriptors (\code{curvature}, \code{torsion})
+continue to be stored in each individual streamline's \verb{@point_data}.
+Both are accessible via \code{bundle[[i]]@streamline_data} and
+\code{bundle[[i]]@point_data} respectively, through the subsetting push-down
+mechanism.
 }
 \examples{
 # add multiple shape descriptors to a single streamline
-pts <- matrix(runif(30), ncol = 3)
-colnames(pts) <- c("X", "Y", "Z")
-sl <- streamline(points = pts)
+sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
 sl <- add_shape_descriptors(
   sl,
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
+sl@streamline_data$euclidean_length
+
 # add multiple shape descriptors to a bundle
-sl1 <- streamline(points = pts)
-pts2 <- matrix(runif(60), ncol = 3)
-colnames(pts2) <- c("X", "Y", "Z")
-sl2 <- streamline(points = pts2)
-b <- bundle(streamlines = list(sl1, sl2))
+sl2 <- streamline(points = cbind(X = runif(20), Y = runif(20), Z = runif(20)))
+b <- bundle(streamlines = list(sl, sl2))
 b <- add_shape_descriptors(
   b,
   descriptors = c("euclidean_length", "curvilinear_length", "sinuosity")
 )
+b@streamline_data$euclidean_length  # length-2 vector
 }

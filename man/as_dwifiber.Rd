@@ -26,17 +26,16 @@ coordinates (forward difference at the first point, backward difference at
 the last, central differences in between), then unit-normalised.
 
 Bundle-level metadata stored in \verb{@bundle_data} under the keys \code{method},
-\code{minfa}, \code{maxangle}, \code{ddim}, \code{ddim0}, \code{voxelext}, \code{orientation}, \code{rotation},
-\code{level}, and \code{source} are transferred to the corresponding \code{dwiFiber} / \code{dwi}
-slots when present. MRI-acquisition metadata that cannot be recovered from a
-\code{fiber} object (gradient directions, b-values, etc.) are filled with neutral
-placeholders.
+\code{minfa}, \code{maxangle}, \code{level}, and \code{source} are transferred to the
+corresponding \code{dwiFiber} slots when present. Vector-valued fields such as
+\code{ddim}, \code{ddim0}, \code{voxelext}, and \code{orientation} must be stored as individual
+scalars (e.g. \code{ddim_1}, \code{ddim_2}, \code{ddim_3}) and are reconstructed into
+vectors for the \code{dwiFiber} object.
 }
 \examples{
 if (requireNamespace("dti", quietly = TRUE)) {
-  pts <- matrix(runif(15), ncol = 3, dimnames = list(NULL, c("X", "Y", "Z")))
-  sl  <- streamline(points = pts)
-  b   <- bundle(streamlines = list(sl))
+  sl <- streamline(points = cbind(X = runif(5), Y = runif(5), Z = runif(5)))
+  b  <- bundle(streamlines = list(sl))
   dfi <- as_dwifiber(b)
   class(dfi)  # "dwiFiber"
 }
