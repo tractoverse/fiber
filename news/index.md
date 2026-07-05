@@ -1,5 +1,7 @@
 # Changelog
 
+## fiber (development version)
+
 ## fiber 0.2.0
 
 CRAN release: 2026-07-04
