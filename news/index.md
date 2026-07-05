@@ -2,6 +2,8 @@
 
 ## fiber 0.2.0
 
+CRAN release: 2026-07-04
+
 ### Breaking changes
 
 - `streamline`: `@point_data` holds **numeric-only** attributes
