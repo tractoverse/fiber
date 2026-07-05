@@ -1,7 +1,7 @@
 Package: fiber
 Type: Package
 Title: S7 Data Structures for Diffusion MRI Tractography
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: c(
     person(
         given = "Aymeric",
