@@ -2,7 +2,7 @@
 
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-# fiber
+# fiber <a href="https://tractoverse.github.io/fiber/"><img src="man/figures/logo.png" align="right" height="139" alt="fiber website" /></a>
 
 <!-- badges: start -->
 
