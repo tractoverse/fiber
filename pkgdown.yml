@@ -1,8 +1,8 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2026-07-05T18:57Z
+last_built: 2026-07-13T14:53Z
 urls:
   reference: https://tractoverse.github.io/fiber/reference
   article: https://tractoverse.github.io/fiber/articles
