@@ -51,6 +51,19 @@ expect_equal(b_lift@streamline_attributes, c("weight", "label"))
 expect_equal(b_lift@streamline_data[["weight"]], c(0.5, 0.8))
 expect_equal(b_lift@streamline_data[["label"]], c("CST", "CST"))
 
+# Mixed-type common key across streamlines coalesces to a common type
+# instead of erroring with an opaque vapply type mismatch (#bug)
+sl_cha <- streamline(
+  points = cbind(X = 1:3, Y = 1:3, Z = 1:3),
+  streamline_data = list(tag = "a")
+)
+sl_num <- streamline(
+  points = cbind(X = 4:6, Y = 4:6, Z = 4:6),
+  streamline_data = list(tag = 7)
+)
+b_mixed <- bundle(streamlines = list(sl_cha, sl_num))
+expect_equal(b_mixed@streamline_data[["tag"]], c("a", "7"))
+
 # Non-overlapping keys: no lifting, but bundle must still be valid (#bug)
 sl_sld_a <- streamline(
   points = cbind(X = 1:3, Y = 1:3, Z = 1:3),

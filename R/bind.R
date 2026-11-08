@@ -69,7 +69,7 @@ bind_bundles <- function(..., streamline_data = NULL, bundle_data = NULL) {
     if (is_streamline(obj)) {
       all_streamlines <- c(all_streamlines, list(obj))
       cur_streamline_data_attrs <- obj@streamline_attributes
-      for (all_nm in cur_streamline_data_attrs) {
+      for (all_nm in all_streamline_data_attrs) {
         if (all_nm %in% cur_streamline_data_attrs) {
           all_streamline_data[[all_nm]] <- c(
             all_streamline_data[[all_nm]],
@@ -82,7 +82,7 @@ bind_bundles <- function(..., streamline_data = NULL, bundle_data = NULL) {
     } else if (is_bundle(obj)) {
       all_streamlines <- c(all_streamlines, obj@streamlines)
       cur_streamline_data_attrs <- obj@streamline_attributes
-      for (all_nm in cur_streamline_data_attrs) {
+      for (all_nm in all_streamline_data_attrs) {
         if (all_nm %in% cur_streamline_data_attrs) {
           all_streamline_data[[all_nm]] <- c(
             all_streamline_data[[all_nm]],
@@ -125,8 +125,8 @@ bind_bundles <- function(..., streamline_data = NULL, bundle_data = NULL) {
 #' @param bundle_data A named list of per-bundle vectors to attach to the
 #'   resulting [bundle_set]. Defaults to the `@bundle_data` of the first
 #'   [bundle_set] input if present.
-#' @param set_data A named list of set-level scalar metadata to attach to the
-#'   resulting [bundle_set]. Defaults to the `set_data` of the first
+#' @param bundle_set_data A named list of set-level scalar metadata to attach to the
+#'   resulting [bundle_set]. Defaults to the `bundle_set_data` of the first
 #'   [bundle_set] input (if present) or an empty list.
 #' @returns A [bundle_set] containing all input bundles.
 #' @export
@@ -145,7 +145,7 @@ bind_bundles <- function(..., streamline_data = NULL, bundle_data = NULL) {
 #' bs2 <- bundle_set(list("sub-02" = b2))
 #' bs_all <- bind_bundle_sets(bs1, bs2)
 #' bs_all@n_bundles  # 2
-bind_bundle_sets <- function(..., bundle_data = NULL, set_data = NULL) {
+bind_bundle_sets <- function(..., bundle_data = NULL, bundle_set_data = NULL) {
   inputs <- list(...)
   if (length(inputs) == 0L) {
     cli::cli_abort("At least one argument is required.")
@@ -212,7 +212,7 @@ bind_bundle_sets <- function(..., bundle_data = NULL, set_data = NULL) {
         }
       }
       if (!found_set) {
-        first_sd <- obj@set_data
+        first_sd <- obj@bundle_set_data
         found_set <- TRUE
       }
     } else {
@@ -224,6 +224,6 @@ bind_bundle_sets <- function(..., bundle_data = NULL, set_data = NULL) {
   }
 
   bd <- if (!is.null(bundle_data)) bundle_data else all_bundle_data
-  sd <- if (!is.null(set_data)) set_data else first_sd
-  bundle_set(bundles = all_bundles, bundle_data = bd, set_data = sd)
+  sd <- if (!is.null(bundle_set_data)) bundle_set_data else first_sd
+  bundle_set(bundles = all_bundles, bundle_data = bd, bundle_set_data = sd)
 }

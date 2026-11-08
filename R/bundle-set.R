@@ -12,19 +12,19 @@
 #'   length \eqn{B} (the number of bundles). Values common to all bundles may
 #'   be lifted here automatically from the individual bundles' `@bundle_data`
 #'   slots at construction time.
-#' - `@set_data` — a named list of scalars (length-1 values, any type)
+#' - `@bundle_set_data` — a named list of scalars (length-1 values, any type)
 #'   holding set-level metadata.
 #'
 #' @param bundles A list of [bundle] objects (may be named or unnamed).
 #' @param bundle_data A named list of per-bundle vectors of length B. If not
 #'   supplied, any `@bundle_data` keys common to **all** bundles are lifted
 #'   automatically.
-#' @param set_data A named list of set-level scalar metadata.
+#' @param bundle_set_data A named list of set-level scalar metadata.
 #' @prop n_bundles An integer scalar giving the number of bundles in the set
 #'   (read-only).
 #' @prop bundle_attributes A character vector of the names of the per-bundle
 #'   attributes stored at the set level (read-only).
-#' @prop set_attributes A character vector of the names of the set-level
+#' @prop bundle_set_attributes A character vector of the names of the set-level
 #'   attributes (read-only).
 #'
 #' @returns A `bundle_set` S7 object.
@@ -37,7 +37,7 @@
 #' - `x[[i]]`: Extracts the `i`-th (or named) [bundle] from the set, with
 #'   set-level `@bundle_data` pushed back into the bundle.
 #' - `x[i]`: Returns a new [bundle_set] containing only the selected bundles,
-#'   with `@set_data` and the subset of `@bundle_data` preserved.
+#'   with `@bundle_set_data` and the subset of `@bundle_data` preserved.
 #' @export
 #' @examples
 #' sl <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
@@ -60,7 +60,7 @@ bundle_set <- S7::new_class(
   properties = list(
     bundles = S7::class_list,
     bundle_data = S7::class_list,
-    set_data = S7::class_list,
+    bundle_set_data = S7::class_list,
     n_bundles = S7::new_property(
       class = S7::class_integer,
       getter = function(self) length(self@bundles)
@@ -69,9 +69,9 @@ bundle_set <- S7::new_class(
       class = S7::class_character,
       getter = function(self) names(self@bundle_data) %||% character(0L)
     ),
-    set_attributes = S7::new_property(
+    bundle_set_attributes = S7::new_property(
       class = S7::class_character,
-      getter = function(self) names(self@set_data) %||% character(0L)
+      getter = function(self) names(self@bundle_set_data) %||% character(0L)
     )
   ),
   validator = function(self) {
@@ -102,11 +102,11 @@ bundle_set <- S7::new_class(
         ))
       }
     }
-    # @set_data entries must be scalars
-    for (nm in names(self@set_data)) {
-      if (length(self@set_data[[nm]]) != 1L) {
+    # @bundle_set_data entries must be scalars
+    for (nm in names(self@bundle_set_data)) {
+      if (length(self@bundle_set_data[[nm]]) != 1L) {
         return(cli::format_inline(
-          "@set_data[[\"{nm}\"]] must be a scalar (length 1)."
+          "@bundle_set_data[[\"{nm}\"]] must be a scalar (length 1)."
         ))
       }
     }
@@ -115,7 +115,7 @@ bundle_set <- S7::new_class(
   constructor = function(
     bundles = list(),
     bundle_data = list(),
-    set_data = list()
+    bundle_set_data = list()
   ) {
     lifted_data <- .lift_bundle_data(bundles)
     bundles <- lifted_data$bundles
@@ -140,7 +140,7 @@ bundle_set <- S7::new_class(
       S7::S7_object(),
       bundles = bundles,
       bundle_data = bundle_data,
-      set_data = set_data
+      bundle_set_data = bundle_set_data
     )
   }
 )
@@ -199,7 +199,7 @@ S7::method(format, bundle_set) <- function(x, ...) {
   )
 
   # Retrieve set attributes
-  setd_keys <- x@set_attributes
+  setd_keys <- x@bundle_set_attributes
 
   pd_str <- if (length(pd_keys) > 0L) {
     "Point attributes: {.val {pd_keys}}"
@@ -283,6 +283,6 @@ S7::method(`[`, bundle_set) <- function(x, i, j, ..., drop = TRUE) {
   bundle_set(
     bundles = bundles,
     bundle_data = bundle_data,
-    set_data = x@set_data
+    bundle_set_data = x@bundle_set_data
   )
 }

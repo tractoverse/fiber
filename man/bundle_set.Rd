@@ -4,7 +4,7 @@
 \alias{bundle_set}
 \title{Bundle set S7 class}
 \usage{
-bundle_set(bundles = list(), bundle_data = list(), set_data = list())
+bundle_set(bundles = list(), bundle_data = list(), bundle_set_data = list())
 }
 \arguments{
 \item{bundles}{A list of \link{bundle} objects (may be named or unnamed).}
@@ -13,7 +13,7 @@ bundle_set(bundles = list(), bundle_data = list(), set_data = list())
 supplied, any \verb{@bundle_data} keys common to \strong{all} bundles are lifted
 automatically.}
 
-\item{set_data}{A named list of set-level scalar metadata.}
+\item{bundle_set_data}{A named list of set-level scalar metadata.}
 }
 \value{
 A \code{bundle_set} S7 object.
@@ -28,7 +28,7 @@ subject's (or session's) tractogram. It stores three compartments:
 length \eqn{B} (the number of bundles). Values common to all bundles may
 be lifted here automatically from the individual bundles' \verb{@bundle_data}
 slots at construction time.
-\item \verb{@set_data} — a named list of scalars (length-1 values, any type)
+\item \verb{@bundle_set_data} — a named list of scalars (length-1 values, any type)
 holding set-level metadata.
 }
 }
@@ -43,7 +43,7 @@ invisibly returns \code{x}.
 \item \code{x[[i]]}: Extracts the \code{i}-th (or named) \link{bundle} from the set, with
 set-level \verb{@bundle_data} pushed back into the bundle.
 \item \code{x[i]}: Returns a new \link{bundle_set} containing only the selected bundles,
-with \verb{@set_data} and the subset of \verb{@bundle_data} preserved.
+with \verb{@bundle_set_data} and the subset of \verb{@bundle_data} preserved.
 }
 }
 
@@ -72,7 +72,7 @@ bs@bundle_data$subject  # c("sub-01", "sub-02")
 \item{\code{@bundle_attributes}}{A character vector of the names of the per-bundle
 attributes stored at the set level (read-only).}
 
-\item{\code{@set_attributes}}{A character vector of the names of the set-level
+\item{\code{@bundle_set_attributes}}{A character vector of the names of the set-level
 attributes (read-only).}
 }}
 

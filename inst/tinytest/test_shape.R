@@ -89,6 +89,25 @@ expect_true(!is.null(b_desc[[2L]]@streamline_data$euclidean_length))
 b_pt <- add_shape_descriptors(b, descriptors = c("curvature", "torsion"))
 expect_equal(length(b_pt@streamlines[[1L]]@point_data$curvature), sl1@n_points)
 
+# ---- add_shape_descriptors: bundle_set --------------------------------------
+
+bs_desc <- add_shape_descriptors(
+  bundle_set(bundles = list(b, b)),
+  descriptors = c("euclidean_length", "sinuosity", "curvature")
+)
+expect_true(inherits(bs_desc, "fiber::bundle_set"))
+# Scalar descriptors land in each bundle's @streamline_data (length-S vectors)
+expect_equal(length(bs_desc@bundles[[1L]]@streamline_data$euclidean_length), 2L)
+# Per-point descriptors land in each streamline's @point_data
+expect_equal(
+  length(bs_desc@bundles[[1L]]@streamlines[[1L]]@point_data$curvature),
+  sl1@n_points
+)
+# bundle_data / bundle_set_data preserved
+bs_orig <- bundle_set(bundles = list(b, b), bundle_data = list(subject = c("a", "b")))
+bs_desc2 <- add_shape_descriptors(bs_orig, descriptors = "euclidean_length")
+expect_equal(bs_desc2@bundle_data, list(subject = c("a", "b")))
+
 # ---- compute_hausdorff_distance: streamline x streamline --------------------
 
 d_sl <- compute_hausdorff_distance(sl1, sl2)

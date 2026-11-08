@@ -37,21 +37,21 @@ expect_equal(bs0@n_bundles, 0L)
 # Non-bundle element -> error
 expect_error(bundle_set(bundles = list("x" = sl)))
 
-# set_data must be scalars
+# bundle_set_data must be scalars
 expect_error(
   bundle_set(
     bundles = list(b1),
-    set_data = list(study = c("a", "b"))
+    bundle_set_data = list(study = c("a", "b"))
   )
 )
 
-# set_data is stored
+# bundle_set_data is stored
 bs_meta <- bundle_set(
   bundles = list("sub-01" = b1),
-  set_data = list(study = "phantom")
+  bundle_set_data = list(study = "phantom")
 )
-expect_equal(bs_meta@set_data[["study"]], "phantom")
-expect_equal(bs_meta@set_attributes, "study")
+expect_equal(bs_meta@bundle_set_data[["study"]], "phantom")
+expect_equal(bs_meta@bundle_set_attributes, "study")
 
 # ---- automatic lifting of bundle_data ---------------------------------------
 
@@ -91,7 +91,7 @@ expect_true(grepl("subject", f2))
 f_un <- format(bs_unnamed)
 expect_false(grepl("subject", f_un))
 
-# set_data keys appear in format
+# bundle_set_data keys appear in format
 f_meta <- format(bs_meta)
 expect_true(grepl("study", f_meta))
 
@@ -121,9 +121,9 @@ expect_true(is_bundle_set(bs_sub))
 expect_equal(bs_sub@n_bundles, 1L)
 expect_equal(bs_sub@bundle_data[["subject"]], c("sub-01"))
 
-# [ preserves @set_data
+# [ preserves @bundle_set_data
 bs_sub_meta <- bs_meta["sub-01"]
-expect_equal(bs_sub_meta@set_data[["study"]], "phantom")
+expect_equal(bs_sub_meta@bundle_set_data[["study"]], "phantom")
 
 # ---- as_bundle_set -----------------------------------------------------------
 
@@ -161,14 +161,14 @@ expect_equal(bs_anon2@n_bundles, 2L)
 bs_mix <- bind_bundle_sets(bs1, "sub-02" = b2)
 expect_equal(bs_mix@n_bundles, 2L)
 
-# set_data inherited from first bundle_set
-bs1_meta <- bundle_set(list("sub-01" = b1), set_data = list(study = "test"))
+# bundle_set_data inherited from first bundle_set
+bs1_meta <- bundle_set(list("sub-01" = b1), bundle_set_data = list(study = "test"))
 bs_sd <- bind_bundle_sets(bs1_meta, bs2)
-expect_equal(bs_sd@set_data[["study"]], "test")
+expect_equal(bs_sd@bundle_set_data[["study"]], "test")
 
-# set_data override
-bs_sd2 <- bind_bundle_sets(bs1_meta, bs2, set_data = list(study = "override"))
-expect_equal(bs_sd2@set_data[["study"]], "override")
+# bundle_set_data override
+bs_sd2 <- bind_bundle_sets(bs1_meta, bs2, bundle_set_data = list(study = "override"))
+expect_equal(bs_sd2@bundle_set_data[["study"]], "override")
 
 # no args -> error
 expect_error(bind_bundle_sets())

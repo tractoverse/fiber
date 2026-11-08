@@ -38,11 +38,10 @@
   lifted <- vector("list", length(common_keys))
   names(lifted) <- common_keys
   for (k in common_keys) {
-    lifted[[k]] <- unname(vapply(
+    lifted[[k]] <- unname(unlist(lapply(
       streamlines,
-      function(sl) sl@streamline_data[[k]],
-      FUN.VALUE = streamlines[[1L]]@streamline_data[[k]]
-    ))
+      function(sl) sl@streamline_data[[k]]
+    )))
   }
   # Remove common keys from individual streamlines
   for (i in seq_along(streamlines)) {
@@ -72,11 +71,10 @@
   lifted <- vector("list", length(common_keys))
   names(lifted) <- common_keys
   for (k in common_keys) {
-    lifted[[k]] <- unname(vapply(
+    lifted[[k]] <- unname(unlist(lapply(
       bundles,
-      function(b) b@bundle_data[[k]],
-      FUN.VALUE = bundles[[1L]]@bundle_data[[k]]
-    ))
+      function(b) b@bundle_data[[k]]
+    )))
   }
   # Remove common keys from individual bundles
   for (i in seq_along(bundles)) {

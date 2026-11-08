@@ -30,6 +30,7 @@ for the following classes:
 
 \itemize{
 \item \code{\link[=reparametrize-fiber-bundle-method]{fiber::bundle}}
+\item \code{fiber::bundle_set}
 \item \code{\link[=reparametrize-fiber-streamline-method]{fiber::streamline}}
 }
 }

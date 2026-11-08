@@ -72,13 +72,13 @@ A `bundle_set` stores:
 - `@bundles` — a list of `bundle` objects (optionally named, e.g. with
   subject or session IDs such as `"sub-01"`, in which case names are
   transferred as a bundle attribute in `@bundle_data` called
-  `id_from_input_list`).
+  `id_from_input_names`).
 - `@bundle_data` — a named list of per-bundle vectors of length $B$ (the
   number of bundles). Attributes common to all bundles are lifted here
   automatically at construction time and pushed back into individual
   bundles when subsetting.
-- `@set_data` — a named list of set-level **scalars** (length-1 values,
-  any type).
+- `@bundle_set_data` — a named list of set-level **scalars** (length-1
+  values, any type).
 
 ## Installation
 

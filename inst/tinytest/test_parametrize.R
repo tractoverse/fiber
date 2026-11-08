@@ -116,3 +116,29 @@ expect_error(bind_bundles())
 
 # invalid argument -> error
 expect_error(bind_bundles(b1, "not_valid"))
+
+# differing streamline_data attributes are NA-padded (not dropped)
+sl_with_fa <- make_sl(3L)
+sl_with_fa@streamline_data <- list(fa = 0.6)
+b_diff <- bind_bundles(sl_with_fa, sl3)
+expect_equal(b_diff@streamline_data[["fa"]], c(0.6, NA))
+# differing streamline_data attributes are NA-padded (not dropped)
+sl_with_fa <- make_sl(3L)
+sl_with_fa@streamline_data <- list(fa = 0.6)
+b_diff <- bind_bundles(sl_with_fa, sl3)
+expect_equal(b_diff@streamline_data[["fa"]], c(0.6, NA))
+
+# ---- reparametrize: bundle_set ----------------------------------------------
+
+bs <- bundle_set(
+  bundles = list(bundle(streamlines = list(make_sl(5L), make_sl(8L)))),
+  bundle_data = list(subject = "s1"),
+  bundle_set_data = list(age = 42)
+)
+bs_r <- reparametrize(bs, n_points = 10L)
+expect_true(inherits(bs_r, "fiber::bundle_set"))
+expect_equal(bs_r@bundles[[1L]]@streamlines[[1L]]@n_points, 10L)
+expect_equal(bs_r@bundles[[1L]]@streamlines[[2L]]@n_points, 10L)
+# metadata preserved
+expect_equal(bs_r@bundle_data, list(subject = "s1"))
+expect_equal(bs_r@bundle_set_data, list(age = 42))

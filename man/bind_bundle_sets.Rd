@@ -4,7 +4,7 @@
 \alias{bind_bundle_sets}
 \title{Combine bundles and/or bundle_sets into a single bundle_set}
 \usage{
-bind_bundle_sets(..., bundle_data = NULL, set_data = NULL)
+bind_bundle_sets(..., bundle_data = NULL, bundle_set_data = NULL)
 }
 \arguments{
 \item{...}{\link{bundle} objects or \link{bundle_set} objects to combine. Named bare
@@ -14,8 +14,8 @@ bind_bundle_sets(..., bundle_data = NULL, set_data = NULL)
 resulting \link{bundle_set}. Defaults to the \verb{@bundle_data} of the first
 \link{bundle_set} input if present.}
 
-\item{set_data}{A named list of set-level scalar metadata to attach to the
-resulting \link{bundle_set}. Defaults to the \code{set_data} of the first
+\item{bundle_set_data}{A named list of set-level scalar metadata to attach to the
+resulting \link{bundle_set}. Defaults to the \code{bundle_set_data} of the first
 \link{bundle_set} input (if present) or an empty list.}
 }
 \value{
