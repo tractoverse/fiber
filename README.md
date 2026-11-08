@@ -34,7 +34,7 @@ data in R, together with a concise set of methods:
 | `as_streamline()` | Coerce to `streamline` class |
 | `as_bundle()` | Coerce to `bundle` class |
 | `as_bundle_set()` | Coerce to `bundle_set` class |
-| `as_dwifiber()` | Coerce to `dwiFiber` class from [](https://cran.r-project.org/package=dti) |
+| `as_dwifiber()` | Coerce to `dwiFiber` class from the [dti](https://cran.r-project.org/package=dti) package |
 | `reparametrize()` | Resample onto a uniform arc-length grid |
 | `get_euclidean_length()` | Straight-line distance between endpoints |
 | `get_curvilinear_length()` | Total arc-length |

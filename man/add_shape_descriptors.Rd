@@ -28,7 +28,7 @@ available for the following classes:
 
 \itemize{
 \item \code{\link[=add_shape_descriptors-fiber-bundle-method]{fiber::bundle}}
-\item \code{fiber::bundle_set}
+\item \code{\link[=add_shape_descriptors-fiber-bundle_set-method]{fiber::bundle_set}}
 \item \code{\link[=add_shape_descriptors-fiber-streamline-method]{fiber::streamline}}
 }
 

@@ -1,4 +1,4 @@
-# fiber (development version)
+# fiber 0.3.0
 
 ## Breaking changes
 

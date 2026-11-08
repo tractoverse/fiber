@@ -184,6 +184,7 @@ get_torsion <- function(x) {
 #' @returns An object of the same class as `x` with the specified shape
 #'   descriptors added to the appropriate slots.
 #' @export
+#' @importFrom rlang caller_env
 #' @examples
 #' # add multiple shape descriptors to a single streamline
 #' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
@@ -261,10 +262,13 @@ S7::method(add_shape_descriptors, streamline) <- function(
     } else if (desc == "torsion") {
       x@point_data$torsion <- get_torsion(x)
     } else {
-      cli::cli_warn(c(
-        "!" = "Unknown shape descriptor {.val {desc}}.",
-        "i" = "Available descriptors: {.val {known}}."
-      ))
+      cli::cli_warn(
+        c(
+          "!" = "Unknown shape descriptor {.val {desc}}.",
+          "i" = "Available descriptors: {.val {known}}."
+        ),
+        call = caller_env()
+      )
     }
   }
   x
@@ -325,10 +329,13 @@ S7::method(add_shape_descriptors, bundle) <- function(
 
   # Unknown descriptors
   for (desc in setdiff(descriptors, known)) {
-    cli::cli_warn(c(
-      "!" = "Unknown shape descriptor {.val {desc}}.",
-      "i" = "Available descriptors: {.val {known}}."
-    ))
+    cli::cli_warn(
+      c(
+        "!" = "Unknown shape descriptor {.val {desc}}.",
+        "i" = "Available descriptors: {.val {known}}."
+      ),
+      call = caller_env()
+    )
   }
 
   x
