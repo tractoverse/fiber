@@ -49,6 +49,10 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.containers) }}
     container:
       image: ${{ matrix.config.container }}
+    # dti (a Suggests) is intentionally not installed on rhub (we install only
+    # hard deps below), so tell R CMD check not to fail on its absence.
+    env:
+      _R_CHECK_FORCE_SUGGESTS_: "false"
 
     steps:
       - uses: r-hub/actions/checkout@v1
@@ -84,10 +88,24 @@ jobs:
           mkdir -p /tmp/quarto
           tar -xzf /tmp/quarto.tar.gz -C /tmp/quarto --strip-components=1
           echo "/tmp/quarto/bin" >> "$GITHUB_PATH"
+      # Install only hard dependencies (Depends/Imports/LinkingTo) plus the
+      # packages needed to build vignettes and run tests, but NOT the full
+      # Suggests set. fiber's only transitive-heavy Suggests is `dti`, whose
+      # dependency tree pulls in quadprog and rgl: quadprog 1.5-8 fails to
+      # build with the flang-new-22 toolchain on the clang21/clang22 containers,
+      # and rgl leaks 8 bytes under valgrind when run headless (no X11 display,
+      # it falls back to the rgl null device). dti interop is used only behind
+      # requireNamespace("dti") guards, so checks/tests/vignettes degrade
+      # gracefully when it is absent. knitr/quarto/tinytest are re-added via
+      # extra-packages so .qmd vignettes still render and tinytest-based tests
+      # still run; _R_CHECK_FORCE_SUGGESTS_ is disabled (job env) so the absent
+      # dti does not surface as a check NOTE.
       - uses: r-hub/actions/setup-deps@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+          dependencies: '"hard"'
+          extra-packages: 'any::rcmdcheck, any::knitr, any::quarto, any::tinytest'
       - uses: r-hub/actions/run-check@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -102,6 +120,10 @@ jobs:
       fail-fast: false
       matrix:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
+    # See the linux-containers job: dti (Suggests) is not installed on rhub, so
+    # tell R CMD check not to fail on its absence.
+    env:
+      _R_CHECK_FORCE_SUGGESTS_: "false"
 
     steps:
       - uses: r-hub/actions/checkout@v1
@@ -122,10 +144,15 @@ jobs:
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: '1.11.9'
+      # Hard dependencies plus vignette/test-build packages only; see the
+      # linux-containers job for why the Suggests set (which would drag in
+      # dti -> quadprog/rgl) is not installed on rhub.
       - uses: r-hub/actions/setup-deps@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+          dependencies: '"hard"'
+          extra-packages: 'any::rcmdcheck, any::knitr, any::quarto, any::tinytest'
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
