@@ -4,7 +4,7 @@
 \name{fiber-package}
 \alias{fiber}
 \alias{fiber-package}
-\title{fiber: S7 Data Structures for Diffusion MRI Tractography}
+\title{fiber: 'S7' Data Structures for Diffusion MRI Tractography}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
@@ -20,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID})
+\strong{Maintainer}: Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID})
+  \item Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID}) [copyright holder]
 }
 
 }

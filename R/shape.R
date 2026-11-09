@@ -428,6 +428,12 @@ S7::method(add_shape_descriptors, bundle_set) <- function(
 #' # streamline x streamline -> scalar
 #' compute_hausdorff_distance(sl1, sl2)
 #'
+#' # Coordinates may be stored as integer matrices when constructed from
+#' # integer vectors (e.g. X = 1:5); these are handled correctly too.
+#' sli1 <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
+#' sli2 <- streamline(points = cbind(X = 2:6, Y = 2:6, Z = 2:6))
+#' compute_hausdorff_distance(sli1, sli2)
+#'
 #' # bundle x missing -> pairwise dist object
 #' b <- bundle(streamlines = list(sl1, sl2))
 #' compute_hausdorff_distance(b)
