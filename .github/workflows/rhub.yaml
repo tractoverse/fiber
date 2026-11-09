@@ -51,8 +51,15 @@ jobs:
       image: ${{ matrix.config.container }}
     # dti (a Suggests) is intentionally not installed on rhub (we install only
     # hard deps below), so tell R CMD check not to fail on its absence.
+    # RHUB_ACTIONS_DEPS_DEPENDENCIES selects the "hard" dependency set in
+    # r-hub/actions/setup-deps@v1. We use the env var rather than the
+    # `dependencies` input because the input is templated into `inp <- "..."`,
+    # and passing the quoted R expression "hard" through that wrapping is
+    # fragile; the env var branch is passed straight through and evaluated as R
+    # by r-lib/actions/setup-r-dependencies.
     env:
       _R_CHECK_FORCE_SUGGESTS_: "false"
+      RHUB_ACTIONS_DEPS_DEPENDENCIES: '"hard"'
 
     steps:
       - uses: r-hub/actions/checkout@v1
@@ -104,7 +111,6 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-          dependencies: '"hard"'
           extra-packages: 'any::rcmdcheck, any::knitr, any::quarto, any::tinytest'
       - uses: r-hub/actions/run-check@v1
         with:
@@ -121,9 +127,11 @@ jobs:
       matrix:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
     # See the linux-containers job: dti (Suggests) is not installed on rhub, so
-    # tell R CMD check not to fail on its absence.
+    # tell R CMD check not to fail on its absence. RHUB_ACTIONS_DEPS_DEPENDENCIES
+    # selects the "hard" dependency set (see the linux-containers job comment).
     env:
       _R_CHECK_FORCE_SUGGESTS_: "false"
+      RHUB_ACTIONS_DEPS_DEPENDENCIES: '"hard"'
 
     steps:
       - uses: r-hub/actions/checkout@v1
@@ -151,7 +159,6 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-          dependencies: '"hard"'
           extra-packages: 'any::rcmdcheck, any::knitr, any::quarto, any::tinytest'
       - uses: r-hub/actions/run-check@v1
         with:
