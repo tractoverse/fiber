@@ -52,7 +52,15 @@ and a set of generics and functions:
 ## Loading fiber
 
 ```{r}
-library(fiber)
+#| label: setup
+if (!requireNamespace("fiber", quietly = TRUE)) {
+  # R CMD check re-builds vignette outputs in a fresh R process where the
+  # just-installed package is not always on the library path (seen on Windows).
+  # Skip the executable chunks rather than fail the build in that case.
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  library(fiber)
+}
 ```
 
 ## Class: streamline {#class-streamline}
