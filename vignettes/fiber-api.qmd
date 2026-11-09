@@ -14,7 +14,16 @@ vignette: >
 ---
 
 ```{r}
+#| label: setup
 #| include: false
+if (!requireNamespace("fiber", quietly = TRUE)) {
+  # R CMD check re-builds vignette outputs in a fresh R process where the
+  # just-installed package is not always on the library path (seen on Windows).
+  # Skip the executable chunks rather than fail the build in that case.
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  library(fiber)
+}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -48,20 +57,6 @@ and a set of generics and functions:
 - Distances: `compute_hausdorff_distance()`
 - Coercion: `as_streamline()`, `as_bundle()`, `as_bundle_set()`,
   `as_dwifiber()`
-
-## Loading fiber
-
-```{r}
-#| label: setup
-if (!requireNamespace("fiber", quietly = TRUE)) {
-  # R CMD check re-builds vignette outputs in a fresh R process where the
-  # just-installed package is not always on the library path (seen on Windows).
-  # Skip the executable chunks rather than fail the build in that case.
-  knitr::opts_chunk$set(eval = FALSE)
-} else {
-  library(fiber)
-}
-```
 
 ## Class: streamline {#class-streamline}
 

@@ -15,7 +15,16 @@ vignette: >
 ---
 
 ```{r}
+#| label: setup
 #| include: false
+if (!requireNamespace("fiber", quietly = TRUE)) {
+  # R CMD check re-builds vignette outputs in a fresh R process where the
+  # just-installed package is not always on the library path (seen on Windows).
+  # Skip the executable chunks rather than fail the build in that case.
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  library(fiber)
+}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -43,20 +52,6 @@ the `dwiFiber` S4 class of the
 This vignette walks through the core workflow. A companion, technical
 [vignette](fiber-api.qmd) (`fiber-api`) describes the complete API in detail.
 
-## Loading fiber
-
-```{r}
-#| label: setup
-if (!requireNamespace("fiber", quietly = TRUE)) {
-  # R CMD check re-builds vignette outputs in a fresh R process where the
-  # just-installed package is not always on the library path (seen on Windows).
-  # Skip the executable chunks rather than fail the build in that case.
-  knitr::opts_chunk$set(eval = FALSE)
-} else {
-  library(fiber)
-}
-```
-
 ## Building a streamline
 
 A `streamline` stores a `$P \times 3$` matrix of coordinates. The columns must
@@ -81,9 +76,9 @@ sl <- streamline(
   point_data = list(FA = runif(50)),
   streamline_data = list(mean_FA = mean(runif(50)), label = "helix")
 )
-sl@n_points            # 50
-sl@point_attributes    # "FA"
-sl@streamline_attributes  # c("mean_FA", "label")
+sl@n_points # 50
+sl@point_attributes # "FA"
+sl@streamline_attributes # c("mean_FA", "label")
 ```
 
 ## Shape descriptors
@@ -126,15 +121,15 @@ sl_b <- streamline(
 )
 b <- bundle(streamlines = list(sl_a, sl_b))
 b
-b@n_streamlines                 # 2
-b@streamline_data$mean_FA       # lifted automatically, if present
+b@n_streamlines # 2
+b@streamline_data$mean_FA # lifted automatically, if present
 ```
 
 You can mix streamlines and bundles with `bind_bundles()`:
 
 ```{r}
 b2 <- bind_bundles(sl_a, b)
-b2@n_streamlines  # 3
+b2@n_streamlines # 3
 ```
 
 ## Reparametrisation
@@ -146,11 +141,11 @@ points across its streamlines:
 
 ```{r}
 sl_20 <- reparametrize(sl_a, n_points = 20L)
-sl_20@n_points  # 20
+sl_20@n_points # 20
 
 b_20 <- reparametrize(b, n_points = 20L)
-b_20[[1]]@n_points  # 20
-b_20[[2]]@n_points  # 20
+b_20[[1]]@n_points # 20
+b_20[[2]]@n_points # 20
 ```
 
 ## Hausdorff distance
@@ -183,20 +178,28 @@ grouping bundles across subjects / sessions. Names of the input list (like
 
 ```{r}
 # Single subject: several white-matter bundles of one subject
-bs_single <- bundle_set(list(callosum = bundle(list(sl_a)),
-                             arcuate  = bundle(list(sl_b))))
+bs_single <- bundle_set(list(
+  callosum = bundle(list(sl_a)),
+  arcuate = bundle(list(sl_b))
+))
 bs_single
-bs_single@n_bundles          # 2
-bs_single[["callosum"]]      # extract one bundle (push-down)
+bs_single@n_bundles # 2
+bs_single[["callosum"]] # extract one bundle (push-down)
 
 # Multi-subject: the same bundle across two subjects / sessions
-b_sub01 <- bundle(streamlines = list(sl_a), bundle_data = list(subject = "sub-01"))
-b_sub02 <- bundle(streamlines = list(sl_b), bundle_data = list(subject = "sub-02"))
+b_sub01 <- bundle(
+  streamlines = list(sl_a),
+  bundle_data = list(subject = "sub-01")
+)
+b_sub02 <- bundle(
+  streamlines = list(sl_b),
+  bundle_data = list(subject = "sub-02")
+)
 
 bs <- bundle_set(list("sub-01" = b_sub01, "sub-02" = b_sub02))
 bs
-bs@bundle_data$subject       # c("sub-01", "sub-02")
-bs[["sub-01"]]               # extract one subject (push-down)
+bs@bundle_data$subject # c("sub-01", "sub-02")
+bs[["sub-01"]] # extract one subject (push-down)
 ```
 
 `bundle_set` objects also support `reparametrize()` and
@@ -211,7 +214,7 @@ can coerce fiber objects to and from its `dwiFiber` S4 class:
 ```{r}
 if (requireNamespace("dti", quietly = TRUE)) {
   dfi <- as_dwifiber(b)
-  class(dfi)          # "dwiFiber"
+  class(dfi) # "dwiFiber"
   b_back <- as_bundle(dfi)
   b_back@n_streamlines
 }
