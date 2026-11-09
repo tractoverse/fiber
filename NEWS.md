@@ -18,6 +18,10 @@
   different streamlines store the same `@point_data` / `@streamline_data`
   key with different types) no longer crashes with an opaque `vapply` type
   error. Values are now coalesced to a common type.
+* `compute_hausdorff_distance()` and the shape descriptors no longer crash
+  (segfault at the C++ boundary) when `@points` is stored as an integer matrix
+  (e.g. constructed from integer vectors like `X = 1:5`). Coordinates are now
+  coerced to double precision before being passed to the compiled code.
 
 ## New features
 

@@ -18,7 +18,16 @@
 }
 
 # Extract the n x 3 coordinate matrix from a streamline's @points slot.
-.get_coords <- function(sl) sl@points
+# Always returned in double precision: @points may be stored as an integer
+# matrix (e.g. constructed from integer vectors like `X = 1:3`), and cpp11's
+# doubles_matrix<> requires a double (REALSXP) matrix at the C++ boundary.
+.get_coords <- function(sl) {
+  pts <- sl@points
+  if (storage.mode(pts) != "double") {
+    storage.mode(pts) <- "double"
+  }
+  pts
+}
 
 # ---- internal: lift streamline_data -----------------------------------------
 

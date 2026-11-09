@@ -158,3 +158,18 @@ expect_error(compute_hausdorff_distance(b, not_sl))
 # ---- compute_hausdorff_distance: catch-all (non-streamline/bundle x) -------
 
 expect_error(compute_hausdorff_distance(42))
+
+# ---- integer-coordinate streamlines ---------------------------------------
+
+# @points may be stored as an integer matrix when constructed from integer
+# vectors (e.g. X = 1:4). This used to crash hausdorff_distance_cpp() because
+# cpp11's doubles_matrix<> requires double (REALSXP) input; .get_coords() now
+# coerces to double, so integer-coordinate streamlines work everywhere.
+sl_int <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
+expect_true(is.numeric(get_euclidean_length(sl_int)))
+expect_true(is.numeric(get_curvilinear_length(sl_int)))
+d_int <- compute_hausdorff_distance(sl_int, sl_int)
+expect_true(is.numeric(d_int) && length(d_int) == 1L && d_int == 0)
+b_int <- bundle(streamlines = list(sl_int, sl_int))
+d_bint <- compute_hausdorff_distance(b_int)
+expect_equal(attr(d_bint, "Size"), 2L)
