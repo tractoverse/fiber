@@ -32,6 +32,12 @@
 
 * `binding` example and `id_from_input_names` references in `NEWS` / `README`
   now match the actual function name.
+* Added the first two vignettes: `vignette("fiber")` (a practical getting
+  started guide) and `vignette("fiber-api")` (a technical reference for the
+  classes, methods, and coercion rules).
+* `bundle_set` documentation (class roxygen, README, and vignettes) now
+  presents both motivating use cases: grouping the multiple white-matter
+  bundles of a single subject, and grouping bundles across subjects / sessions.
 
 ## Tests
 

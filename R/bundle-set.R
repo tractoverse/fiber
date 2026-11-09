@@ -3,8 +3,11 @@
 #' Bundle set S7 class
 #'
 #' @description
-#' A `bundle_set` is a collection of [bundle] objects, designed for
-#' multi-subject or multi-session studies where each element represents one
+#' A `bundle_set` is a collection of [bundle] objects. It is designed for two
+#' closely related use cases: grouping the multiple white-matter bundles of a
+#' single subject (e.g. the corpus callosum, arcuate fasciculus, and
+#' corticospinal tract), or grouping bundles across subjects or sessions in a
+#' multi-subject / multi-session study where each element represents one
 #' subject's (or session's) tractogram. It stores three compartments:
 #'
 #' - `@bundles` — a list of [bundle] objects (names are optional).

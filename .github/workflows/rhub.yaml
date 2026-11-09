@@ -56,6 +56,34 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+      # Install Quarto from its self-contained tarball instead of using
+      # quarto-dev/quarto-actions/setup. The generic rhub check-containers are
+      # heterogeneous: some lack `wget` (so that action fails at its download
+      # step with "wget: command not found", exit 127) and others lack
+      # `apt`/`sudo` (its install step then fails with "apt: command not
+      # found", exit 1). Fetching and extracting the tarball needs only
+      # curl/wget + tar and no package manager or root, so it works across all
+      # of them. Pinning avoids the flaky release-manifest fetch entirely.
+      # Quarto is required because the package ships .qmd vignettes, which
+      # R CMD check needs to render.
+      - name: Install Quarto (tarball)
+        shell: bash
+        run: |
+          version=1.11.9
+          url="https://github.com/quarto-dev/quarto-cli/releases/download/v${version}/quarto-${version}-linux-amd64.tar.gz"
+          if command -v curl >/dev/null 2>&1; then
+            curl -fsSL "$url" -o /tmp/quarto.tar.gz
+          elif command -v wget >/dev/null 2>&1; then
+            wget -q -O /tmp/quarto.tar.gz "$url"
+          elif command -v python3 >/dev/null 2>&1; then
+            python3 -c "import urllib.request,sys; urllib.request.urlretrieve(sys.argv[1],'/tmp/quarto.tar.gz')" "$url"
+          else
+            echo "No curl, wget or python3 available to download Quarto" >&2
+            exit 1
+          fi
+          mkdir -p /tmp/quarto
+          tar -xzf /tmp/quarto.tar.gz -C /tmp/quarto --strip-components=1
+          echo "/tmp/quarto/bin" >> "$GITHUB_PATH"
       - uses: r-hub/actions/setup-deps@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -85,6 +113,15 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+      # Pin a specific Quarto release (instead of the action default "release",
+      # which fetches https://quarto.org/docs/download/_download.json on every
+      # run). That manifest fetch is flaky on the containerized rhub platforms
+      # (cURL write failures -> exit 127), so pinning a version skips it and
+      # downloads a fixed release deterministically. Quarto is required because
+      # the package ships .qmd vignettes.
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: '1.11.9'
       - uses: r-hub/actions/setup-deps@v1
         with:
           job-config: ${{ matrix.config.job-config }}

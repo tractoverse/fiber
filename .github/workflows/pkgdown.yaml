@@ -20,12 +20,18 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      # Avoid rgl trying to open an X11 display when a vignette coerces to a
+      # dwiFiber object (dti -> rgl). Mirrors R-CMD-check.yaml.
+      RGL_USE_NULL: true
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-pandoc@v2
+
+      # The site builds two .qmd vignettes, which pkgdown renders via Quarto.
+      - uses: quarto-dev/quarto-actions/setup@v2
 
       - uses: r-lib/actions/setup-r@v2
 
