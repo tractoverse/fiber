@@ -29,6 +29,14 @@
 * `binding` example and `id_from_input_names` references in `NEWS` / `README`
   now match the actual function name.
 
+## Tests
+
+* Expanded the tinytest suite (~240 tests), raising source coverage from about
+  91% to just under 99%. New tests cover previously-uncovered validators
+  (non-streamline/non-bundle elements), `bind_bundles()` / `bind_bundle_sets()`
+  append and NA-padding branches, `format()` attribute display, and the
+  `as_dwifiber()` error path when `dti` is unavailable.
+
 # fiber 0.2.0
 
 ## Breaking changes

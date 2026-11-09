@@ -160,3 +160,26 @@ expect_equal(b_attr@bundle_attributes, c("a", "b"))
 b_bd <- bundle(streamlines = list(sl), bundle_data = list(origin = "test"))
 f_bd <- format(b_bd)
 expect_true(grepl("origin", f_bd))
+
+# ---- subsetting errors ------------------------------------------------------
+
+# character subsetting is not allowed for bundles
+expect_error(b[["foo"]])
+expect_error(b["foo"])
+
+# out-of-range subsetting errors
+expect_error(b[10L])
+expect_error(b[-10L])
+
+# ---- validator: duplicate streamline names ----------------------------------
+
+expect_error(
+  bundle(streamlines = list(a = sl, a = sl_pd))
+)
+
+# ---- validator: non-streamline element -------------------------------------
+
+# Via slot assignment the constructor's lifting is bypassed, so the validator's
+# non-streamline check fires directly.
+b_v <- bundle(streamlines = list(sl))
+expect_error(b_v@streamlines <- list(sl, "not a streamline"))

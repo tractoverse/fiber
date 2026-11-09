@@ -117,6 +117,19 @@ expect_error(bind_bundles())
 # invalid argument -> error
 expect_error(bind_bundles(b1, "not_valid"))
 
+# invalid argument WITH streamline_data -> main-loop abort (pre-check is skipped)
+expect_error(bind_bundles("not_valid", streamline_data = list(x = 1)))
+
+# two bundles with a common streamline_data key -> append both keys
+sl_ga1 <- make_sl(3L)
+sl_ga1@streamline_data <- list(ga = 0.5)
+sl_ga2 <- make_sl(4L)
+sl_ga2@streamline_data <- list(ga = 0.7)
+b_ga1 <- bundle(streamlines = list(sl_ga1))
+b_ga2 <- bundle(streamlines = list(sl_ga2))
+b_ga_bind <- bind_bundles(b_ga1, b_ga2)
+expect_equal(b_ga_bind@streamline_data[["ga"]], c(0.5, 0.7))
+
 # differing streamline_data attributes are NA-padded (not dropped)
 sl_with_fa <- make_sl(3L)
 sl_with_fa@streamline_data <- list(fa = 0.6)
@@ -142,3 +155,7 @@ expect_equal(bs_r@bundles[[1L]]@streamlines[[2L]]@n_points, 10L)
 # metadata preserved
 expect_equal(bs_r@bundle_data, list(subject = "s1"))
 expect_equal(bs_r@bundle_set_data, list(age = 42))
+
+# empty bundle_set returns unchanged
+bs_empty <- bundle_set(bundles = list())
+expect_identical(reparametrize(bs_empty, n_points = 10L), bs_empty)

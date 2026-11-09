@@ -104,9 +104,19 @@ expect_equal(
   sl1@n_points
 )
 # bundle_data / bundle_set_data preserved
-bs_orig <- bundle_set(bundles = list(b, b), bundle_data = list(subject = c("a", "b")))
+bs_orig <- bundle_set(
+  bundles = list(b, b),
+  bundle_data = list(subject = c("a", "b"))
+)
 bs_desc2 <- add_shape_descriptors(bs_orig, descriptors = "euclidean_length")
 expect_equal(bs_desc2@bundle_data, list(subject = c("a", "b")))
+
+# unknown descriptor on a bundle emits a warning
+expect_warning(add_shape_descriptors(b, descriptors = "unknown_desc"))
+
+# empty bundle_set returns unchanged
+bs_empty <- bundle_set(bundles = list())
+expect_identical(add_shape_descriptors(bs_empty), bs_empty)
 
 # ---- compute_hausdorff_distance: streamline x streamline --------------------
 
