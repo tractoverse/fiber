@@ -9,6 +9,13 @@
   [`add_shape_descriptors()`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors.md)
   method for `bundle` objects
 
+- [`add_shape_descriptors-fiber-bundle_set-method`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-bundle_set-method.md)
+  [`add_shape_descriptors,fiber::bundle_set-method`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-bundle_set-method.md)
+  :
+
+  [`add_shape_descriptors()`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors.md)
+  method for `bundle_set` objects
+
 - [`add_shape_descriptors-fiber-streamline-method`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
   [`add_shape_descriptors,fiber::streamline-method`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
   :
@@ -140,6 +147,13 @@
 
   [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
   method for `bundle` objects
+
+- [`reparametrize-fiber-bundle_set-method`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-bundle_set-method.md)
+  [`reparametrize,fiber::bundle_set-method`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-bundle_set-method.md)
+  :
+
+  [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
+  method for `bundle_set` objects
 
 - [`reparametrize-fiber-streamline-method`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)
   [`reparametrize,fiber::streamline-method`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)

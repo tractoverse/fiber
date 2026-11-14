@@ -1,4 +1,4 @@
-# fiber: S7 Data Structures for Diffusion MRI Tractography
+# fiber: 'S7' Data Structures for Diffusion MRI Tractography
 
 Provides three S7 classes — streamline, bundle, and bundle_set — for
 representing diffusion MRI tractography data in R, together with a
@@ -27,9 +27,9 @@ Useful links:
 ## Author
 
 **Maintainer**: Aymeric Stamm <aymeric.stamm@cnrs.fr>
-([ORCID](https://orcid.org/0000-0002-8725-3654))
+([ORCID](https://orcid.org/0000-0002-8725-3654)) \[copyright holder\]
 
 Authors:
 
 - Aymeric Stamm <aymeric.stamm@cnrs.fr>
-  ([ORCID](https://orcid.org/0000-0002-8725-3654))
+  ([ORCID](https://orcid.org/0000-0002-8725-3654)) \[copyright holder\]

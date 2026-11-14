@@ -7,6 +7,8 @@ available for the following classes:
 
 - [`fiber::bundle`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-bundle-method.md)
 
+- [`fiber::bundle_set`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-bundle_set-method.md)
+
 - [`fiber::streamline`](https://tractoverse.github.io/fiber/reference/reparametrize-fiber-streamline-method.md)
 
 ## Usage

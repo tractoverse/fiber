@@ -57,9 +57,6 @@ if (requireNamespace("dti", quietly = TRUE)) {
   dfi <- as_dwifiber(b)
   class(dfi)  # "dwiFiber"
 }
-#> Warning: RGL: unable to open X11 display
-#> Warning: 'rgl.init' failed, will use the null device.
-#> See '?rgl.useNULL' for ways to avoid this warning.
 #> [1] "dwiFiber"
 #> attr(,"package")
 #> [1] "dti"

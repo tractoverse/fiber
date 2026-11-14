@@ -13,7 +13,7 @@ a name label.
 ## Usage
 
 ``` r
-bind_bundle_sets(..., bundle_data = NULL, set_data = NULL)
+bind_bundle_sets(..., bundle_data = NULL, bundle_set_data = NULL)
 ```
 
 ## Arguments
@@ -35,11 +35,11 @@ bind_bundle_sets(..., bundle_data = NULL, set_data = NULL)
   [bundle_set](https://tractoverse.github.io/fiber/reference/bundle_set.md)
   input if present.
 
-- set_data:
+- bundle_set_data:
 
   A named list of set-level scalar metadata to attach to the resulting
   [bundle_set](https://tractoverse.github.io/fiber/reference/bundle_set.md).
-  Defaults to the `set_data` of the first
+  Defaults to the `bundle_set_data` of the first
   [bundle_set](https://tractoverse.github.io/fiber/reference/bundle_set.md)
   input (if present) or an empty list.
 

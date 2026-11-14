@@ -2,9 +2,12 @@
 
 A `bundle_set` is a collection of
 [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
-objects, designed for multi-subject or multi-session studies where each
-element represents one subject's (or session's) tractogram. It stores
-three compartments:
+objects. It is designed for two closely related use cases: grouping the
+multiple white-matter bundles of a single subject (e.g. the corpus
+callosum, arcuate fasciculus, and corticospinal tract), or grouping
+bundles across subjects or sessions in a multi-subject / multi-session
+study where each element represents one subject's (or session's)
+tractogram. It stores three compartments:
 
 - `@bundles` — a list of
   [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
@@ -15,13 +18,13 @@ three compartments:
   may be lifted here automatically from the individual bundles'
   `@bundle_data` slots at construction time.
 
-- `@set_data` — a named list of scalars (length-1 values, any type)
-  holding set-level metadata.
+- `@bundle_set_data` — a named list of scalars (length-1 values, any
+  type) holding set-level metadata.
 
 ## Usage
 
 ``` r
-bundle_set(bundles = list(), bundle_data = list(), set_data = list())
+bundle_set(bundles = list(), bundle_data = list(), bundle_set_data = list())
 ```
 
 ## Arguments
@@ -38,7 +41,7 @@ bundle_set(bundles = list(), bundle_data = list(), set_data = list())
   `@bundle_data` keys common to **all** bundles are lifted
   automatically.
 
-- set_data:
+- bundle_set_data:
 
   A named list of set-level scalar metadata.
 
@@ -62,7 +65,7 @@ The following methods are defined for `bundle_set` objects:
   the set, with set-level `@bundle_data` pushed back into the bundle.
 
 - `x[i]`: Returns a new bundle_set containing only the selected bundles,
-  with `@set_data` and the subset of `@bundle_data` preserved.
+  with `@bundle_set_data` and the subset of `@bundle_data` preserved.
 
 ## Additional properties
 
@@ -75,7 +78,7 @@ The following methods are defined for `bundle_set` objects:
   A character vector of the names of the per-bundle attributes stored at
   the set level (read-only).
 
-- `@set_attributes`:
+- `@bundle_set_attributes`:
 
   A character vector of the names of the set-level attributes
   (read-only).

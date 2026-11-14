@@ -8,6 +8,8 @@ as appropriate, with methods available for the following classes:
 
 - [`fiber::bundle`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-bundle-method.md)
 
+- [`fiber::bundle_set`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-bundle_set-method.md)
+
 - [`fiber::streamline`](https://tractoverse.github.io/fiber/reference/add_shape_descriptors-fiber-streamline-method.md)
 
 This function provides a convenient way to compute shape descriptors and

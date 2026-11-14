@@ -11,7 +11,7 @@ data in R, together with a concise set of methods:
 |----|----|
 | [`streamline()`](https://tractoverse.github.io/fiber/reference/streamline.md) | Construct a single streamline |
 | [`bundle()`](https://tractoverse.github.io/fiber/reference/bundle.md) | Construct a bundle of streamlines |
-| [`bundle_set()`](https://tractoverse.github.io/fiber/reference/bundle_set.md) | Construct a set of bundles (multi-subject / multi-session) |
+| [`bundle_set()`](https://tractoverse.github.io/fiber/reference/bundle_set.md) | Construct a set of bundles (white-matter bundles of a subject, or across subjects / sessions) |
 | [`is_streamline()`](https://tractoverse.github.io/fiber/reference/is_streamline.md) | Test if an object is a `streamline` |
 | [`is_bundle()`](https://tractoverse.github.io/fiber/reference/is_bundle.md) | Test if an object is a `bundle` |
 | [`is_bundle_set()`](https://tractoverse.github.io/fiber/reference/is_bundle_set.md) | Test if an object is a `bundle_set` |
@@ -20,7 +20,7 @@ data in R, together with a concise set of methods:
 | [`as_streamline()`](https://tractoverse.github.io/fiber/reference/as_streamline.md) | Coerce to `streamline` class |
 | [`as_bundle()`](https://tractoverse.github.io/fiber/reference/as_bundle.md) | Coerce to `bundle` class |
 | [`as_bundle_set()`](https://tractoverse.github.io/fiber/reference/as_bundle_set.md) | Coerce to `bundle_set` class |
-| [`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md) | Coerce to `dwiFiber` class from [](https://cran.r-project.org/package=dti) |
+| [`as_dwifiber()`](https://tractoverse.github.io/fiber/reference/as_dwifiber.md) | Coerce to `dwiFiber` class from the [dti](https://cran.r-project.org/package=dti) package |
 | [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md) | Resample onto a uniform arc-length grid |
 | [`get_euclidean_length()`](https://tractoverse.github.io/fiber/reference/get_euclidean_length.md) | Straight-line distance between endpoints |
 | [`get_curvilinear_length()`](https://tractoverse.github.io/fiber/reference/get_curvilinear_length.md) | Total arc-length |
@@ -56,15 +56,16 @@ A `bundle` stores:
 A `bundle_set` stores:
 
 - `@bundles` — a list of `bundle` objects (optionally named, e.g. with
-  subject or session IDs such as `"sub-01"`, in which case names are
-  transferred as a bundle attribute in `@bundle_data` called
-  `id_from_input_list`).
+  white-matter bundle labels such as `"callosum"` or with subject or
+  session IDs such as `"sub-01"`, in which case names are transferred as
+  a per-bundle attribute in `@bundle_data` called
+  `id_from_input_names`).
 - `@bundle_data` — a named list of per-bundle vectors of length $`B`$
   (the number of bundles). Attributes common to all bundles are lifted
   here automatically at construction time and pushed back into
   individual bundles when subsetting.
-- `@set_data` — a named list of set-level **scalars** (length-1 values,
-  any type).
+- `@bundle_set_data` — a named list of set-level **scalars** (length-1
+  values, any type).
 
 ## Installation
 
@@ -134,7 +135,34 @@ b20
 compute_hausdorff_distance(sl, sl2)
 #> [1] 0.1
 
-# Multi-subject: collect bundles from two subjects into a bundle_set
+# Group the bundles of a single subject into a bundle_set, or collect them
+# across subjects / sessions. Here each bundle carries a per-bundle label that
+# is lifted to the set level (id_from_input_names).
+b_cc <- bundle(list(sl))   # e.g. the corpus callosum
+b_af <- bundle(list(sl2))  #      the arcuate fasciculus
+b_cst <- bundle(list(sl))  #      the corticospinal tract
+
+# Single subject: all three white-matter bundles of one subject
+bs_single <- bundle_set(list("callosum" = b_cc, "arcuate" = b_af, "cst" = b_cst))
+bs_single
+#> 
+#> ── Object of class `fiber::bundle_set()` with 3 bundles and [1–1] streamlines per bundle. ──
+#> 
+#> • Point attributes: none
+#> • Streamline attributes: none
+#> • Bundle attributes: "id_from_input_names"
+#> • Set attributes: none
+#> 
+bs_single[["arcuate"]]
+#> 
+#> ── Object of class `fiber::bundle()` with 1 streamlines and [50–50] points per streamline. ──
+#> 
+#> • Point attributes: none
+#> • Streamline attributes: none
+#> • Bundle attributes: "id_from_input_names"
+#> 
+
+# Multi-subject: the same bundle across two subjects / sessions
 b_sub01 <- bundle(
   streamlines = list(sl),
   bundle_data = list(subject = "sub-01")
