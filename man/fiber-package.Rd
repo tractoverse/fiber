@@ -4,8 +4,10 @@
 \name{fiber-package}
 \alias{fiber}
 \alias{fiber-package}
-\title{fiber: S7 Data Structures for Diffusion MRI Tractography}
+\title{fiber: 'S7' Data Structures for Diffusion MRI Tractography}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Provides three S7 classes — streamline, bundle, and bundle_set — for representing diffusion MRI tractography data in R, together with a concise set of methods for computing shape descriptors (arc-length, curvature, torsion, sinuosity), the Hausdorff distance between streamlines, arc-length reparametrization of streamlines and bundles onto uniform grids, combination of streamlines or bundles into a single bundle, combination of bundles from multiple subjects or sessions into a bundle_set, and coercion to and from the dwiFiber S4 class of the 'dti' package. See Dell'Acqua, F., Descoteaux, M. and Leemans, A. (2024) "Handbook of Diffusion MR Tractography" \doi{10.1016/C2018-0-02520-7} for more about the mathematical and computational underpinnings of diffusion MRI tractography.
 }
 \seealso{
@@ -18,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID})
+\strong{Maintainer}: Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID})
+  \item Aymeric Stamm \email{aymeric.stamm@cnrs.fr} (\href{https://orcid.org/0000-0002-8725-3654}{ORCID}) [copyright holder]
 }
 
 }

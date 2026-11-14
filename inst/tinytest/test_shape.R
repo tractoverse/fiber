@@ -89,6 +89,35 @@ expect_true(!is.null(b_desc[[2L]]@streamline_data$euclidean_length))
 b_pt <- add_shape_descriptors(b, descriptors = c("curvature", "torsion"))
 expect_equal(length(b_pt@streamlines[[1L]]@point_data$curvature), sl1@n_points)
 
+# ---- add_shape_descriptors: bundle_set --------------------------------------
+
+bs_desc <- add_shape_descriptors(
+  bundle_set(bundles = list(b, b)),
+  descriptors = c("euclidean_length", "sinuosity", "curvature")
+)
+expect_true(inherits(bs_desc, "fiber::bundle_set"))
+# Scalar descriptors land in each bundle's @streamline_data (length-S vectors)
+expect_equal(length(bs_desc@bundles[[1L]]@streamline_data$euclidean_length), 2L)
+# Per-point descriptors land in each streamline's @point_data
+expect_equal(
+  length(bs_desc@bundles[[1L]]@streamlines[[1L]]@point_data$curvature),
+  sl1@n_points
+)
+# bundle_data / bundle_set_data preserved
+bs_orig <- bundle_set(
+  bundles = list(b, b),
+  bundle_data = list(subject = c("a", "b"))
+)
+bs_desc2 <- add_shape_descriptors(bs_orig, descriptors = "euclidean_length")
+expect_equal(bs_desc2@bundle_data, list(subject = c("a", "b")))
+
+# unknown descriptor on a bundle emits a warning
+expect_warning(add_shape_descriptors(b, descriptors = "unknown_desc"))
+
+# empty bundle_set returns unchanged
+bs_empty <- bundle_set(bundles = list())
+expect_identical(add_shape_descriptors(bs_empty), bs_empty)
+
 # ---- compute_hausdorff_distance: streamline x streamline --------------------
 
 d_sl <- compute_hausdorff_distance(sl1, sl2)
@@ -129,3 +158,18 @@ expect_error(compute_hausdorff_distance(b, not_sl))
 # ---- compute_hausdorff_distance: catch-all (non-streamline/bundle x) -------
 
 expect_error(compute_hausdorff_distance(42))
+
+# ---- integer-coordinate streamlines ---------------------------------------
+
+# @points may be stored as an integer matrix when constructed from integer
+# vectors (e.g. X = 1:4). This used to crash hausdorff_distance_cpp() because
+# cpp11's doubles_matrix<> requires double (REALSXP) input; .get_coords() now
+# coerces to double, so integer-coordinate streamlines work everywhere.
+sl_int <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
+expect_true(is.numeric(get_euclidean_length(sl_int)))
+expect_true(is.numeric(get_curvilinear_length(sl_int)))
+d_int <- compute_hausdorff_distance(sl_int, sl_int)
+expect_true(is.numeric(d_int) && length(d_int) == 1L && d_int == 0)
+b_int <- bundle(streamlines = list(sl_int, sl_int))
+d_bint <- compute_hausdorff_distance(b_int)
+expect_equal(attr(d_bint, "Size"), 2L)

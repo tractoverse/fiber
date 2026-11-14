@@ -1,12 +1,12 @@
 Package: fiber
 Type: Package
-Title: S7 Data Structures for Diffusion MRI Tractography
-Version: 0.2.0.9000
+Title: 'S7' Data Structures for Diffusion MRI Tractography
+Version: 0.3.0
 Authors@R: c(
     person(
         given = "Aymeric",
         family = "Stamm",
-        role = c("aut", "cre"),
+        role = c("aut", "cre", "cph"),
         email = "aymeric.stamm@cnrs.fr",
         comment = c(ORCID = "0000-0002-8725-3654")
     ))
@@ -28,11 +28,17 @@ BugReports: https://github.com/tractoverse/fiber/issues
 Imports:
     cli,
     methods,
+    rlang,
     S7
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1
 Config/roxygen2/markdown: TRUE
+VignetteBuilder: quarto, knitr
 Suggests: 
     dti,
+    knitr,
+    pkgdown,
+    quarto,
+    rmarkdown,
     tinytest
 Collate: 
     'bind.R'

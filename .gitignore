@@ -7,3 +7,5 @@ docs
 /.quarto/
 **/*.quarto_ipynb
 .DS_Store
+inst/doc
+**/.quarto/

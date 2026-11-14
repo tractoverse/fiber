@@ -184,6 +184,7 @@ get_torsion <- function(x) {
 #' @returns An object of the same class as `x` with the specified shape
 #'   descriptors added to the appropriate slots.
 #' @export
+#' @importFrom rlang caller_env
 #' @examples
 #' # add multiple shape descriptors to a single streamline
 #' sl <- streamline(points = cbind(X = runif(10), Y = runif(10), Z = runif(10)))
@@ -261,10 +262,13 @@ S7::method(add_shape_descriptors, streamline) <- function(
     } else if (desc == "torsion") {
       x@point_data$torsion <- get_torsion(x)
     } else {
-      cli::cli_warn(c(
-        "!" = "Unknown shape descriptor {.val {desc}}.",
-        "i" = "Available descriptors: {.val {known}}."
-      ))
+      cli::cli_warn(
+        c(
+          "!" = "Unknown shape descriptor {.val {desc}}.",
+          "i" = "Available descriptors: {.val {known}}."
+        ),
+        call = caller_env()
+      )
     }
   }
   x
@@ -325,13 +329,60 @@ S7::method(add_shape_descriptors, bundle) <- function(
 
   # Unknown descriptors
   for (desc in setdiff(descriptors, known)) {
-    cli::cli_warn(c(
-      "!" = "Unknown shape descriptor {.val {desc}}.",
-      "i" = "Available descriptors: {.val {known}}."
-    ))
+    cli::cli_warn(
+      c(
+        "!" = "Unknown shape descriptor {.val {desc}}.",
+        "i" = "Available descriptors: {.val {known}}."
+      ),
+      call = caller_env()
+    )
   }
 
   x
+}
+
+# --- method: bundle_set -----------------------------------------------------
+
+#' [add_shape_descriptors()] method for `bundle_set` objects
+#'
+#' Adds shape descriptors to every [bundle] inside a [bundle_set]. Scalar
+#' descriptors (`euclidean_length`, `curvilinear_length`, `sinuosity`) are
+#' stored as length-S vectors in each bundle's `@streamline_data`. Per-point
+#' descriptors (`curvature`, `torsion`) are stored in each individual
+#' streamline's `@point_data`. Both are accessible via the subsetting
+#' push-down (`bundle_set[[i]][[j]]`). `@bundle_data` and `@bundle_set_data` are
+#' preserved unchanged.
+#'
+#' @param x A [bundle_set] object.
+#' @inheritParams add_shape_descriptors
+#' @returns A [bundle_set] with the specified shape descriptors added.
+#' @seealso [add_shape_descriptors()]
+#' @name add_shape_descriptors-fiber-bundle_set-method
+#' @aliases add_shape_descriptors,fiber::bundle_set-method
+#' @usage NULL
+S7::method(add_shape_descriptors, bundle_set) <- function(
+  x,
+  descriptors = c(
+    "euclidean_length",
+    "curvilinear_length",
+    "sinuosity",
+    "curvature",
+    "torsion"
+  )
+) {
+  if (length(x@bundles) == 0L) {
+    return(x)
+  }
+  new_bundles <- lapply(
+    x@bundles,
+    add_shape_descriptors,
+    descriptors = descriptors
+  )
+  bundle_set(
+    bundles = new_bundles,
+    bundle_data = x@bundle_data,
+    bundle_set_data = x@bundle_set_data
+  )
 }
 
 # ---- generic: compute_hausdorff_distance ---------------------------------
@@ -376,6 +427,12 @@ S7::method(add_shape_descriptors, bundle) <- function(
 #'
 #' # streamline x streamline -> scalar
 #' compute_hausdorff_distance(sl1, sl2)
+#'
+#' # Coordinates may be stored as integer matrices when constructed from
+#' # integer vectors (e.g. X = 1:5); these are handled correctly too.
+#' sli1 <- streamline(points = cbind(X = 1:5, Y = 1:5, Z = 1:5))
+#' sli2 <- streamline(points = cbind(X = 2:6, Y = 2:6, Z = 2:6))
+#' compute_hausdorff_distance(sli1, sli2)
 #'
 #' # bundle x missing -> pairwise dist object
 #' b <- bundle(streamlines = list(sl1, sl2))

@@ -154,3 +154,33 @@ S7::method(reparametrize, bundle) <- function(x, n_points = NULL) {
     bundle_data = x@bundle_data
   )
 }
+
+# ---- method: bundle_set -----------------------------------------------------
+
+#' [reparametrize()] method for `bundle_set` objects
+#'
+#' Resamples every [bundle] inside a [bundle_set] onto a uniform arc-length
+#' grid. Each bundle is reparametrized independently. See [reparametrize()]
+#' for the full parameter documentation.
+#'
+#' @param x A [bundle_set] object.
+#' @inheritParams reparametrize
+#' @returns A [bundle_set] where every streamline in every bundle has exactly
+#'   `n_points` rows in `@points`. When `n_points` is `NULL`, each bundle
+#'   falls back to the rounded mean number of points across its own
+#'   streamlines. `@bundle_data` and `@bundle_set_data` are preserved unchanged.
+#' @seealso [reparametrize()]
+#' @name reparametrize-fiber-bundle_set-method
+#' @aliases reparametrize,fiber::bundle_set-method
+#' @usage NULL
+S7::method(reparametrize, bundle_set) <- function(x, n_points = NULL) {
+  if (length(x@bundles) == 0L) {
+    return(x)
+  }
+  new_bundles <- lapply(x@bundles, reparametrize, n_points = n_points)
+  bundle_set(
+    bundles = new_bundles,
+    bundle_data = x@bundle_data,
+    bundle_set_data = x@bundle_set_data
+  )
+}

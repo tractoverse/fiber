@@ -90,5 +90,37 @@ if (requireNamespace("dti", quietly = TRUE)) {
   expect_true(is(dfi_sl, "dwiFiber"))
   expect_equal(length(dfi_sl@startind), 1L)
 
+  # as_dwifiber uses direction_x/y/z point_data when present
+  sl_dir <- streamline(
+    points = cbind(X = 1:4, Y = 1:4, Z = 1:4),
+    point_data = list(
+      direction_x = c(1, 0, 0, 0),
+      direction_y = c(0, 1, 0, 0),
+      direction_z = c(0, 0, 1, 0)
+    )
+  )
+  dfi_dir <- as_dwifiber(bundle(streamlines = list(sl_dir)))
+  expect_true(is(dfi_dir, "dwiFiber"))
+  expect_equal(length(dfi_dir@startind), 1L)
+
+  # single-point streamline: directions are zero-filled (n == 1)
+  sl_1pt <- streamline(points = cbind(X = 1, Y = 2, Z = 3))
+  dfi_1pt <- as_dwifiber(bundle(streamlines = list(sl_1pt)))
+  expect_true(is(dfi_1pt, "dwiFiber"))
+  expect_equal(length(dfi_1pt@startind), 1L)
+
+  # as_streamline on a multi-fiber dwiFiber errors
+  b_multi <- bundle(streamlines = list(sl1, sl2))
+  dfi_multi <- as_dwifiber(b_multi)
+  expect_error(as_streamline(dfi_multi))
+
+  # as_streamline on a single-fiber dwiFiber succeeds
+  dfi_single <- as_dwifiber(bundle(streamlines = list(sl1)))
+  expect_true(is_streamline(as_streamline(dfi_single)))
+
   Sys.setenv(RGL_USE_NULL = rgl_use_null) # restore previous state
+} else {
+  # dti not installed -> as_dwifiber() aborts with a clear error
+  b_no_dti <- bundle(streamlines = list(sl))
+  expect_error(as_dwifiber(b_no_dti), "dti")
 }

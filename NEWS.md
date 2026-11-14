@@ -1,4 +1,51 @@
-# fiber (development version)
+# fiber 0.3.0
+
+## Breaking changes
+
+* `bundle_set`: renamed the set-level scalar metadata slot `@set_data` to
+  `@bundle_set_data` (and `@set_attributes` to `@bundle_set_attributes`) so
+  it follows the `<class>_data` / `<class>_attributes` naming pattern of the
+  other classes. Existing code accessing `x@set_data` / `x@set_attributes`
+  must be updated.
+
+## Bug fixes
+
+* `bind_bundles()` no longer silently drops `@streamline_data` /
+  `@bundle_data` keys that are missing from some inputs. Keys absent from a
+  given input are now NA-padded (previously the padding branch was dead code
+  and such inputs errored instead).
+* Auto-lifting of mixed-type common keys (`bundle(streamlines=...)` when
+  different streamlines store the same `@point_data` / `@streamline_data`
+  key with different types) no longer crashes with an opaque `vapply` type
+  error. Values are now coalesced to a common type.
+* `compute_hausdorff_distance()` and the shape descriptors no longer crash
+  (segfault at the C++ boundary) when `@points` is stored as an integer matrix
+  (e.g. constructed from integer vectors like `X = 1:5`). Coordinates are now
+  coerced to double precision before being passed to the compiled code.
+
+## New features
+
+* `bundle_set` now supports `reparametrize()` and `add_shape_descriptors()`;
+  both operate per bundle and preserve `@bundle_data` / `@bundle_set_data`.
+
+## Documentation
+
+* `binding` example and `id_from_input_names` references in `NEWS` / `README`
+  now match the actual function name.
+* Added the first two vignettes: `vignette("fiber")` (a practical getting
+  started guide) and `vignette("fiber-api")` (a technical reference for the
+  classes, methods, and coercion rules).
+* `bundle_set` documentation (class roxygen, README, and vignettes) now
+  presents both motivating use cases: grouping the multiple white-matter
+  bundles of a single subject, and grouping bundles across subjects / sessions.
+
+## Tests
+
+* Expanded the tinytest suite (~240 tests), raising source coverage from about
+  91% to just under 99%. New tests cover previously-uncovered validators
+  (non-streamline/non-bundle elements), `bind_bundles()` / `bind_bundle_sets()`
+  append and NA-padding branches, `format()` attribute display, and the
+  `as_dwifiber()` error path when `dti` is unavailable.
 
 # fiber 0.2.0
 
@@ -12,9 +59,9 @@
   Non-scalar values (e.g. affine matrices stored as a single `@bundle_data`
   entry) must be split into individual scalar entries or moved elsewhere.
 
-* `bundle_set`: `@set_data` is now restricted to named lists of **scalars**
-  (length-1 values, any type), consistent with `@bundle_data` at the bundle
-  level.
+* `bundle_set`: `@bundle_set_data` is now restricted to named lists of
+  **scalars** (length-1 values, any type), consistent with `@bundle_data`
+  at the bundle level.
 
 ## Improvements
 
@@ -48,7 +95,7 @@
   `bundle_set@bundle_data` values into the extracted bundles' `@bundle_data`.
 
 * `bundle_set`: `@bundles` no longer needs to be a named list. Names are used
-  to populate a bundle attribute vector called `id_from_input_list` and names
+  to populate a bundle attribute vector called `id_from_input_names` and names
   are then dropped from the input list.
 
 * `bundle()` constructor gains a `streamline_data` argument for supplying

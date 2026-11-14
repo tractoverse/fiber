@@ -37,21 +37,21 @@ expect_equal(bs0@n_bundles, 0L)
 # Non-bundle element -> error
 expect_error(bundle_set(bundles = list("x" = sl)))
 
-# set_data must be scalars
+# bundle_set_data must be scalars
 expect_error(
   bundle_set(
     bundles = list(b1),
-    set_data = list(study = c("a", "b"))
+    bundle_set_data = list(study = c("a", "b"))
   )
 )
 
-# set_data is stored
+# bundle_set_data is stored
 bs_meta <- bundle_set(
   bundles = list("sub-01" = b1),
-  set_data = list(study = "phantom")
+  bundle_set_data = list(study = "phantom")
 )
-expect_equal(bs_meta@set_data[["study"]], "phantom")
-expect_equal(bs_meta@set_attributes, "study")
+expect_equal(bs_meta@bundle_set_data[["study"]], "phantom")
+expect_equal(bs_meta@bundle_set_attributes, "study")
 
 # ---- automatic lifting of bundle_data ---------------------------------------
 
@@ -91,7 +91,7 @@ expect_true(grepl("subject", f2))
 f_un <- format(bs_unnamed)
 expect_false(grepl("subject", f_un))
 
-# set_data keys appear in format
+# bundle_set_data keys appear in format
 f_meta <- format(bs_meta)
 expect_true(grepl("study", f_meta))
 
@@ -121,9 +121,9 @@ expect_true(is_bundle_set(bs_sub))
 expect_equal(bs_sub@n_bundles, 1L)
 expect_equal(bs_sub@bundle_data[["subject"]], c("sub-01"))
 
-# [ preserves @set_data
+# [ preserves @bundle_set_data
 bs_sub_meta <- bs_meta["sub-01"]
-expect_equal(bs_sub_meta@set_data[["study"]], "phantom")
+expect_equal(bs_sub_meta@bundle_set_data[["study"]], "phantom")
 
 # ---- as_bundle_set -----------------------------------------------------------
 
@@ -161,17 +161,75 @@ expect_equal(bs_anon2@n_bundles, 2L)
 bs_mix <- bind_bundle_sets(bs1, "sub-02" = b2)
 expect_equal(bs_mix@n_bundles, 2L)
 
-# set_data inherited from first bundle_set
-bs1_meta <- bundle_set(list("sub-01" = b1), set_data = list(study = "test"))
+# bundle_set_data inherited from first bundle_set
+bs1_meta <- bundle_set(
+  list("sub-01" = b1),
+  bundle_set_data = list(study = "test")
+)
 bs_sd <- bind_bundle_sets(bs1_meta, bs2)
-expect_equal(bs_sd@set_data[["study"]], "test")
+expect_equal(bs_sd@bundle_set_data[["study"]], "test")
 
-# set_data override
-bs_sd2 <- bind_bundle_sets(bs1_meta, bs2, set_data = list(study = "override"))
-expect_equal(bs_sd2@set_data[["study"]], "override")
+# bundle_set_data override
+bs_sd2 <- bind_bundle_sets(
+  bs1_meta,
+  bs2,
+  bundle_set_data = list(study = "override")
+)
+expect_equal(bs_sd2@bundle_set_data[["study"]], "override")
 
 # no args -> error
 expect_error(bind_bundle_sets())
 
 # wrong type -> error
 expect_error(bind_bundle_sets("x" = "not_a_bundle"))
+
+# wrong type WITH bundle_data -> main-loop abort (pre-check is skipped)
+expect_error(bind_bundle_sets("not_a_bundle", bundle_data = list(x = 1)))
+
+# differing bundle_data keys -> NA-padded rather than dropped
+bs_a <- bundle_set(list("a" = b1), bundle_data = list(subject = "sub-01"))
+bs_b <- bundle_set(list("b" = bundle(streamlines = list(sl))))
+bs_na <- bind_bundle_sets(bs_a, bs_b)
+expect_equal(bs_na@bundle_data[["subject"]], c("sub-01", NA))
+
+# bare bundle missing the union key -> NA-padded too
+bs_na_bare <- bind_bundle_sets(bs_a, b1_unnamed)
+expect_equal(bs_na_bare@bundle_data[["subject"]], c("sub-01", NA))
+
+# ---- validator: duplicate bundle names --------------------------------------
+
+bs_dup <- bundle_set(list(DUP = b1))
+expect_error(bs_dup@bundles <- list(a = b1, a = b2))
+
+# validator: non-bundle element via slot assignment
+bs_v <- bundle_set(list(b1))
+expect_error(bs_v@bundles <- list(sl))
+
+# ---- subsetting errors ------------------------------------------------------
+
+# character subsetting requires id_from_input_names in @bundle_attributes
+expect_error(bs_unnamed["foo"])
+
+# character value not present in id_from_input_names
+expect_error(bs["missing"])
+
+# out-of-range subsetting errors
+expect_error(bs[10L])
+expect_error(bs[-10L])
+
+# ---- format: point attributes present ---------------------------------------
+
+sl_pd <- streamline(
+  points = cbind(X = 1:3, Y = 1:3, Z = 1:3),
+  point_data = list(FA = c(0.1, 0.2, 0.3))
+)
+bs_pd <- bundle_set(bundles = list(bundle(streamlines = list(sl_pd))))
+expect_true(grepl("FA", format(bs_pd)))
+
+# format: streamline attributes present
+sl_sd <- streamline(
+  points = cbind(X = 1:3, Y = 1:3, Z = 1:3),
+  streamline_data = list(hemi = "L")
+)
+bs_sd <- bundle_set(bundles = list(bundle(streamlines = list(sl_sd))))
+expect_true(grepl("hemi", format(bs_sd)))

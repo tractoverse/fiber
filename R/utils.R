@@ -18,7 +18,16 @@
 }
 
 # Extract the n x 3 coordinate matrix from a streamline's @points slot.
-.get_coords <- function(sl) sl@points
+# Always returned in double precision: @points may be stored as an integer
+# matrix (e.g. constructed from integer vectors like `X = 1:3`), and cpp11's
+# doubles_matrix<> requires a double (REALSXP) matrix at the C++ boundary.
+.get_coords <- function(sl) {
+  pts <- sl@points
+  if (storage.mode(pts) != "double") {
+    storage.mode(pts) <- "double"
+  }
+  pts
+}
 
 # ---- internal: lift streamline_data -----------------------------------------
 
@@ -38,11 +47,10 @@
   lifted <- vector("list", length(common_keys))
   names(lifted) <- common_keys
   for (k in common_keys) {
-    lifted[[k]] <- unname(vapply(
+    lifted[[k]] <- unname(unlist(lapply(
       streamlines,
-      function(sl) sl@streamline_data[[k]],
-      FUN.VALUE = streamlines[[1L]]@streamline_data[[k]]
-    ))
+      function(sl) sl@streamline_data[[k]]
+    )))
   }
   # Remove common keys from individual streamlines
   for (i in seq_along(streamlines)) {
@@ -72,11 +80,10 @@
   lifted <- vector("list", length(common_keys))
   names(lifted) <- common_keys
   for (k in common_keys) {
-    lifted[[k]] <- unname(vapply(
+    lifted[[k]] <- unname(unlist(lapply(
       bundles,
-      function(b) b@bundle_data[[k]],
-      FUN.VALUE = bundles[[1L]]@bundle_data[[k]]
-    ))
+      function(b) b@bundle_data[[k]]
+    )))
   }
   # Remove common keys from individual bundles
   for (i in seq_along(bundles)) {
