@@ -4,14 +4,14 @@ description: |
   A practical introduction to the fiber package: the streamline, bundle, and
   bundle_set classes, shape descriptors, reparametrization, and the Hausdorff
   distance.
-output:
-  html_document:
-    toc: true
-    toc_float: true
 vignette: >
   %\VignetteIndexEntry{Getting started with fiber}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
 ---
 
 ```{r}
@@ -25,12 +25,12 @@ if (!requireNamespace("fiber", quietly = TRUE)) {
 } else {
   library(fiber)
 }
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  message = FALSE,
-  warning = FALSE
-)
+
+# The dti package (a Suggests) pulls in rgl on load; in headless environments
+# rgl cannot open a display and emits a warning ('rgl.init' failed / X11 error).
+# That warning concerns rgl's graphics, not fiber, so we route rgl to its null
+# device to keep the coercion example below clean.
+Sys.setenv(RGL_USE_NULL = "true")
 ```
 
 The **fiber** package provides three [S7](https://rconsortium.github.io/S7/)
@@ -206,6 +206,61 @@ bs[["sub-01"]] # extract one subject (push-down)
 `add_shape_descriptors()`, which operate per bundle and preserve
 `@bundle_data` / `@bundle_set_data`.
 
+## A real corpus callosum tractogram
+
+The package ships a real tractogram from the corpus callosum
+(`inst/extdata/CC_SingleTensor.csv`): 100 streamlines, each a sequence of
+3-D points with a per-point fractional anisotropy (`FA`) value. The file
+reads straight into a `bundle`, grouping points by `StreamlineId` and keeping
+`FA` as a per-point attribute:
+
+```{r}
+cc <- read.csv(
+  system.file("extdata", "CC_SingleTensor.csv", package = "fiber"),
+  header = TRUE
+)
+
+make_streamline <- function(d) {
+  d <- d[order(d$PointId), ]
+  streamline(
+    points = as.matrix(d[c("X", "Y", "Z")]),
+    point_data = list(FA = d$FA)
+  )
+}
+cc_bundle <- bundle(
+  streamlines = lapply(split(cc, cc$StreamlineId), make_streamline)
+)
+
+cc_bundle@n_streamlines # 100
+cc_bundle[[1]]@n_points # 150
+cc_bundle[[1]]@point_attributes # "FA"
+range(cc_bundle[[1]]@point_data$FA) # per-point FA on the first stream
+```
+
+The `FA` per-point attribute is present on every streamline, so `FA` is a shared
+point attribute across the whole tractogram: `cc_bundle[[1]]@point_attributes`
+returns `"FA"` for each of the 100 streamlines. To summarise anisotropy per
+streamline, lift a scalar (e.g. per-streamline mean `FA`) into
+`@streamline_data`; the constructor then carries it automatically:
+
+```{r}
+cc_bundle2 <- bundle(
+  streamlines = lapply(
+    split(cc, cc$StreamlineId),
+    function(d) {
+      d <- d[order(d$PointId), ]
+      streamline(
+        points = as.matrix(d[c("X", "Y", "Z")]),
+        point_data = list(FA = d$FA),
+        streamline_data = list(mean_FA = mean(d$FA))
+      )
+    }
+  )
+)
+cc_bundle2@streamline_data$mean_FA
+mean(cc_bundle2@streamline_data$mean_FA) # mean across the 100 streamlines
+```
+
 ## Interoperability with the dti package
 
 If the [dti](https://cran.r-project.org/package=dti) package is installed, you
@@ -223,6 +278,11 @@ if (requireNamespace("dti", quietly = TRUE)) {
 `as_dwifiber()` uses per-point directions stored in `@point_data`
 (`direction_x`, `direction_y`, `direction_z`) when present, otherwise it
 estimates them from the coordinates via finite differences.
+
+If dti emits an rgl warning (`'rgl.init' failed`, `X11 error`, ...) when you run
+the coercion above, that comes from dti loading the `rgl` package and failing to
+open a graphics display in your environment. It is unrelated to the fiber
+package — the conversion itself is unaffected.
 
 ## Further reading
 

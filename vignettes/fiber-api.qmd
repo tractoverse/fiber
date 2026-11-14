@@ -3,14 +3,14 @@ title: "The fiber API"
 description: |
   A technical, exhaustive description of the fiber classes, slots, read-only
   properties, generics, methods, subsetting semantics, and coercion rules.
-output:
-  html_document:
-    toc: true
-    toc_float: true
 vignette: >
   %\VignetteIndexEntry{The fiber API}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
 ---
 
 ```{r}
@@ -24,12 +24,12 @@ if (!requireNamespace("fiber", quietly = TRUE)) {
 } else {
   library(fiber)
 }
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  message = FALSE,
-  warning = FALSE
-)
+
+# The dti package (a Suggests) pulls in rgl on load; in headless environments
+# rgl cannot open a display and emits a warning ('rgl.init' failed / X11 error).
+# That warning concerns rgl's graphics, not fiber, so we route rgl to its null
+# device to keep the coercion examples below clean.
+Sys.setenv(RGL_USE_NULL = "true")
 ```
 
 This vignette is the reference for **fiber**'s programming interface. It
@@ -300,12 +300,30 @@ b_20[[1]]@n_points # 20
 | `get_curvature(x)`              | Per-point curvature profile (length `P`), via cubic smoothing splines. |
 | `get_torsion(x)`                | Per-point torsion profile (length `P`), via cubic smoothing splines. |
 
+`get_curvature()` and `get_torsion()` are per-point profile descriptors: they
+fit smoothing splines to each coordinate along the arc-length abscissa, so they
+need at least four distinct points and are well defined only where the tract is
+actually curved. On a perfectly straight segment, curvature is identically zero
+and torsion (which measures out-of-plane twisting) is undefined (`NaN`). The
+helix below is a good curve to illustrate both, because it is genuinely curved
+in every direction:
+
 ```{r}
+sl_curve <- streamline(
+  points = cbind(
+    X = cos(seq(0, 2 * pi, length.out = 21)),
+    Y = sin(seq(0, 2 * pi, length.out = 21)),
+    Z = seq(0, 2 * pi, length.out = 21)
+  )
+)
+# Scalar descriptors are fine on any streamline
 get_euclidean_length(sl1)
 get_curvilinear_length(sl1)
 get_sinuosity(sl1)
-get_curvature(sl1)
-get_torsion(sl1)
+
+# Per-point profiles are meaningful on a truly curved tract
+head(get_curvature(sl_curve))
+head(get_torsion(sl_curve))
 ```
 
 ### add_shape_descriptors()
@@ -420,6 +438,13 @@ otherwise estimated from the coordinates via finite differences (forward /
 backward at the ends, central elsewhere), then unit-normalised. Bundled
 metadata under `method`, `minfa`, `maxangle`, `level`, and `source` are
 transferred to the corresponding `dwiFiber` slots when present.
+
+::: {.callout-note}
+Because dti loads the `rgl` package on startup, calling the coercion functions
+in an environment without a graphics display can print an rgl warning (e.g.
+`'rgl.init' failed` or `X11 error`). That warning comes from rgl, not from
+fiber, and does not affect the conversion.
+:::
 
 ```{r}
 if (requireNamespace("dti", quietly = TRUE)) {

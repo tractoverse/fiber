@@ -32,11 +32,13 @@ Imports:
     S7
 Config/roxygen2/version: 8.1.1
 Config/roxygen2/markdown: TRUE
-VignetteBuilder: quarto
+VignetteBuilder: quarto, knitr
 Suggests: 
     dti,
     knitr,
+    pkgdown,
     quarto,
+    rmarkdown,
     tinytest
 Collate: 
     'bind.R'

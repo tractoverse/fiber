@@ -1,0 +1,66 @@
+/* =============================================================================
+ * fiber pkgdown - dark tractoverse brand overrides
+ * =============================================================================
+ * Applied on top of the Bootswatch "darkly" base theme. Mirrors the shared
+ * tractoverse brand tokens in inst/brand/_brand.yml (of the meta-package), so
+ * the fiber site matches the rest of the tractoverse visual identity - dark
+ * #0d1117 shell with fiber's signature hue #59aaea as the accent.
+ * ============================================================================= */
+
+/* --- brand tokens (mirrors _brand.yml; accent = fiber signature hue) -------- */
+$tv-bg:      #0d1117;
+$tv-surface: #161b22;
+$tv-surface2:#21262d;
+$tv-border:  #30363d;
+$tv-fg:      #e6edf3;
+$tv-muted:   #8b949e;
+$tv-accent:  #59aaea;   /* fiber signature color */
+
+/* --- shell ------------------------------------------------------------------ */
+body {
+  background-color: $tv-bg;
+  color: $tv-fg;
+}
+.navbar-inverse, .navbar {
+  background-color: $tv-surface;
+  border-bottom: 1px solid $tv-border;
+}
+.navbar .navbar-brand,
+.navbar .navbar-nav > li > a { color: $tv-fg; }
+.navbar .navbar-nav > li > a:hover,
+.navbar .navbar-nav > .active > a { color: $tv-accent; }
+.navbar .navbar-brand img { filter: drop-shadow(0 0 2px rgba(89,170,234,.4)); }
+
+/* --- headings & links ------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  color: $tv-fg;
+  font-weight: 700;
+}
+a { color: $tv-accent; }
+a:hover { color: lighten($tv-accent, 10%); }
+
+/* --- cards / panels / tables ------------------------------------------------- */
+.card, .panel, .nav-pills > li > a,
+.table, .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: $tv-surface;
+  color: $tv-fg;
+  border-color: $tv-border;
+}
+.table > thead > tr > th { border-bottom-color: $tv-border; }
+.table > tbody > tr > td, .table > tbody > tr > th, .table > thead > tr > th {
+  border-top-color: $tv-border;
+}
+
+/* --- code blocks & inline code ------------------------------------------------ */
+code, pre, .sourceCode pre {
+  background-color: $tv-surface2;
+  color: $tv-fg;
+  border-radius: 4px;
+}
+pre { border: 1px solid $tv-border; }
+code { color: $tv-accent; }
+
+/* --- pkgdown chrome ----------------------------------------------------------- */
+.contents .page-header { border-bottom-color: $tv-border; }
+.header-links a { color: $tv-muted; }
+.footer { color: $tv-muted; border-top-color: $tv-border; }
