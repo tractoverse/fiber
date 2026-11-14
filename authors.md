@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tractoverse/fiber/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tractoverse/fiber/blob/main/DESCRIPTION)
 
 Stamm A (2026). *fiber: 'S7' Data Structures for Diffusion MRI
 Tractography*. R package version 0.3.0,
