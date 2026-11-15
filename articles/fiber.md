@@ -120,7 +120,7 @@ sl_b <- streamline(
 b <- bundle(streamlines = list(sl_a, sl_b))
 b
 #> 
-#> ── Object of class `fiber::bundle()` with 2 streamliness and [50–50] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 2 streamlines and [50–50] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
@@ -217,7 +217,7 @@ bs_single@n_bundles # 2
 #> [1] 2
 bs_single[["callosum"]] # extract one bundle (push-down)
 #> 
-#> ── Object of class `fiber::bundle()` with 1 streamlines and [50–50] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 1 streamline and [50–50] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
@@ -248,7 +248,7 @@ bs@bundle_data$subject # c("sub-01", "sub-02")
 #> [1] "sub-01" "sub-02"
 bs[["sub-01"]] # extract one subject (push-down)
 #> 
-#> ── Object of class `fiber::bundle()` with 1 streamlines and [50–50] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 1 streamline and [50–50] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
