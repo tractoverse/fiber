@@ -4,11 +4,6 @@
 \alias{as_dwifiber-fiber-streamline-method}
 \alias{as_dwifiber,fiber::streamline-method}
 \title{\code{\link[=as_dwifiber]{as_dwifiber()}} method for \code{streamline} objects}
-\arguments{
-\item{x}{A \link{streamline} object.}
-
-\item{...}{Additional arguments (currently unused).}
-}
 \value{
 An S4 \code{dwiFiber} object.
 }

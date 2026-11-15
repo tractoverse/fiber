@@ -4,18 +4,6 @@
 \alias{reparametrize-fiber-bundle_set-method}
 \alias{reparametrize,fiber::bundle_set-method}
 \title{\code{\link[=reparametrize]{reparametrize()}} method for \code{bundle_set} objects}
-\arguments{
-\item{x}{A \link{bundle_set} object.}
-
-\item{n_points}{Number of equally-spaced arc-length points to use.
-\itemize{
-\item For a single \link{streamline}, defaults to \code{x@n_points}.
-\item For a \link{bundle}, defaults to the rounded mean number of points across
-all streamlines.
-}
-
-Pass \code{NULL} to use these defaults explicitly.}
-}
 \value{
 A \link{bundle_set} where every streamline in every bundle has exactly
 \code{n_points} rows in \verb{@points}. When \code{n_points} is \code{NULL}, each bundle

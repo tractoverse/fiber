@@ -4,12 +4,6 @@
 \alias{add_shape_descriptors-fiber-bundle_set-method}
 \alias{add_shape_descriptors,fiber::bundle_set-method}
 \title{\code{\link[=add_shape_descriptors]{add_shape_descriptors()}} method for \code{bundle_set} objects}
-\arguments{
-\item{x}{A \link{bundle_set} object.}
-
-\item{descriptors}{A character vector of shape descriptors to add. Defaults
-to all available descriptors: \code{c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")}.}
-}
 \value{
 A \link{bundle_set} with the specified shape descriptors added.
 }

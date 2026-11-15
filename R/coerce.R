@@ -26,8 +26,6 @@ as_streamline <- S7::new_generic("as_streamline", "x")
 
 #' [as_streamline()] method for `streamline` objects
 #'
-#' @param x A [streamline] object.
-#' @param ... Additional arguments (currently unused).
 #' @returns `x` unchanged.
 #' @seealso [as_streamline()]
 #' @name as_streamline-fiber-streamline-method
@@ -39,8 +37,6 @@ S7::method(as_streamline, streamline) <- function(x, ...) x
 
 #' [as_streamline()] method for `bundle` objects
 #'
-#' @param x A [bundle] object containing exactly one streamline.
-#' @param ... Additional arguments (currently unused).
 #' @returns The sole [streamline] inside `x`.
 #' @seealso [as_streamline()]
 #' @name as_streamline-fiber-bundle-method
@@ -109,8 +105,6 @@ as_bundle <- S7::new_generic("as_bundle", "x")
 
 #' [as_bundle()] method for `streamline` objects
 #'
-#' @param x A [streamline] object.
-#' @param ... Additional arguments (currently unused).
 #' @returns A [bundle] containing `x` as its sole streamline.
 #' @seealso [as_bundle()]
 #' @name as_bundle-fiber-streamline-method
@@ -124,8 +118,6 @@ S7::method(as_bundle, streamline) <- function(x, ...) {
 
 #' [as_bundle()] method for `bundle` objects
 #'
-#' @param x A [bundle] object.
-#' @param ... Additional arguments (currently unused).
 #' @returns `x` unchanged.
 #' @seealso [as_bundle()]
 #' @name as_bundle-fiber-bundle-method
@@ -183,8 +175,6 @@ as_dwifiber <- S7::new_generic("as_dwifiber", "x")
 
 #' [as_dwifiber()] method for `streamline` objects
 #'
-#' @param x A [streamline] object.
-#' @param ... Additional arguments (currently unused).
 #' @returns An S4 `dwiFiber` object.
 #' @seealso [as_dwifiber()]
 #' @name as_dwifiber-fiber-streamline-method
@@ -198,8 +188,6 @@ S7::method(as_dwifiber, streamline) <- function(x, ...) {
 
 #' [as_dwifiber()] method for `bundle` objects
 #'
-#' @param x A [bundle] object.
-#' @param ... Additional arguments (currently unused).
 #' @returns An S4 `dwiFiber` object.
 #' @seealso [as_dwifiber()]
 #' @name as_dwifiber-fiber-bundle-method

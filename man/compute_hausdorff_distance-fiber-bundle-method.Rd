@@ -4,11 +4,6 @@
 \alias{compute_hausdorff_distance-fiber-bundle-method}
 \alias{compute_hausdorff_distance,fiber::bundle-method}
 \title{\code{\link[=compute_hausdorff_distance]{compute_hausdorff_distance()}} method for \code{bundle} objects}
-\arguments{
-\item{x}{A \link{bundle} object.}
-
-\item{y}{\code{NULL}, a \link{streamline}, or a \link{bundle}.}
-}
 \value{
 \itemize{
 \item A \code{\link[stats:dist]{dist}} object of size \code{x@n_streamlines} when \code{y} is

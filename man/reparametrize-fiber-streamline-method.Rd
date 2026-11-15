@@ -4,18 +4,6 @@
 \alias{reparametrize-fiber-streamline-method}
 \alias{reparametrize,fiber::streamline-method}
 \title{\code{\link[=reparametrize]{reparametrize()}} method for \code{streamline} objects}
-\arguments{
-\item{x}{A \link{streamline} object.}
-
-\item{n_points}{Number of equally-spaced arc-length points to use.
-\itemize{
-\item For a single \link{streamline}, defaults to \code{x@n_points}.
-\item For a \link{bundle}, defaults to the rounded mean number of points across
-all streamlines.
-}
-
-Pass \code{NULL} to use these defaults explicitly.}
-}
 \value{
 A \link{streamline} reparametrized onto the new grid. The returned
 object has \verb{@points} resampled to exactly \code{n_points} rows via linear

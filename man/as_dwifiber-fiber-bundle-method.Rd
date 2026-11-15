@@ -4,11 +4,6 @@
 \alias{as_dwifiber-fiber-bundle-method}
 \alias{as_dwifiber,fiber::bundle-method}
 \title{\code{\link[=as_dwifiber]{as_dwifiber()}} method for \code{bundle} objects}
-\arguments{
-\item{x}{A \link{bundle} object.}
-
-\item{...}{Additional arguments (currently unused).}
-}
 \value{
 An S4 \code{dwiFiber} object.
 }

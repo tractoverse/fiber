@@ -225,8 +225,6 @@ add_shape_descriptors <- S7::new_generic(
 #'
 #' Adds multiple shape descriptors to a single [streamline] object.
 #'
-#' @param x A [streamline] object.
-#' @inheritParams add_shape_descriptors
 #' @returns A [streamline] with the specified shape descriptors added to the
 #' `@streamline_data` or `@point_data` slots as appropriate.
 #' @seealso [add_shape_descriptors()]
@@ -285,8 +283,6 @@ S7::method(add_shape_descriptors, streamline) <- function(
 #' `@point_data`. Both are accessible via the subsetting push-down
 #' (`bundle[[i]]`).
 #'
-#' @param x A [bundle] object.
-#' @inheritParams add_shape_descriptors
 #' @returns A [bundle] with the specified shape descriptors added.
 #' @seealso [add_shape_descriptors()]
 #' @name add_shape_descriptors-fiber-bundle-method
@@ -353,8 +349,6 @@ S7::method(add_shape_descriptors, bundle) <- function(
 #' push-down (`bundle_set[[i]][[j]]`). `@bundle_data` and `@bundle_set_data` are
 #' preserved unchanged.
 #'
-#' @param x A [bundle_set] object.
-#' @inheritParams add_shape_descriptors
 #' @returns A [bundle_set] with the specified shape descriptors added.
 #' @seealso [add_shape_descriptors()]
 #' @name add_shape_descriptors-fiber-bundle_set-method
@@ -457,8 +451,6 @@ compute_hausdorff_distance <- S7::new_generic(
 
 #' [compute_hausdorff_distance()] method for two `streamline` objects
 #'
-#' @param x A [streamline] object.
-#' @param y A [streamline] object.
 #' @returns A non-negative numeric scalar equal to
 #'   \eqn{\max(d_H(x \to y),\, d_H(y \to x))}, where
 #'   \eqn{d_H(A \to B) = \max_{a \in A} \min_{b \in B} \|a - b\|_2} is the
@@ -497,8 +489,6 @@ S7::method(compute_hausdorff_distance, streamline) <- function(x, y = NULL) {
 #' - `y` is a [bundle]: [`dist`][stats::dist] object for the concatenation
 #'   of all streamlines from `x` and `y`.
 #'
-#' @param x A [bundle] object.
-#' @param y `NULL`, a [streamline], or a [bundle].
 #' @returns
 #'   - A [`dist`][stats::dist] object of size `x@n_streamlines` when `y` is
 #'     `NULL` or a [bundle]. The lower triangle stores all pairwise symmetric
