@@ -2,20 +2,6 @@
 
 Dispatches to one of three behaviours depending on `y`:
 
-## Arguments
-
-- x:
-
-  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
-  object.
-
-- y:
-
-  `NULL`, a
-  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
-  or a
-  [bundle](https://tractoverse.github.io/fiber/reference/bundle.md).
-
 ## Value
 
 - A [`dist`](https://rdrr.io/r/stats/dist.html) object of size

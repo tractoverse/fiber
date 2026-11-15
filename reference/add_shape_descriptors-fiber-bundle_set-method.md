@@ -11,20 +11,6 @@ stored in each individual streamline's `@point_data`. Both are
 accessible via the subsetting push-down (`bundle_set[[i]][[j]]`).
 `@bundle_data` and `@bundle_set_data` are preserved unchanged.
 
-## Arguments
-
-- x:
-
-  A
-  [bundle_set](https://tractoverse.github.io/fiber/reference/bundle_set.md)
-  object.
-
-- descriptors:
-
-  A character vector of shape descriptors to add. Defaults to all
-  available descriptors:
-  `c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")`.
-
 ## Value
 
 A

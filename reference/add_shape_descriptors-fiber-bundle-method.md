@@ -8,19 +8,6 @@ Per-point descriptors (`curvature`, `torsion`) are stored in each
 individual streamline's `@point_data`. Both are accessible via the
 subsetting push-down (`bundle[[i]]`).
 
-## Arguments
-
-- x:
-
-  A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md)
-  object.
-
-- descriptors:
-
-  A character vector of shape descriptors to add. Defaults to all
-  available descriptors:
-  `c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")`.
-
 ## Value
 
 A [bundle](https://tractoverse.github.io/fiber/reference/bundle.md) with

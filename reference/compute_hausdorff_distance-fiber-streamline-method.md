@@ -3,20 +3,6 @@
 [`compute_hausdorff_distance()`](https://tractoverse.github.io/fiber/reference/compute_hausdorff_distance.md)
 method for two `streamline` objects
 
-## Arguments
-
-- x:
-
-  A
-  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
-  object.
-
-- y:
-
-  A
-  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
-  object.
-
 ## Value
 
 A non-negative numeric scalar equal to \\\max(d_H(x \to y),\\ d_H(y \to

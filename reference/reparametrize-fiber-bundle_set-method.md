@@ -9,29 +9,6 @@ independently. See
 [`reparametrize()`](https://tractoverse.github.io/fiber/reference/reparametrize.md)
 for the full parameter documentation.
 
-## Arguments
-
-- x:
-
-  A
-  [bundle_set](https://tractoverse.github.io/fiber/reference/bundle_set.md)
-  object.
-
-- n_points:
-
-  Number of equally-spaced arc-length points to use.
-
-  - For a single
-    [streamline](https://tractoverse.github.io/fiber/reference/streamline.md),
-    defaults to `x@n_points`.
-
-  - For a
-    [bundle](https://tractoverse.github.io/fiber/reference/bundle.md),
-    defaults to the rounded mean number of points across all
-    streamlines.
-
-  Pass `NULL` to use these defaults explicitly.
-
 ## Value
 
 A

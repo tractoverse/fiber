@@ -4,20 +4,6 @@ Adds multiple shape descriptors to a single
 [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
 object.
 
-## Arguments
-
-- x:
-
-  A
-  [streamline](https://tractoverse.github.io/fiber/reference/streamline.md)
-  object.
-
-- descriptors:
-
-  A character vector of shape descriptors to add. Defaults to all
-  available descriptors:
-  `c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")`.
-
 ## Value
 
 A
