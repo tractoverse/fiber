@@ -125,7 +125,7 @@ sl2 <- streamline(
 b <- bundle(list(sl, sl2))
 b
 #> 
-#> ── Object of class `fiber::bundle()` with 2 streamliness and [50–50] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 2 streamlines and [50–50] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
@@ -136,7 +136,7 @@ b
 b20 <- reparametrize(b, n_points = 20L)
 b20
 #> 
-#> ── Object of class `fiber::bundle()` with 2 streamliness and [20–20] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 2 streamlines and [20–20] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
@@ -167,7 +167,7 @@ bs_single
 #> 
 bs_single[["arcuate"]]
 #> 
-#> ── Object of class `fiber::bundle()` with 1 streamlines and [50–50] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 1 streamline and [50–50] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
@@ -195,7 +195,7 @@ bs
 #> 
 bs[["sub-01"]]
 #> 
-#> ── Object of class `fiber::bundle()` with 1 streamlines and [50–50] points per streamline. ──
+#> ── Object of class `fiber::bundle()` with 1 streamline and [50–50] points per streamline. ──
 #> 
 #> • Point attributes: none
 #> • Streamline attributes: none
