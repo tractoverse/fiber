@@ -30,7 +30,7 @@ fixed the following NOTE from `R CMD check` on
 * [win-builder](https://win-builder.r-project.org/) R-devel
 
 **R-Hub**
-* All 35 available platforms except *rchk* since there is no C/C++ code.
+* All 36 available platforms.
 
 ## R CMD check results
 
