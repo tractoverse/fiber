@@ -34,6 +34,7 @@ Config/roxygen2/version: 8.1.1
 Config/roxygen2/markdown: TRUE
 VignetteBuilder: quarto, knitr
 Suggests: 
+    doclisting,
     dti,
     knitr,
     pkgdown,

@@ -211,7 +211,7 @@ S7::method(format, bundle) <- function(x, ...) {
   cli::cli_fmt(
     {
       cli::cli_h2(
-        "Object of class {.fn fiber::bundle} with {n} streamlines{?s} and [{n_points_range}] points per streamline."
+        "Object of class {.fn fiber::bundle} with {n} streamline{?s} and [{n_points_range}] points per streamline."
       )
       cli::cli_bullets(c("*" = pd_str, "*" = sd_str, "*" = bd_str))
     },
