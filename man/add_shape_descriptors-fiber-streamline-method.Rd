@@ -4,12 +4,6 @@
 \alias{add_shape_descriptors-fiber-streamline-method}
 \alias{add_shape_descriptors,fiber::streamline-method}
 \title{\code{\link[=add_shape_descriptors]{add_shape_descriptors()}} method for \code{streamline} objects}
-\arguments{
-\item{x}{A \link{streamline} object.}
-
-\item{descriptors}{A character vector of shape descriptors to add. Defaults
-to all available descriptors: \code{c("euclidean_length", "curvilinear_length", "sinuosity", "curvature", "torsion")}.}
-}
 \value{
 A \link{streamline} with the specified shape descriptors added to the
 \verb{@streamline_data} or \verb{@point_data} slots as appropriate.

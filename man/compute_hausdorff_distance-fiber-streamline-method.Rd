@@ -4,11 +4,6 @@
 \alias{compute_hausdorff_distance-fiber-streamline-method}
 \alias{compute_hausdorff_distance,fiber::streamline-method}
 \title{\code{\link[=compute_hausdorff_distance]{compute_hausdorff_distance()}} method for two \code{streamline} objects}
-\arguments{
-\item{x}{A \link{streamline} object.}
-
-\item{y}{A \link{streamline} object.}
-}
 \value{
 A non-negative numeric scalar equal to
 \eqn{\max(d_H(x \to y),\, d_H(y \to x))}, where

@@ -48,8 +48,6 @@ reparametrize <- S7::new_generic(
 #' Resamples a single [streamline] onto a uniform arc-length grid. See
 #' [reparametrize()] for the full parameter documentation.
 #'
-#' @param x A [streamline] object.
-#' @inheritParams reparametrize
 #' @returns A [streamline] reparametrized onto the new grid. The returned
 #'   object has `@points` resampled to exactly `n_points` rows via linear
 #'   interpolation, and any numeric `@point_data` entries likewise resampled.
@@ -118,8 +116,6 @@ S7::method(reparametrize, streamline) <- function(x, n_points = NULL) {
 #' Resamples every [streamline] inside a [bundle] onto a common uniform
 #' arc-length grid. See [reparametrize()] for the full parameter documentation.
 #'
-#' @param x A [bundle] object.
-#' @inheritParams reparametrize
 #' @returns A [bundle] reparametrized onto the new grid. Every streamline in
 #'   the returned bundle has exactly `n_points` rows in `@points` (defaulting
 #'   to the rounded mean number of points across all streamlines when
@@ -163,8 +159,6 @@ S7::method(reparametrize, bundle) <- function(x, n_points = NULL) {
 #' grid. Each bundle is reparametrized independently. See [reparametrize()]
 #' for the full parameter documentation.
 #'
-#' @param x A [bundle_set] object.
-#' @inheritParams reparametrize
 #' @returns A [bundle_set] where every streamline in every bundle has exactly
 #'   `n_points` rows in `@points`. When `n_points` is `NULL`, each bundle
 #'   falls back to the rounded mean number of points across its own

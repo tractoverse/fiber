@@ -4,11 +4,6 @@
 \alias{as_bundle-fiber-bundle-method}
 \alias{as_bundle,fiber::bundle-method}
 \title{\code{\link[=as_bundle]{as_bundle()}} method for \code{bundle} objects}
-\arguments{
-\item{x}{A \link{bundle} object.}
-
-\item{...}{Additional arguments (currently unused).}
-}
 \value{
 \code{x} unchanged.
 }

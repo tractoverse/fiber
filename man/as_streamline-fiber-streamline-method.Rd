@@ -4,11 +4,6 @@
 \alias{as_streamline-fiber-streamline-method}
 \alias{as_streamline,fiber::streamline-method}
 \title{\code{\link[=as_streamline]{as_streamline()}} method for \code{streamline} objects}
-\arguments{
-\item{x}{A \link{streamline} object.}
-
-\item{...}{Additional arguments (currently unused).}
-}
 \value{
 \code{x} unchanged.
 }

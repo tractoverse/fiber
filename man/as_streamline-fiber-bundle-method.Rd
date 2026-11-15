@@ -4,11 +4,6 @@
 \alias{as_streamline-fiber-bundle-method}
 \alias{as_streamline,fiber::bundle-method}
 \title{\code{\link[=as_streamline]{as_streamline()}} method for \code{bundle} objects}
-\arguments{
-\item{x}{A \link{bundle} object containing exactly one streamline.}
-
-\item{...}{Additional arguments (currently unused).}
-}
 \value{
 The sole \link{streamline} inside \code{x}.
 }

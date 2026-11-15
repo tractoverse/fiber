@@ -1,3 +1,17 @@
+## Resubmission
+
+This is a resubmission of v0.3.0. In response to the previous rejection, I have
+fixed the following NOTE from `R CMD check` on
+`r-devel-linux-x86_64-debian-gcc`:
+
+* `Rd contents`: 14 method documentation pages documented `\arguments` without
+  a corresponding `\usage`. The per-method `\arguments` documentation has been
+  removed from these pages (full parameter documentation remains on each
+  generic's own help page), so each page now contains only `\description`,
+  `\value`, `\seealso`, and `\examples`. Affected topics:
+  `add_shape_descriptors`, `as_bundle`, `as_dwifiber`, `as_streamline`,
+  `compute_hausdorff_distance`, and `reparametrize` (all `*-method` pages).
+
 ## Test environments
 
 **Local:**
