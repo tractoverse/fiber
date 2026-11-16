@@ -2,6 +2,8 @@
 
 ## fiber 0.3.0
 
+CRAN release: 2026-11-15
+
 ### Breaking changes
 
 - `bundle_set`: renamed the set-level scalar metadata slot `@set_data`
